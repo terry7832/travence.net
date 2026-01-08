@@ -1,77 +1,146 @@
-<!doctype html>
-<html lang="ko">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: { brand: { 500: '#8b5cf6', 900: '#4c1d95' } },
-          fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Orbitron', 'sans-serif'] },
-          animation: { 'spin-slow': 'spin 10s linear infinite', 'spin-reverse': 'spin 15s linear infinite reverse' }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRAVENCE - Next Gen Robotics</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { brand: { 500: '#8b5cf6', 900: '#4c1d95', dark: '#0a0a0a' } },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Orbitron', 'sans-serif'], },
+                    animation: { 'fade-in': 'fadeIn 0.3s ease-out', 'spin-slow': 'spin 10s linear infinite' },
+                    keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+                }
+            }
         }
-      }
-    }
-  </script>
-
-  <style>
-    body { background: black; color: white; margin: 0; }
-    ::-webkit-scrollbar { width: 0px; background: transparent; }
-
-    /* 로봇 배경 */
-    .robot-frame{
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      border: 0;
-      z-index: 0;
-      pointer-events: none; /* 배경이라 클릭 막기 */
-    }
-
-    /* 페이지 콘텐츠 */
-    .page {
-      position: relative;
-      z-index: 10; /* 로봇 위 */
-      min-height: 200vh; /* 스크롤 테스트용 */
-    }
-
-    /* 필요하면 살짝 어둡게 덮는 레이어 */
-    .overlay{
-      position: fixed;
-      inset: 0;
-      z-index: 5;
-      background: radial-gradient(circle at 30% 20%, rgba(139,92,246,.18), rgba(0,0,0,.65) 55%, rgba(0,0,0,.9));
-      pointer-events: none;
-    }
-  </style>
+    </script>
+    <style>
+        body { background-color: black; color: white; margin: 0; padding: 0; overflow-x: hidden; }
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+        
+        /* 로봇 배경 (Iframe) 스타일 */
+        .robot-frame {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            border: none;
+            z-index: 0;
+        }
+        
+        /* 채팅창 스타일 */
+        .chat-container { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); transform-origin: bottom right; }
+        .chat-hidden { opacity: 0; transform: scale(0.9) translateY(20px); pointer-events: none; }
+        .chat-visible { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
+    </style>
 </head>
+<body class="relative min-h-screen selection:bg-brand-500 selection:text-white">
 
-<body>
-  <!-- ✅ 여기 반드시 필요: 로봇/3D가 들어있는 페이지 or Spline URL -->
-  <iframe
-    class="robot-frame"
-    src="./robot.html"
-    title="Robot Background"
-    loading="lazy"
-    referrerpolicy="no-referrer"
-  ></iframe>
+    <iframe 
+        class="robot-frame"
+        src="https://my.spline.design/nexbotrobotcharacterconcept-s7q4MgUJenBECCiQYBHuTlOj/" 
+        frameborder="0" 
+        width="100%" 
+        height="100%">
+    </iframe>
 
-  <div class="overlay"></div>
+    <div class="relative z-10 pointer-events-none">
+        <nav class="flex justify-between items-center p-6 md:px-20 max-w-7xl mx-auto pointer-events-auto">
+            <div class="font-display font-bold text-2xl tracking-wider text-white">TRAVENCE</div>
+            <div class="hidden md:flex gap-6 text-sm text-gray-300 font-semibold">
+                <a href="#home" class="hover:text-white transition-colors">HOME</a>
+                <a href="#services" class="hover:text-white transition-colors">SOLUTIONS</a>
+                <a href="#about" class="hover:text-white transition-colors">ABOUT</a>
+            </div>
+        </nav>
 
-  <main class="page">
-    <!-- 기존 TRAVENCE 섹션들 -->
-    <div class="p-10">
-      <div class="font-display text-5xl">TRAVENCE</div>
-      <p class="text-white/70 mt-3 max-w-xl">
-        Pioneering the intersection of autonomous systems and human potential...
-      </p>
+        <section id="home" class="h-screen w-full flex flex-col justify-center px-6 md:px-20 max-w-7xl mx-auto">
+            <div class="max-w-2xl pointer-events-auto mt-[-100px]">
+                <h2 class="text-brand-500 font-display tracking-widest text-sm mb-4 uppercase animate-pulse">Next Generation Robotics</h2>
+                <h1 class="text-5xl md:text-7xl font-bold font-display leading-tight mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-500 drop-shadow-lg">TRAVENCE</h1>
+                <p class="text-lg md:text-xl text-gray-400 mb-8 leading-relaxed max-w-lg border-l-2 border-brand-500 pl-6 backdrop-blur-sm bg-black/20">
+                    Pioneering the intersection of autonomous systems and human potential. We build the intelligence that moves the world forward.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#services" class="bg-white text-black px-8 py-3 rounded-md font-bold hover:bg-gray-200 transition-colors tracking-wide">EXPLORE SOLUTIONS</a>
+                    <button onclick="toggleChat()" class="border border-white/30 bg-white/5 backdrop-blur-md text-white px-8 py-3 rounded-md font-bold hover:bg-white/10 transition-colors tracking-wide">CONTACT AI</button>
+                </div>
+            </div>
+        </section>
+
+        <div class="bg-gradient-to-b from-transparent via-black to-black">
+            <div class="h-32 bg-gradient-to-b from-transparent to-black"></div>
+            <div class="bg-black pointer-events-auto relative z-20 pb-20">
+                <section id="services" class="py-20 px-6 max-w-7xl mx-auto">
+                    <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-white/10 pb-8">
+                        <div>
+                            <h3 class="text-brand-500 font-display text-sm tracking-widest mb-2">CAPABILITIES</h3>
+                            <h2 class="text-4xl md:text-5xl font-display font-bold">Our Expertise</h2>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="group p-8 border border-white/10 rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2"><h3 class="text-xl font-bold font-display mb-3 text-white">Autonomous Units</h3><p class="text-gray-400 text-sm">Self-governing robotic agents.</p></div>
+                        <div class="group p-8 border border-white/10 rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2"><h3 class="text-xl font-bold font-display mb-3 text-white">Cognitive AI</h3><p class="text-gray-400 text-sm">Neural networks processing.</p></div>
+                        <div class="group p-8 border border-white/10 rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2"><h3 class="text-xl font-bold font-display mb-3 text-white">Cyber-Physical</h3><p class="text-gray-400 text-sm">Digital intelligence integration.</p></div>
+                    </div>
+                </section>
+                <footer class="py-12 border-t border-white/10 text-center text-gray-600 text-sm"><p>&copy; 2026 Travence Industries. All Systems Operational.</p></footer>
+            </div>
+        </div>
     </div>
-  </main>
+
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end pointer-events-auto">
+        <div id="chat-window" class="chat-container chat-hidden mb-4 w-[350px] h-[500px] bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+            <div class="p-4 border-b border-white/10 bg-white/5 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-500 to-blue-500 flex items-center justify-center">AI</div>
+                    <div><div class="font-display font-bold text-sm">TRAVENCE AI</div><div class="text-[10px] text-green-400 flex items-center gap-1">ONLINE</div></div>
+                </div>
+                <button onclick="toggleChat()" class="text-gray-400 hover:text-white">✕</button>
+            </div>
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-4 text-sm scrollbar-hide">
+                <div class="flex gap-3 animate-fade-in"><div class="w-8 h-8 rounded-full bg-brand-900 flex-shrink-0 flex items-center justify-center text-xs">AI</div><div class="bg-white/10 p-3 rounded-2xl rounded-tl-none text-gray-200">System online. How can I assist you?</div></div>
+            </div>
+            <div class="p-4 border-t border-white/10 bg-black/50">
+                <form onsubmit="handleChatSubmit(event)" class="flex gap-2">
+                    <input id="chat-input" type="text" placeholder="Enter command..." class="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
+                    <button type="submit" class="bg-brand-500 text-white p-2 rounded-full hover:bg-brand-900">➤</button>
+                </form>
+            </div>
+        </div>
+        <button onclick="toggleChat()" class="bg-brand-500 hover:bg-brand-900 text-white rounded-full p-4 shadow-lg flex items-center gap-2 transition-all hover:scale-110">
+            <span class="font-bold text-sm">Chat AI</span>
+        </button>
+    </div>
+
+    <script>
+        function toggleChat() {
+            const w = document.getElementById('chat-window');
+            w.classList.toggle('chat-hidden'); w.classList.toggle('chat-visible');
+            if(w.classList.contains('chat-visible')) document.getElementById('chat-input').focus();
+        }
+        function handleChatSubmit(e) {
+            e.preventDefault();
+            const i = document.getElementById('chat-input');
+            const m = i.value.trim();
+            if(!m) return;
+            addMsg(m, 'u'); i.value='';
+            setTimeout(() => addMsg("Request received. Accessing database...", 'a'), 1000);
+        }
+        function addMsg(t, s) {
+            const c = document.getElementById('chat-messages');
+            const d = document.createElement('div');
+            d.className = `flex gap-3 animate-fade-in ${s=='u'?'flex-row-reverse':''}`;
+            d.innerHTML = s=='a'?`<div class="w-8 h-8 rounded-full bg-brand-900 flex items-center justify-center text-xs shrink-0">AI</div><div class="bg-white/10 p-3 rounded-2xl rounded-tl-none text-gray-200 max-w-[80%]">${t}</div>`:`<div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-xs shrink-0">YOU</div><div class="bg-brand-500 p-3 rounded-2xl rounded-tr-none text-white max-w-[80%]">${t}</div>`;
+            c.appendChild(d); c.scrollTop=c.scrollHeight;
+        }
+    </script>
 </body>
 </html>
