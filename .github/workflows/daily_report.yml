@@ -1,0 +1,42 @@
+name: Daily Business Reports (President & Pacsafe)
+
+on:
+  schedule:
+    # 매일 한국 시간 오전 09:00 (UTC 00:00) 실행
+    - cron: '0 0 * * *'
+  workflow_dispatch: # 수동 실행 버튼
+
+jobs:
+  run-reports:
+    runs-on: ubuntu-latest
+    
+    # 환경변수 설정 (GitHub Secrets에서 불러오기)
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      # 프레지던트용 키 (Secret 이름이 없다면 코드 내 기본값 사용)
+      NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }} 
+      NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+      # 팩세이프용 키 (새로 등록 필요)
+      NAVER_CLIENT_ID_PACSAFE: ${{ secrets.NAVER_CLIENT_ID_PACSAFE }}
+      NAVER_CLIENT_SECRET_PACSAFE: ${{ secrets.NAVER_CLIENT_SECRET_PACSAFE }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install requests bcrypt anthropic
+
+      # 1. 프레지던트 리포트 실행
+      - name: Run President Report
+        run: python president_report.py
+        
+      # 2. 팩세이프 리포트 실행 (위가 끝나면 실행됨)
+      - name: Run Pacsafe Report
+        run: python pacsafe_report.py
