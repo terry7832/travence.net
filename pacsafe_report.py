@@ -22,7 +22,7 @@ from datetime import datetime, timedelta, timezone
 # =========================================================
 PREFIX = "팩세이프"
 
-# ★ 중요: 실제 키 값은 GitHub Secrets에 등록되어 있어야 합니다.
+# ★ 중요: 팩세이프 전용 키 이름(_PACSAFE)을 사용합니다.
 NAVER_CLIENT_ID = os.environ.get("NAVER_CLIENT_ID_PACSAFE")
 NAVER_CLIENT_SECRET = os.environ.get("NAVER_CLIENT_SECRET_PACSAFE")
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
