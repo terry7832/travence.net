@@ -2,24 +2,25 @@ name: Daily Automation Master
 
 on:
   schedule:
-    - cron: '0 0 * * *' # 매일 아침 9시 (한국시간)
-  workflow_dispatch: # 수동 실행 버튼
+    - cron: '0 0 * * *'  # 매일 오전 9시 (KST = UTC+9)
+  workflow_dispatch:  # 수동 실행 버튼
 
 jobs:
   run-all-tasks:
     runs-on: ubuntu-latest
+    
     env:
       # [공통] Claude & Email
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
       
-      # [리포트용] 구버전 키
+      # [리포트용] 네이버 키
       NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
       NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
       NAVER_CLIENT_ID_PACSAFE: ${{ secrets.NAVER_CLIENT_ID_PACSAFE }}
       NAVER_CLIENT_SECRET_PACSAFE: ${{ secrets.NAVER_CLIENT_SECRET_PACSAFE }}
       
-      # [Optimus용] 신버전 키 & 구글시트
+      # [Optimus용] 네이버 키 & 구글시트
       GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
       OP_ID_PACSAFE: ${{ secrets.OP_ID_PACSAFE }}
       OP_PW_PACSAFE: ${{ secrets.OP_PW_PACSAFE }}
@@ -27,36 +28,40 @@ jobs:
       OP_ID_PRESIDENT: ${{ secrets.OP_ID_PRESIDENT }}
       OP_PW_PRESIDENT: ${{ secrets.OP_PW_PRESIDENT }}
       SHEET_ID_PRESIDENT: ${{ secrets.SHEET_ID_PRESIDENT }}
-
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: 📥 코드 체크아웃
+        uses: actions/checkout@v4
+      
+      - name: 🐍 Python 설정
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
-
-      - name: Install dependencies
+          python-version: '3.11'
+      
+      - name: 📦 의존성 설치
         run: |
+          pip install --upgrade pip
           pip install requests bcrypt anthropic gspread oauth2client
-
-      # 1. 프레지던트 리포트 (이메일)
-      - name: Run President Email Report
-        run: python president_report.py
-        
-      # 2. 팩세이프 리포트 (이메일)
-      - name: Run Pacsafe Email Report
-        run: python pacsafe_report.py
-
-      # 3. Optimus - 팩세이프 (구글시트)
-      - name: Run Optimus Pacsafe
-        run: python optimus_pacsafe.py
-
-      # 4. Optimus - 프레지던트 (구글시트)
-      - name: Run Optimus President
-        run: python optimus_president.py
-        
-      # 2. 팩세이프 리포트 실행 (위가 끝나면 실행됨)
-      - name: Run Pacsafe Report
-        run: python pacsafe_report.py
+      
+      # === 이메일 리포트 (AI 분석) ===
+      
+      - name: 📊 프레지던트 이메일 리포트
+        run: python 1_president_report.py
+        continue-on-error: true
+      
+      - name: 📊 팩세이프 이메일 리포트
+        run: python 2_pacsafe_report.py
+        continue-on-error: true
+      
+      # === Optimus 데이터 수집 (구글시트) ===
+      
+      - name: 📈 Optimus 팩세이프 데이터 수집
+        run: python 3_optimus_pacsafe.py
+        continue-on-error: true
+      
+      - name: 📈 Optimus 프레지던트 데이터 수집
+        run: python 4_optimus_president.py
+        continue-on-error: true
+      
+      - name: ✅ 작업 완료
+        run: echo "🎉 모든 자동화 작업이 완료되었습니다!"
