@@ -46,21 +46,21 @@ jobs:
       # === 이메일 리포트 (AI 분석) ===
       
       - name: 📊 프레지던트 이메일 리포트
-        run: python 1_president_report.py
+        run: python president_report.py
         continue-on-error: true
       
       - name: 📊 팩세이프 이메일 리포트
-        run: python 2_pacsafe_report.py
+        run: python pacsafe_report.py
         continue-on-error: true
       
       # === Optimus 데이터 수집 (구글시트) ===
       
       - name: 📈 Optimus 팩세이프 데이터 수집
-        run: python 3_optimus_pacsafe.py
+        run: python optimus_pacsafe.py
         continue-on-error: true
       
       - name: 📈 Optimus 프레지던트 데이터 수집
-        run: python 4_optimus_president.py
+        run: python optimus_president.py
         continue-on-error: true
       
       - name: ✅ 작업 완료
