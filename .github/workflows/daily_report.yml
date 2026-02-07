@@ -27,7 +27,7 @@ jobs:
           python-version: '3.11'
 
       - name: 📦 의존성 설치
-        run: pip install requests anthropic
+        run: pip install requests anthropic bcrypt
 
       - name: 📊 프레지던트 이메일 리포트
         run: python president_report.py
