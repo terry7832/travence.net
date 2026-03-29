@@ -7,1214 +7,776 @@
     <meta name="description" content="주식회사 트레벤스 - Pacsafe, President, CabinZero 등 글로벌 여행 브랜드를 운영하는 대한민국 대표 트래블 브랜드 그룹">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --black: #0a0a0a;
-            --dark: #141414;
-            --gray-900: #1a1a1a;
-            --gray-800: #2a2a2a;
-            --gray-700: #3a3a3a;
-            --gray-600: #555;
-            --gray-500: #777;
-            --gray-400: #999;
-            --gray-300: #bbb;
-            --gray-200: #ddd;
-            --gray-100: #eee;
-            --white: #f8f8f8;
-            --pure-white: #ffffff;
-            --accent: #c8a97e;
-            --accent-light: #dbc4a0;
-            --accent-dark: #a88a5e;
+            --white: #ffffff;
+            --bg: #fbfbfd;
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f7;
+            --gray-200: #e8e8ed;
+            --gray-300: #d2d2d7;
+            --gray-400: #b0b0b5;
+            --gray-500: #86868b;
+            --gray-600: #6e6e73;
+            --gray-700: #424245;
+            --gray-800: #2d2d2d;
+            --gray-900: #1d1d1f;
+            --black: #000000;
+            --blue: #0071e3;
+            --blue-hover: #0077ed;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html {
-            scroll-behavior: smooth;
-            font-size: 16px;
-        }
+        html { scroll-behavior: smooth; font-size: 16px; }
 
         body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background: var(--black);
-            color: var(--white);
+            font-family: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--white);
+            color: var(--gray-900);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* ─── NAV ─── */
         .nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             z-index: 1000;
-            padding: 0 60px;
-            height: 80px;
+            height: 48px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            transition: all 0.4s ease;
+            justify-content: center;
+            background: rgba(251, 251, 253, 0.72);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
         }
 
-        .nav.scrolled {
-            background: rgba(10, 10, 10, 0.92);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(200, 169, 126, 0.1);
+        .nav-inner {
+            width: 100%; max-width: 1024px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 24px;
         }
 
         .nav-logo {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: 0.15em;
-            color: var(--white);
-            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem; font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--gray-900); text-decoration: none;
         }
 
-        .nav-logo span {
-            color: var(--accent);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 40px;
-            list-style: none;
-        }
+        .nav-links { display: flex; gap: 32px; list-style: none; }
 
         .nav-links a {
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 500;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--gray-400);
-            text-decoration: none;
-            transition: color 0.3s ease;
-            position: relative;
+            font-size: 0.75rem; font-weight: 400;
+            color: var(--gray-700); text-decoration: none;
+            transition: color 0.2s ease;
         }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--accent);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--white);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
+        .nav-links a:hover { color: var(--gray-900); }
 
         .nav-mobile-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            padding: 8px;
+            display: none; cursor: pointer; padding: 8px;
+            background: none; border: none;
         }
 
         .nav-mobile-toggle span {
-            width: 24px;
-            height: 1.5px;
-            background: var(--white);
+            display: block; width: 18px; height: 1px;
+            background: var(--gray-900); margin: 4px 0;
             transition: all 0.3s ease;
         }
 
         /* ─── HERO ─── */
         .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
+            padding-top: 48px; min-height: 100vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center; background: var(--white);
         }
 
-        .hero-bg {
-            position: absolute;
-            inset: 0;
-            background: 
-                radial-gradient(ellipse at 20% 50%, rgba(200, 169, 126, 0.06) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 20%, rgba(200, 169, 126, 0.04) 0%, transparent 50%),
-                var(--black);
-        }
+        .hero-content { padding: 0 24px; max-width: 840px; }
 
-        .hero-grid {
-            position: absolute;
-            inset: 0;
-            background-image: 
-                linear-gradient(rgba(200, 169, 126, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(200, 169, 126, 0.03) 1px, transparent 1px);
-            background-size: 80px 80px;
-            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
-        }
-
-        .hero-content {
-            text-align: center;
-            position: relative;
-            z-index: 2;
-            padding: 0 20px;
-        }
-
-        .hero-label {
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 500;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 32px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 0.8s ease 0.3s forwards;
+        .hero-eyebrow {
+            font-size: 1.1rem; font-weight: 600;
+            color: var(--gray-600); margin-bottom: 16px;
+            opacity: 0; transform: translateY(12px);
+            animation: fadeUp 0.7s ease 0.2s forwards;
         }
 
         .hero-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: clamp(3rem, 8vw, 7rem);
-            font-weight: 900;
-            letter-spacing: 0.08em;
-            line-height: 1;
-            margin-bottom: 28px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeUp 0.8s ease 0.5s forwards;
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(3.5rem, 9vw, 5.5rem);
+            font-weight: 800; letter-spacing: -0.04em;
+            line-height: 1.05; color: var(--gray-900);
+            margin-bottom: 20px;
+            opacity: 0; transform: translateY(16px);
+            animation: fadeUp 0.7s ease 0.35s forwards;
         }
 
         .hero-subtitle {
-            font-size: clamp(1rem, 2vw, 1.25rem);
-            font-weight: 300;
-            color: var(--gray-400);
-            line-height: 1.8;
-            max-width: 520px;
-            margin: 0 auto 48px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 0.8s ease 0.7s forwards;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+            font-weight: 400; color: var(--gray-600);
+            line-height: 1.6; max-width: 560px;
+            margin: 0 auto 40px; letter-spacing: -0.01em;
+            opacity: 0; transform: translateY(12px);
+            animation: fadeUp 0.7s ease 0.5s forwards;
         }
 
-        .hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 500;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--accent);
-            text-decoration: none;
-            padding: 16px 36px;
-            border: 1px solid rgba(200, 169, 126, 0.3);
-            transition: all 0.4s ease;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 0.8s ease 0.9s forwards;
+        .hero-actions {
+            display: flex; gap: 20px;
+            justify-content: center; flex-wrap: wrap;
+            opacity: 0; transform: translateY(12px);
+            animation: fadeUp 0.7s ease 0.65s forwards;
         }
 
-        .hero-cta:hover {
-            background: var(--accent);
-            color: var(--black);
-            border-color: var(--accent);
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 1rem; font-weight: 400;
+            color: var(--blue); text-decoration: none;
+            transition: all 0.2s ease;
         }
 
-        .hero-cta svg {
-            width: 16px;
-            height: 16px;
-            transition: transform 0.3s ease;
+        .btn-primary:hover { text-decoration: underline; }
+
+        .btn-primary svg {
+            width: 14px; height: 14px;
+            transition: transform 0.2s ease;
         }
 
-        .hero-cta:hover svg {
-            transform: translateX(4px);
+        .btn-primary:hover svg { transform: translateX(3px); }
+
+        /* ─── SECTION COMMON ─── */
+        .section { padding: 120px 24px; text-align: center; }
+
+        .section-inner { max-width: 1024px; margin: 0 auto; }
+
+        .section-eyebrow {
+            font-size: 0.9rem; font-weight: 600;
+            color: var(--gray-500); margin-bottom: 8px;
         }
 
-        .hero-scroll {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            opacity: 0;
-            animation: fadeUp 0.8s ease 1.2s forwards;
+        .section-headline {
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 700; letter-spacing: -0.03em;
+            line-height: 1.12; color: var(--gray-900);
+            margin-bottom: 12px;
         }
 
-        .hero-scroll-text {
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.65rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--gray-600);
-        }
-
-        .hero-scroll-line {
-            width: 1px;
-            height: 40px;
-            background: linear-gradient(to bottom, var(--accent), transparent);
-            animation: scrollPulse 2s ease-in-out infinite;
-        }
-
-        /* ─── SECTIONS COMMON ─── */
-        .section {
-            padding: 140px 60px;
-            position: relative;
-        }
-
-        .section-label {
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 500;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 20px;
-        }
-
-        .section-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: clamp(2rem, 4vw, 3.2rem);
-            font-weight: 700;
-            letter-spacing: -0.01em;
-            line-height: 1.2;
-            margin-bottom: 24px;
-        }
-
-        .section-desc {
-            font-size: 1rem;
-            font-weight: 300;
-            color: var(--gray-400);
-            line-height: 1.9;
-            max-width: 600px;
-        }
-
-        .divider {
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(to right, transparent, rgba(200, 169, 126, 0.15), transparent);
+        .section-body {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 1.05rem; font-weight: 400;
+            color: var(--gray-600); line-height: 1.7;
+            max-width: 540px; margin: 0 auto;
         }
 
         /* ─── ABOUT ─── */
-        .about {
-            background: var(--dark);
+        .about { background: var(--bg); }
+
+        .about-statement {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            font-weight: 400; color: var(--gray-800);
+            line-height: 1.7; max-width: 720px;
+            margin: 48px auto 0; letter-spacing: -0.02em;
         }
 
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: center;
-            margin-top: 60px;
+        .about-statement strong { font-weight: 700; color: var(--gray-900); }
+
+        .stats-row {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            max-width: 840px; margin: 72px auto 0;
+            border-top: 1px solid var(--gray-200);
+            border-bottom: 1px solid var(--gray-200);
         }
 
-        .about-text p {
-            font-size: 1rem;
-            font-weight: 300;
-            color: var(--gray-300);
-            line-height: 2;
-            margin-bottom: 24px;
+        .stat-item {
+            padding: 40px 16px; text-align: center; position: relative;
         }
 
-        .about-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
-
-        .stat-card {
-            padding: 36px;
-            background: var(--gray-900);
-            border: 1px solid var(--gray-800);
-            transition: all 0.4s ease;
-        }
-
-        .stat-card:hover {
-            border-color: rgba(200, 169, 126, 0.3);
-            transform: translateY(-4px);
+        .stat-item:not(:last-child)::after {
+            content: ''; position: absolute;
+            right: 0; top: 24px; bottom: 24px;
+            width: 1px; background: var(--gray-200);
         }
 
         .stat-number {
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.8rem;
-            font-weight: 800;
-            color: var(--accent);
-            line-height: 1;
-            margin-bottom: 8px;
-        }
-
-        .stat-unit {
-            font-size: 1rem;
-            font-weight: 400;
+            font-family: 'Inter', sans-serif;
+            font-size: 2.8rem; font-weight: 700;
+            letter-spacing: -0.03em; color: var(--gray-900);
+            line-height: 1; margin-bottom: 8px;
         }
 
         .stat-label {
-            font-size: 0.85rem;
-            color: var(--gray-500);
-            font-weight: 400;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 0.85rem; color: var(--gray-500);
         }
 
         /* ─── BRANDS ─── */
-        .brands {
-            background: var(--black);
-        }
-
-        .brands-header {
-            text-align: center;
-            margin-bottom: 80px;
-        }
-
-        .brands-header .section-desc {
-            margin: 0 auto;
-        }
+        .brands { background: var(--white); }
 
         .brands-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2px;
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 16px; max-width: 1024px; margin: 64px auto 0;
         }
 
         .brand-card {
-            position: relative;
-            padding: 60px 36px;
-            background: var(--gray-900);
-            text-align: center;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.5s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 320px;
-        }
-
-        .brand-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(200, 169, 126, 0.08), transparent);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .brand-card:hover::before {
-            opacity: 1;
+            background: var(--gray-100); border-radius: 20px;
+            padding: 56px 40px 48px; text-align: center;
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: default; overflow: hidden;
         }
 
         .brand-card:hover {
-            transform: translateY(-4px);
-            z-index: 2;
+            transform: scale(1.015); background: var(--gray-50);
         }
 
-        .brand-icon {
-            width: 64px;
-            height: 64px;
-            border: 1px solid var(--gray-700);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 28px;
-            transition: all 0.4s ease;
-            background: rgba(200, 169, 126, 0.05);
+        .brand-card-icon {
+            width: 52px; height: 52px; margin: 0 auto 24px;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--white); border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
 
-        .brand-card:hover .brand-icon {
-            border-color: var(--accent);
-            background: rgba(200, 169, 126, 0.1);
+        .brand-card-icon svg { width: 24px; height: 24px; color: var(--gray-700); }
+
+        .brand-card-name {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.4rem; font-weight: 700;
+            letter-spacing: -0.02em; color: var(--gray-900);
+            margin-bottom: 4px;
         }
 
-        .brand-icon svg {
-            width: 24px;
-            height: 24px;
-            color: var(--accent);
+        .brand-card-category {
+            font-size: 0.8rem; font-weight: 500;
+            color: var(--gray-500); margin-bottom: 14px;
         }
 
-        .brand-name {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            margin-bottom: 12px;
-            position: relative;
-            z-index: 1;
+        .brand-card-desc {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 0.92rem; color: var(--gray-600); line-height: 1.6;
         }
 
-        .brand-category {
-            font-size: 0.75rem;
-            font-weight: 400;
-            color: var(--accent);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 16px;
-            position: relative;
-            z-index: 1;
+        .brand-card-link {
+            display: inline-flex; align-items: center; gap: 4px;
+            font-size: 0.88rem; color: var(--blue);
+            text-decoration: none; margin-top: 20px;
+            transition: all 0.2s ease;
         }
 
-        .brand-desc {
-            font-size: 0.85rem;
-            color: var(--gray-500);
-            line-height: 1.7;
-            position: relative;
-            z-index: 1;
+        .brand-card-link:hover { text-decoration: underline; }
+        .brand-card-link svg { width: 12px; height: 12px; }
+
+        /* Featured brand */
+        .brand-card.featured {
+            grid-column: 1 / -1;
+            display: grid; grid-template-columns: 1fr 1fr;
+            text-align: left; padding: 64px 56px;
+            background: var(--gray-900); color: var(--white);
         }
+
+        .brand-card.featured:hover { background: var(--gray-800); transform: scale(1.008); }
+
+        .brand-card.featured .brand-card-icon {
+            margin: 0 0 24px; background: rgba(255, 255, 255, 0.1);
+        }
+
+        .brand-card.featured .brand-card-icon svg { color: var(--white); }
+        .brand-card.featured .brand-card-name { color: var(--white); font-size: 1.8rem; }
+        .brand-card.featured .brand-card-category { color: var(--gray-400); }
+        .brand-card.featured .brand-card-desc { color: var(--gray-400); font-size: 1rem; line-height: 1.7; }
+        .brand-card.featured .brand-card-link { color: var(--blue); }
+
+        .brand-featured-right {
+            display: flex; flex-direction: column;
+            justify-content: center; padding-left: 40px;
+        }
+
+        .brand-featured-highlights { display: flex; flex-direction: column; gap: 20px; }
+
+        .brand-highlight { display: flex; gap: 14px; align-items: flex-start; }
+
+        .brand-highlight-icon {
+            width: 32px; height: 32px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 8px; display: flex;
+            align-items: center; justify-content: center; flex-shrink: 0;
+        }
+
+        .brand-highlight-icon svg { width: 16px; height: 16px; color: var(--gray-400); }
+
+        .brand-highlight-text { font-size: 0.9rem; color: var(--gray-400); line-height: 1.5; }
 
         /* ─── BUSINESS ─── */
-        .business {
-            background: var(--dark);
+        .business { background: var(--bg); }
+
+        .business-tiles {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 16px; max-width: 1024px; margin: 64px auto 0;
         }
 
-        .business-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2px;
-            margin-top: 60px;
+        .business-tile {
+            background: var(--white); border-radius: 20px;
+            padding: 48px 32px; text-align: left;
+            transition: all 0.3s ease;
         }
 
-        .business-card {
-            padding: 60px 40px;
-            background: var(--gray-900);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
+        .business-tile:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
         }
 
-        .business-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--accent);
-            transform: scaleX(0);
-            transition: transform 0.4s ease;
+        .business-tile-num {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem; font-weight: 600;
+            color: var(--blue); margin-bottom: 20px;
         }
 
-        .business-card:hover::after {
-            transform: scaleX(1);
+        .business-tile-title {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 1.2rem; font-weight: 700;
+            color: var(--gray-900); margin-bottom: 12px;
         }
 
-        .business-card:hover {
-            background: rgba(200, 169, 126, 0.04);
-        }
-
-        .business-num {
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: var(--accent);
-            letter-spacing: 0.2em;
-            margin-bottom: 32px;
-        }
-
-        .business-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-            letter-spacing: -0.01em;
-        }
-
-        .business-desc {
-            font-size: 0.9rem;
-            color: var(--gray-500);
-            line-height: 1.8;
+        .business-tile-desc {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 0.9rem; color: var(--gray-600); line-height: 1.7;
         }
 
         /* ─── CHANNELS ─── */
-        .channels {
-            background: var(--black);
-            text-align: center;
+        .channels { background: var(--white); }
+
+        .channels-wrap {
+            max-width: 760px; margin: 48px auto 0;
+            display: flex; flex-wrap: wrap;
+            justify-content: center; gap: 10px;
         }
 
-        .channels-header {
-            margin-bottom: 60px;
+        .channel-pill {
+            padding: 10px 22px; background: var(--gray-100);
+            border-radius: 980px; font-size: 0.85rem;
+            font-weight: 500; color: var(--gray-700);
+            transition: all 0.2s ease; cursor: default;
         }
 
-        .channels-header .section-desc {
-            margin: 0 auto;
-        }
-
-        .channel-logos {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 16px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .channel-tag {
-            padding: 14px 28px;
-            background: var(--gray-900);
-            border: 1px solid var(--gray-800);
-            font-size: 0.85rem;
-            font-weight: 400;
-            color: var(--gray-400);
-            transition: all 0.3s ease;
-        }
-
-        .channel-tag:hover {
-            border-color: var(--accent);
-            color: var(--white);
-        }
+        .channel-pill:hover { background: var(--gray-200); color: var(--gray-900); }
 
         /* ─── CONTACT ─── */
-        .contact {
-            background: var(--dark);
-        }
+        .contact { background: var(--bg); }
 
         .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            margin-top: 60px;
+            display: grid; grid-template-columns: 1fr 1px 1fr;
+            max-width: 800px; margin: 64px auto 0; text-align: left;
         }
 
-        .contact-info-list {
-            display: flex;
-            flex-direction: column;
-            gap: 32px;
+        .contact-divider { background: var(--gray-200); }
+
+        .contact-col { padding: 0 48px; }
+
+        .contact-col-title {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 1.1rem; font-weight: 700;
+            color: var(--gray-900); margin-bottom: 24px;
         }
 
-        .contact-item {
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
+        .contact-row { display: flex; flex-direction: column; gap: 20px; }
+
+        .contact-label {
+            font-size: 0.75rem; font-weight: 500;
+            color: var(--gray-500); text-transform: uppercase;
+            letter-spacing: 0.03em; margin-bottom: 2px;
         }
 
-        .contact-item-icon {
-            width: 44px;
-            height: 44px;
-            background: var(--gray-900);
-            border: 1px solid var(--gray-800);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
+        .contact-value {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 0.95rem; color: var(--gray-800); line-height: 1.5;
         }
 
-        .contact-item-icon svg {
-            width: 18px;
-            height: 18px;
-            color: var(--accent);
-        }
-
-        .contact-item-label {
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: var(--accent);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 6px;
-        }
-
-        .contact-item-value {
-            font-size: 0.95rem;
-            color: var(--gray-300);
-            line-height: 1.6;
-        }
-
-        .contact-message {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .contact-message h3 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            line-height: 1.4;
-        }
-
-        .contact-message p {
-            font-size: 0.95rem;
-            color: var(--gray-400);
-            line-height: 1.8;
-            margin-bottom: 36px;
-        }
-
-        .contact-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 500;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--black);
-            background: var(--accent);
-            text-decoration: none;
-            padding: 16px 36px;
-            transition: all 0.3s ease;
-            align-self: flex-start;
-        }
-
-        .contact-btn:hover {
-            background: var(--accent-light);
-            transform: translateY(-2px);
-        }
+        .contact-value a { color: var(--blue); text-decoration: none; }
+        .contact-value a:hover { text-decoration: underline; }
 
         /* ─── FOOTER ─── */
-        .footer {
-            padding: 60px 60px 40px;
-            background: var(--black);
-            border-top: 1px solid var(--gray-800);
-        }
+        .footer { background: var(--gray-100); padding: 20px 24px; }
+
+        .footer-inner { max-width: 1024px; margin: 0 auto; }
 
         .footer-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 48px;
+            display: flex; justify-content: space-between;
+            align-items: center; padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-200);
         }
 
-        .footer-logo {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 800;
-            letter-spacing: 0.15em;
-        }
-
-        .footer-logo span {
-            color: var(--accent);
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 32px;
-        }
+        .footer-links { display: flex; gap: 24px; }
 
         .footer-links a {
-            font-size: 0.8rem;
-            color: var(--gray-500);
-            text-decoration: none;
-            transition: color 0.3s ease;
+            font-size: 0.75rem; color: var(--gray-600);
+            text-decoration: none; transition: color 0.2s;
         }
 
-        .footer-links a:hover {
-            color: var(--accent);
-        }
+        .footer-links a:hover { color: var(--gray-900); }
 
         .footer-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 32px;
-            border-top: 1px solid var(--gray-800);
+            padding-top: 16px; font-size: 0.72rem;
+            color: var(--gray-500); line-height: 1.7;
         }
 
-        .footer-copyright {
-            font-size: 0.75rem;
-            color: var(--gray-600);
-            line-height: 1.8;
+        .footer-logo-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem; font-weight: 700; color: var(--gray-700);
         }
 
         /* ─── ANIMATIONS ─── */
         @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes scrollPulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0; transform: translateY(28px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
-        .reveal-delay-4 { transition-delay: 0.4s; }
-        .reveal-delay-5 { transition-delay: 0.5s; }
-        .reveal-delay-6 { transition-delay: 0.6s; }
-        .reveal-delay-7 { transition-delay: 0.7s; }
-        .reveal-delay-8 { transition-delay: 0.8s; }
+        .reveal-d1 { transition-delay: 0.08s; }
+        .reveal-d2 { transition-delay: 0.16s; }
+        .reveal-d3 { transition-delay: 0.24s; }
+        .reveal-d4 { transition-delay: 0.32s; }
+        .reveal-d5 { transition-delay: 0.40s; }
+        .reveal-d6 { transition-delay: 0.48s; }
+        .reveal-d7 { transition-delay: 0.56s; }
 
         /* ─── RESPONSIVE ─── */
-        @media (max-width: 1024px) {
-            .section { padding: 100px 40px; }
-            .nav { padding: 0 40px; }
-            .footer { padding: 48px 40px 32px; }
-            .brands-grid { grid-template-columns: repeat(2, 1fr); }
-            .business-grid { grid-template-columns: 1fr; }
-            .about-grid { grid-template-columns: 1fr; gap: 48px; }
-            .contact-grid { grid-template-columns: 1fr; gap: 48px; }
-        }
-
         @media (max-width: 768px) {
-            .section { padding: 80px 24px; }
-            .nav { padding: 0 24px; }
-            .footer { padding: 40px 24px 24px; }
-
             .nav-links { display: none; }
-            .nav-mobile-toggle { display: flex; }
-
-            .brands-grid { grid-template-columns: 1fr; }
-            .about-stats { grid-template-columns: 1fr 1fr; gap: 16px; }
-
-            .stat-card { padding: 24px; }
+            .nav-mobile-toggle { display: block; }
+            .section { padding: 80px 20px; }
+            .hero { min-height: 85vh; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .stat-item:nth-child(2)::after { display: none; }
+            .stat-item { padding: 28px 12px; }
             .stat-number { font-size: 2rem; }
-
-            .footer-top { flex-direction: column; gap: 24px; }
-            .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+            .brands-grid { grid-template-columns: 1fr; }
+            .brand-card.featured { grid-template-columns: 1fr; padding: 40px 28px; }
+            .brand-featured-right { padding-left: 0; padding-top: 32px; }
+            .business-tiles { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+            .contact-divider { display: none; }
+            .contact-col { padding: 0; }
+            .footer-top { flex-direction: column; gap: 12px; align-items: flex-start; }
         }
 
-        /* ─── MOBILE NAV ─── */
+        /* ─── MOBILE MENU ─── */
         .mobile-menu {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(10, 10, 10, 0.97);
+            display: none; position: fixed; inset: 0;
+            background: rgba(251, 251, 253, 0.97);
             backdrop-filter: blur(30px);
-            z-index: 999;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 32px;
+            -webkit-backdrop-filter: blur(30px);
+            z-index: 9999; flex-direction: column;
+            align-items: center; justify-content: center; gap: 28px;
         }
 
-        .mobile-menu.open {
-            display: flex;
-        }
+        .mobile-menu.open { display: flex; }
 
         .mobile-menu a {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            color: var(--white);
-            text-decoration: none;
-            transition: color 0.3s ease;
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            font-size: 1.6rem; font-weight: 600;
+            color: var(--gray-900); text-decoration: none;
         }
 
-        .mobile-menu a:hover {
-            color: var(--accent);
-        }
+        .mobile-menu a:hover { color: var(--blue); }
 
         .mobile-close {
-            position: absolute;
-            top: 28px;
-            right: 28px;
-            font-size: 2rem;
-            color: var(--white);
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-weight: 300;
+            position: absolute; top: 14px; right: 20px;
+            font-size: 1.8rem; color: var(--gray-700);
+            cursor: pointer; background: none; border: none;
         }
     </style>
 </head>
 <body>
 
     <!-- NAV -->
-    <nav class="nav" id="nav">
-        <a href="#" class="nav-logo">TRAVE<span>N</span>CE</a>
-        <ul class="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#brands">Brands</a></li>
-            <li><a href="#business">Business</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <div class="nav-mobile-toggle" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">TRAVENCE</a>
+            <ul class="nav-links">
+                <li><a href="#about">회사소개</a></li>
+                <li><a href="#brands">브랜드</a></li>
+                <li><a href="#business">사업영역</a></li>
+                <li><a href="#contact">문의</a></li>
+            </ul>
+            <button class="nav-mobile-toggle" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
     <!-- MOBILE MENU -->
     <div class="mobile-menu" id="mobileMenu">
         <button class="mobile-close" onclick="toggleMenu()">&times;</button>
-        <a href="#about" onclick="toggleMenu()">About</a>
-        <a href="#brands" onclick="toggleMenu()">Brands</a>
-        <a href="#business" onclick="toggleMenu()">Business</a>
-        <a href="#contact" onclick="toggleMenu()">Contact</a>
+        <a href="#about" onclick="toggleMenu()">회사소개</a>
+        <a href="#brands" onclick="toggleMenu()">브랜드</a>
+        <a href="#business" onclick="toggleMenu()">사업영역</a>
+        <a href="#contact" onclick="toggleMenu()">문의</a>
     </div>
 
     <!-- HERO -->
     <section class="hero">
-        <div class="hero-bg"></div>
-        <div class="hero-grid"></div>
         <div class="hero-content">
-            <p class="hero-label">Global Travel Brand Group</p>
-            <h1 class="hero-title">TRAVENCE</h1>
-            <p class="hero-subtitle">
-                글로벌 여행 브랜드를 선별하고 운영하며,<br>
-                대한민국 여행자에게 새로운 기준을 제시합니다.
-            </p>
-            <a href="#brands" class="hero-cta">
-                브랜드 살펴보기
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-            </a>
-        </div>
-        <div class="hero-scroll">
-            <span class="hero-scroll-text">Scroll</span>
-            <div class="hero-scroll-line"></div>
+            <p class="hero-eyebrow">Global Travel Brand Group</p>
+            <h1 class="hero-title">여행의 새로운<br>기준을 만듭니다.</h1>
+            <p class="hero-subtitle">주식회사 트레벤스는 글로벌 프리미엄 여행 브랜드를<br>선별하고 운영하는 트래블 브랜드 그룹입니다.</p>
+            <div class="hero-actions">
+                <a href="#brands" class="btn-primary">
+                    브랜드 살펴보기
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+                </a>
+                <a href="#about" class="btn-primary">
+                    더 알아보기
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+                </a>
+            </div>
         </div>
     </section>
-
-    <div class="divider"></div>
 
     <!-- ABOUT -->
     <section class="section about" id="about">
-        <div class="reveal">
-            <p class="section-label">About Travence</p>
-            <h2 class="section-title">여행의 새로운 기준을<br>만들어가는 브랜드 그룹</h2>
-        </div>
-        <div class="about-grid">
-            <div class="about-text reveal reveal-delay-1">
-                <p>
-                    주식회사 트레벤스는 Pacsafe, President, CabinZero 등 
-                    글로벌 프리미엄 여행 브랜드를 한국 시장에서 운영하는 
-                    트래블 브랜드 그룹입니다.
-                </p>
-                <p>
-                    네이버 스마트스토어, 자사몰, 딜러십을 포함한 
-                    40여 개 이상의 판매 채널을 통해 대한민국 여행자에게 
-                    최적의 제품을 제안하고 있습니다.
-                </p>
-                <p>
-                    데이터 기반의 운영 시스템과 각 브랜드에 대한 깊은 이해를 바탕으로, 
-                    단순한 유통을 넘어 브랜드의 본질적인 가치를 전달합니다.
-                </p>
+        <div class="section-inner">
+            <div class="reveal">
+                <p class="section-eyebrow">About</p>
+                <h2 class="section-headline">여행을 더 안전하고,<br>더 가볍고, 더 스마트하게.</h2>
             </div>
-            <div class="about-stats reveal reveal-delay-2">
-                <div class="stat-card">
-                    <div class="stat-number">8<span class="stat-unit">+</span></div>
-                    <div class="stat-label">보유 브랜드</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">40<span class="stat-unit">+</span></div>
-                    <div class="stat-label">판매 채널</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">600<span class="stat-unit">+</span></div>
-                    <div class="stat-label">운영 SKU</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">34K<span class="stat-unit">+</span></div>
-                    <div class="stat-label">누적 주문</div>
-                </div>
+            <p class="about-statement reveal reveal-d1">
+                트레벤스는 <strong>Pacsafe, President, CabinZero</strong> 등
+                각 분야에서 세계적으로 인정받는 여행 브랜드를 한국 시장에서 운영합니다.
+                네이버 스마트스토어, 자사몰, 딜러십을 포함한 <strong>40여 개 이상의 판매 채널</strong>을 통해
+                대한민국 여행자에게 최적의 제품을 제안합니다.
+            </p>
+            <div class="stats-row reveal reveal-d2">
+                <div class="stat-item"><div class="stat-number">8+</div><div class="stat-label">보유 브랜드</div></div>
+                <div class="stat-item"><div class="stat-number">40+</div><div class="stat-label">판매 채널</div></div>
+                <div class="stat-item"><div class="stat-number">600+</div><div class="stat-label">운영 SKU</div></div>
+                <div class="stat-item"><div class="stat-number">34K+</div><div class="stat-label">누적 주문</div></div>
             </div>
         </div>
     </section>
-
-    <div class="divider"></div>
 
     <!-- BRANDS -->
     <section class="section brands" id="brands">
-        <div class="brands-header reveal">
-            <p class="section-label">Our Brands</p>
-            <h2 class="section-title">글로벌 여행 브랜드 포트폴리오</h2>
-            <p class="section-desc">
-                보안, 경량, 디자인, 기능성 — 각 영역에서 세계적으로 인정받는 
-                브랜드를 선별하여 운영합니다.
-            </p>
-        </div>
-        <div class="brands-grid">
-            <div class="brand-card reveal reveal-delay-1">
-                <div class="brand-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                    </svg>
-                </div>
-                <div class="brand-name">Pacsafe</div>
-                <div class="brand-category">Anti-Theft Travel</div>
-                <div class="brand-desc">도난 방지 기술을 적용한<br>보안 여행용품 글로벌 No.1</div>
+        <div class="section-inner">
+            <div class="reveal">
+                <p class="section-eyebrow">Brands</p>
+                <h2 class="section-headline">글로벌 여행 브랜드<br>포트폴리오.</h2>
+                <p class="section-body">보안, 경량, 디자인, 기능성 — 각 영역의 글로벌 리더를 선별하여 운영합니다.</p>
             </div>
-            <div class="brand-card reveal reveal-delay-2">
-                <div class="brand-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <rect x="4" y="4" width="16" height="16" rx="2"/>
-                        <path d="M12 4v16M4 12h16"/>
-                    </svg>
+            <div class="brands-grid">
+                <!-- Featured: Pacsafe -->
+                <div class="brand-card featured reveal reveal-d1">
+                    <div>
+                        <div class="brand-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        </div>
+                        <div class="brand-card-name">Pacsafe</div>
+                        <div class="brand-card-category">Anti-Theft Travel Gear</div>
+                        <p class="brand-card-desc">도난 방지 기술을 적용한 보안 여행용품 글로벌 No.1. 슬래시가드, 턴앤락 지퍼 등 특허 기술로 여행자의 소지품을 보호합니다.</p>
+                        <a href="#" class="brand-card-link">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></a>
+                    </div>
+                    <div class="brand-featured-right">
+                        <div class="brand-featured-highlights">
+                            <div class="brand-highlight">
+                                <div class="brand-highlight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                                <span class="brand-highlight-text">eXomesh® 슬래시가드 — 칼날 절단 방지 와이어 메쉬</span>
+                            </div>
+                            <div class="brand-highlight">
+                                <div class="brand-highlight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+                                <span class="brand-highlight-text">턴앤락 보안 지퍼 — 외부 접근 차단</span>
+                            </div>
+                            <div class="brand-highlight">
+                                <div class="brand-highlight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></div>
+                                <span class="brand-highlight-text">RFID 차단 기능 — 개인정보 스키밍 방지</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="brand-name">President</div>
-                <div class="brand-category">Premium Luggage</div>
-                <div class="brand-desc">50년 전통의<br>프리미엄 여행가방 브랜드</div>
-            </div>
-            <div class="brand-card reveal reveal-delay-3">
-                <div class="brand-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-                        <path d="M3 6h18M16 10a4 4 0 01-8 0"/>
-                    </svg>
+
+                <div class="brand-card reveal reveal-d2">
+                    <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 4v16M4 12h16"/></svg></div>
+                    <div class="brand-card-name">President</div>
+                    <div class="brand-card-category">Premium Luggage</div>
+                    <p class="brand-card-desc">50년 전통의 프리미엄 여행가방 브랜드</p>
+                    <a href="#" class="brand-card-link">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></a>
                 </div>
-                <div class="brand-name">CabinZero</div>
-                <div class="brand-category">Ultra-Light Backpack</div>
-                <div class="brand-desc">초경량 기내반입 백팩<br>영국 어드벤처 브랜드</div>
-            </div>
-            <div class="brand-card reveal reveal-delay-4">
-                <div class="brand-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/>
-                        <line x1="7" y1="7" x2="7.01" y2="7"/>
-                    </svg>
+
+                <div class="brand-card reveal reveal-d3">
+                    <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 01-8 0"/></svg></div>
+                    <div class="brand-card-name">CabinZero</div>
+                    <div class="brand-card-category">Ultra-Light Backpack</div>
+                    <p class="brand-card-desc">초경량 기내반입 백팩, 영국 어드벤처 브랜드</p>
+                    <a href="#" class="brand-card-link">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></a>
                 </div>
-                <div class="brand-name">Mark Ryden</div>
-                <div class="brand-category">Smart Backpack</div>
-                <div class="brand-desc">비즈니스 & 일상을 위한<br>스마트 기능 백팩</div>
-            </div>
-            <div class="brand-card reveal reveal-delay-5">
-                <div class="brand-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <circle cx="12" cy="12" r="10"/>
-                        <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
-                    </svg>
+
+                <div class="brand-card reveal reveal-d4">
+                    <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+                    <div class="brand-card-name">Mark Ryden</div>
+                    <div class="brand-card-category">Smart Backpack</div>
+                    <p class="brand-card-desc">비즈니스 & 일상을 위한 스마트 기능 백팩</p>
+                    <a href="#" class="brand-card-link">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></a>
                 </div>
-                <div class="brand-name">Travelers Choice</div>
-                <div class="brand-category">Travel Luggage</div>
-                <div class="brand-desc">합리적인 가격의<br>글로벌 여행가방 브랜드</div>
-            </div>
-            <div class="brand-card reveal reveal-delay-6">
-                <div class="brand-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
-                    </svg>
+
+                <div class="brand-card reveal reveal-d5">
+                    <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+                    <div class="brand-card-name">Travelers Choice</div>
+                    <div class="brand-card-category">Travel Luggage</div>
+                    <p class="brand-card-desc">합리적인 가격의 글로벌 여행가방</p>
+                    <a href="#" class="brand-card-link">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></a>
                 </div>
-                <div class="brand-name">Rollink</div>
-                <div class="brand-category">Foldable Luggage</div>
-                <div class="brand-desc">세계 최초 접이식 캐리어<br>이스라엘 혁신 브랜드</div>
-            </div>
-            <div class="brand-card reveal reveal-delay-7">
-                <div class="brand-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                        <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
-                    </svg>
+
+                <div class="brand-card reveal reveal-d5">
+                    <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
+                    <div class="brand-card-name">Rollink</div>
+                    <div class="brand-card-category">Foldable Luggage</div>
+                    <p class="brand-card-desc">세계 최초 접이식 캐리어, 이스라엘 혁신 브랜드</p>
+                    <a href="#" class="brand-card-link">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></a>
                 </div>
-                <div class="brand-name">Landor & Hawa</div>
-                <div class="brand-category">Modern Luggage</div>
-                <div class="brand-desc">모던 디자인의<br>프리미엄 트래블 기어</div>
-            </div>
-            <div class="brand-card reveal reveal-delay-8">
-                <div class="brand-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                        <path d="M13.73 21a2 2 0 01-3.46 0"/>
-                    </svg>
+
+                <div class="brand-card reveal reveal-d6">
+                    <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+                    <div class="brand-card-name">Landor & Hawa</div>
+                    <div class="brand-card-category">Modern Luggage</div>
+                    <p class="brand-card-desc">모던 디자인의 프리미엄 트래블 기어</p>
+                    <a href="#" class="brand-card-link">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></a>
                 </div>
-                <div class="brand-name">EasyNap</div>
-                <div class="brand-category">Travel Comfort</div>
-                <div class="brand-desc">편안한 여행을 위한<br>트래블 컴포트 솔루션</div>
+
+                <div class="brand-card reveal reveal-d7">
+                    <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+                    <div class="brand-card-name">EasyNap</div>
+                    <div class="brand-card-category">Travel Comfort</div>
+                    <p class="brand-card-desc">편안한 여행을 위한 컴포트 솔루션</p>
+                    <a href="#" class="brand-card-link">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></a>
+                </div>
             </div>
         </div>
     </section>
-
-    <div class="divider"></div>
 
     <!-- BUSINESS -->
     <section class="section business" id="business">
-        <div class="reveal">
-            <p class="section-label">Our Business</p>
-            <h2 class="section-title">트래블 커머스의 모든 것</h2>
-            <p class="section-desc">
-                브랜드 발굴부터 운영, 마케팅, 데이터 분석까지 — 
-                여행용품 커머스의 전 과정을 직접 운영합니다.
-            </p>
-        </div>
-        <div class="business-grid">
-            <div class="business-card reveal reveal-delay-1">
-                <div class="business-num">01</div>
-                <h3 class="business-title">브랜드 소싱 & 운영</h3>
-                <p class="business-desc">
-                    글로벌 여행용품 시장에서 경쟁력 있는 브랜드를 발굴하고,
-                    한국 시장에 맞는 포지셔닝과 운영 전략을 수립합니다.
-                </p>
+        <div class="section-inner">
+            <div class="reveal">
+                <p class="section-eyebrow">Business</p>
+                <h2 class="section-headline">트래블 커머스의<br>모든 것.</h2>
+                <p class="section-body">브랜드 발굴부터 운영, 마케팅, 데이터 분석까지 — 전 과정을 직접 운영합니다.</p>
             </div>
-            <div class="business-card reveal reveal-delay-2">
-                <div class="business-num">02</div>
-                <h3 class="business-title">옴니채널 유통</h3>
-                <p class="business-desc">
-                    네이버 스마트스토어, 자사몰, 종합몰, 딜러십 등 
-                    40여 개 채널에서 최적화된 유통 전략을 실행합니다.
-                </p>
-            </div>
-            <div class="business-card reveal reveal-delay-3">
-                <div class="business-num">03</div>
-                <h3 class="business-title">데이터 기반 성장</h3>
-                <p class="business-desc">
-                    자체 개발 데이터 시스템으로 매출, 리뷰, 고객 행동을 
-                    실시간 분석하여 의사결정에 활용합니다.
-                </p>
+            <div class="business-tiles">
+                <div class="business-tile reveal reveal-d1">
+                    <div class="business-tile-num">01</div>
+                    <h3 class="business-tile-title">브랜드 소싱 & 운영</h3>
+                    <p class="business-tile-desc">글로벌 시장에서 경쟁력 있는 여행 브랜드를 발굴하고, 한국 시장에 최적화된 포지셔닝 전략을 수립합니다.</p>
+                </div>
+                <div class="business-tile reveal reveal-d2">
+                    <div class="business-tile-num">02</div>
+                    <h3 class="business-tile-title">옴니채널 유통</h3>
+                    <p class="business-tile-desc">네이버 스마트스토어, 자사몰, 종합몰, 딜러십 등 40여 개 채널에서 최적화된 유통 전략을 실행합니다.</p>
+                </div>
+                <div class="business-tile reveal reveal-d3">
+                    <div class="business-tile-num">03</div>
+                    <h3 class="business-tile-title">데이터 기반 성장</h3>
+                    <p class="business-tile-desc">자체 개발 데이터 시스템으로 매출, 리뷰, 고객 행동을 실시간 분석하여 의사결정에 활용합니다.</p>
+                </div>
             </div>
         </div>
     </section>
-
-    <div class="divider"></div>
 
     <!-- CHANNELS -->
     <section class="section channels">
-        <div class="channels-header reveal">
-            <p class="section-label">Sales Channels</p>
-            <h2 class="section-title">40개 이상의 판매 채널</h2>
-            <p class="section-desc">
-                주요 이커머스 플랫폼과 자사 채널을 통해<br>
-                고객에게 최적의 구매 경험을 제공합니다.
-            </p>
-        </div>
-        <div class="channel-logos reveal reveal-delay-1">
-            <div class="channel-tag">Naver SmartStore</div>
-            <div class="channel-tag">Cafe24 자사몰</div>
-            <div class="channel-tag">쿠팡</div>
-            <div class="channel-tag">11번가</div>
-            <div class="channel-tag">G마켓</div>
-            <div class="channel-tag">SSG닷컴</div>
-            <div class="channel-tag">롯데ON</div>
-            <div class="channel-tag">인터파크</div>
-            <div class="channel-tag">위메프</div>
-            <div class="channel-tag">티몬</div>
-            <div class="channel-tag">딜러십</div>
-            <div class="channel-tag">+ More</div>
+        <div class="section-inner">
+            <div class="reveal">
+                <p class="section-eyebrow">Channels</p>
+                <h2 class="section-headline">어디서든 만날 수 있습니다.</h2>
+                <p class="section-body">주요 이커머스 플랫폼과 자사 채널에서 최적의 구매 경험을 제공합니다.</p>
+            </div>
+            <div class="channels-wrap reveal reveal-d1">
+                <span class="channel-pill">Naver SmartStore</span>
+                <span class="channel-pill">Cafe24 자사몰</span>
+                <span class="channel-pill">쿠팡</span>
+                <span class="channel-pill">11번가</span>
+                <span class="channel-pill">G마켓</span>
+                <span class="channel-pill">SSG닷컴</span>
+                <span class="channel-pill">롯데ON</span>
+                <span class="channel-pill">인터파크</span>
+                <span class="channel-pill">위메프</span>
+                <span class="channel-pill">티몬</span>
+                <span class="channel-pill">딜러십</span>
+                <span class="channel-pill">+More</span>
+            </div>
         </div>
     </section>
 
-    <div class="divider"></div>
-
     <!-- CONTACT -->
     <section class="section contact" id="contact">
-        <div class="reveal">
-            <p class="section-label">Contact</p>
-            <h2 class="section-title">문의하기</h2>
-        </div>
-        <div class="contact-grid">
-            <div class="contact-info-list reveal reveal-delay-1">
-                <div class="contact-item">
-                    <div class="contact-item-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
-                            <circle cx="12" cy="10" r="3"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="contact-item-label">Address</div>
-                        <div class="contact-item-value">서울특별시</div>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-item-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                            <polyline points="22,6 12,13 2,6"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="contact-item-label">Email</div>
-                        <div class="contact-item-value">info@travence.net</div>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-item-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                            <line x1="8" y1="21" x2="16" y2="21"/>
-                            <line x1="12" y1="17" x2="12" y2="21"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="contact-item-label">Website</div>
-                        <div class="contact-item-value">www.travence.net</div>
-                    </div>
-                </div>
+        <div class="section-inner">
+            <div class="reveal">
+                <p class="section-eyebrow">Contact</p>
+                <h2 class="section-headline">비즈니스 문의.</h2>
+                <p class="section-body">새로운 브랜드 제안, 유통 협력, 딜러십 문의를 환영합니다.</p>
             </div>
-            <div class="contact-message reveal reveal-delay-2">
-                <h3>브랜드 제안 및<br>비즈니스 문의</h3>
-                <p>
-                    새로운 여행 브랜드 제안, 유통 협력, 
-                    딜러십 문의 등 비즈니스 관련 문의를 환영합니다.
-                </p>
-                <a href="mailto:info@travence.net" class="contact-btn">
-                    이메일 문의
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                </a>
+            <div class="contact-grid reveal reveal-d1">
+                <div class="contact-col">
+                    <div class="contact-col-title">회사 정보</div>
+                    <div class="contact-row">
+                        <div><div class="contact-label">Company</div><div class="contact-value">주식회사 트레벤스</div></div>
+                        <div><div class="contact-label">Location</div><div class="contact-value">서울특별시</div></div>
+                        <div><div class="contact-label">Website</div><div class="contact-value"><a href="https://www.travence.net">www.travence.net</a></div></div>
+                    </div>
+                </div>
+                <div class="contact-divider"></div>
+                <div class="contact-col">
+                    <div class="contact-col-title">연락처</div>
+                    <div class="contact-row">
+                        <div><div class="contact-label">Email</div><div class="contact-value"><a href="mailto:info@travence.net">info@travence.net</a></div></div>
+                        <div><div class="contact-label">Inquiry</div><div class="contact-value">브랜드 제안, 유통 협력,<br>딜러십 및 기타 문의</div></div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer class="footer">
-        <div class="footer-top">
-            <div class="footer-logo">TRAVE<span>N</span>CE</div>
-            <div class="footer-links">
-                <a href="#about">About</a>
-                <a href="#brands">Brands</a>
-                <a href="#business">Business</a>
-                <a href="#contact">Contact</a>
+        <div class="footer-inner">
+            <div class="footer-top">
+                <span class="footer-logo-text">TRAVENCE</span>
+                <div class="footer-links">
+                    <a href="#about">회사소개</a>
+                    <a href="#brands">브랜드</a>
+                    <a href="#business">사업영역</a>
+                    <a href="#contact">문의</a>
+                </div>
             </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="footer-copyright">
-                © 2026 주식회사 트레벤스 (TRAVENCE Inc.) All rights reserved.
-            </div>
+            <div class="footer-bottom">© 2026 주식회사 트레벤스 (TRAVENCE Inc.) All rights reserved.</div>
         </div>
     </footer>
 
     <script>
-        // Scroll reveal
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+                if (entry.isIntersecting) entry.target.classList.add('visible');
             });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // Nav scroll effect
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('nav');
-            nav.classList.toggle('scrolled', window.scrollY > 50);
-        });
-
-        // Mobile menu
         function toggleMenu() {
             document.getElementById('mobileMenu').classList.toggle('open');
         }
 
-        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
     </script>
