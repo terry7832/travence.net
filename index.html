@@ -514,6 +514,98 @@
             border-color: var(--blue-soft);
         }
 
+        /* ─── CAREERS ─── */
+        .careers { background: var(--white); }
+
+        .careers-card {
+            max-width: 900px;
+            margin: 64px auto 0;
+            background: var(--gray-900);
+            border-radius: 24px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .careers-left {
+            padding: 56px 48px;
+            display: flex; flex-direction: column;
+            justify-content: center;
+        }
+
+        .careers-left h3 {
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            font-size: 1.8rem; font-weight: 700;
+            color: var(--white);
+            line-height: 1.4; margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .careers-left p {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 0.92rem; color: var(--gray-400);
+            line-height: 1.8; margin-bottom: 32px;
+        }
+
+        .careers-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 0.85rem; font-weight: 600;
+            color: var(--white);
+            background: var(--blue);
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 12px;
+            transition: all 0.25s ease;
+            align-self: flex-start;
+        }
+        .careers-btn:hover {
+            background: var(--blue-light);
+            transform: translateY(-1px);
+        }
+        .careers-btn svg { width: 16px; height: 16px; }
+
+        .careers-right {
+            padding: 48px;
+            display: flex; flex-direction: column;
+            gap: 16px; justify-content: center;
+        }
+
+        .careers-position {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 24px 28px;
+            transition: all 0.3s ease;
+        }
+        .careers-position:hover {
+            background: rgba(37,99,235,0.08);
+            border-color: rgba(37,99,235,0.2);
+        }
+
+        .careers-position-top {
+            display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 6px;
+        }
+
+        .careers-position-title {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 1rem; font-weight: 600;
+            color: var(--white);
+        }
+
+        .careers-position-badge {
+            font-size: 0.65rem; font-weight: 600;
+            padding: 4px 10px;
+            background: rgba(37,99,235,0.15);
+            color: var(--blue-light);
+            border-radius: 980px;
+            letter-spacing: 0.02em;
+        }
+
+        .careers-position-meta {
+            font-size: 0.8rem; color: var(--gray-500);
+        }
+
         /* ─── CONTACT ─── */
         .contact { background: var(--bg); }
 
@@ -686,6 +778,8 @@
             .brand-featured-right { padding-left: 0; padding-top: 28px; }
             .business-tiles { grid-template-columns: 1fr; }
             .contact-card { grid-template-columns: 1fr; }
+            .careers-card { grid-template-columns: 1fr; }
+            .careers-left, .careers-right { padding: 40px 28px; }
             .contact-left, .contact-right { padding: 40px 28px; }
             .footer-top { flex-direction: column; gap: 16px; align-items: flex-start; }
             .hero-actions { flex-direction: column; align-items: center; }
@@ -725,6 +819,7 @@
                 <li><a href="#about">회사소개</a></li>
                 <li><a href="#brands">브랜드</a></li>
                 <li><a href="#business">사업영역</a></li>
+                <li><a href="#careers">채용</a></li>
                 <li><a href="#contact" class="nav-cta">문의하기</a></li>
             </ul>
             <button class="nav-mobile-toggle" onclick="toggleMenu()">
@@ -739,6 +834,7 @@
         <a href="#about" onclick="toggleMenu()">회사소개</a>
         <a href="#brands" onclick="toggleMenu()">브랜드</a>
         <a href="#business" onclick="toggleMenu()">사업영역</a>
+        <a href="#careers" onclick="toggleMenu()">채용</a>
         <a href="#contact" onclick="toggleMenu()">문의</a>
     </div>
 
@@ -751,8 +847,7 @@
             </div>
             <h1 class="hero-logo-text">TRAVENCE</h1>
             <p class="hero-subtitle">
-                글로벌 여행 브랜드를 선별하고 운영하며,<br>
-                대한민국 여행자에게 새로운 기준을 제시합니다.
+                여행의 본질을 담다
             </p>
             <div class="hero-actions">
                 <a href="#brands" class="btn-blue">
@@ -779,9 +874,10 @@
                 <h2 class="section-headline">여행을 더 안전하고,<br>더 가볍고, 더 스마트하게.</h2>
             </div>
             <p class="about-statement reveal reveal-d1">
-                주식회사 트레벤스는 <strong>Pacsafe, President, CabinZero</strong> 등
-                각 분야에서 세계적으로 인정받는 여행 브랜드를 한국 시장에서 운영합니다.
-                네이버 스마트스토어, 자사몰, 딜러십을 포함한 <span class="blue-em">40여 개 이상의 판매 채널</span>을 통해
+                주식회사 트레벤스는 전신인 <strong>에스비에스코리아</strong>에서부터
+                <strong>Pacsafe, President, CabinZero</strong> 등
+                세계적으로 인정받는 프리미엄 여행 브랜드를 한국 시장에서 운영합니다.
+                네이버 스마트스토어, 자사몰, 쿠팡 등 <span class="blue-em">수많은 판매 채널</span>을 통해
                 대한민국 여행자에게 최적의 제품을 제안합니다.
             </p>
             <div class="stats-row reveal reveal-d2">
@@ -943,6 +1039,50 @@
         </div>
     </section>
 
+    <!-- CAREERS -->
+    <section class="section careers" id="careers">
+        <div class="section-inner">
+            <div class="reveal">
+                <p class="section-eyebrow">Careers</p>
+                <h2 class="section-headline">함께 만들어갈<br>동료를 찾습니다.</h2>
+                <p class="section-body">트레벤스는 여행 산업의 새로운 기준을 함께 세워갈 인재를 기다립니다.</p>
+            </div>
+            <div class="careers-card reveal reveal-d1">
+                <div class="careers-left">
+                    <h3>여행을 사랑하는<br>당신을 기다립니다</h3>
+                    <p>글로벌 브랜드 운영, 이커머스 마케팅, 데이터 분석 등 다양한 분야에서 성장할 수 있는 기회가 열려 있습니다.</p>
+                    <a href="mailto:t7832@naver.com" class="careers-btn">
+                        채용 문의
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+                <div class="careers-right">
+                    <div class="careers-position">
+                        <div class="careers-position-top">
+                            <div class="careers-position-title">브랜드 매니저</div>
+                            <span class="careers-position-badge">채용중</span>
+                        </div>
+                        <div class="careers-position-meta">글로벌 여행 브랜드 운영 · 정규직</div>
+                    </div>
+                    <div class="careers-position">
+                        <div class="careers-position-top">
+                            <div class="careers-position-title">이커머스 마케터</div>
+                            <span class="careers-position-badge">채용중</span>
+                        </div>
+                        <div class="careers-position-meta">네이버 · 쿠팡 채널 운영 · 정규직</div>
+                    </div>
+                    <div class="careers-position">
+                        <div class="careers-position-top">
+                            <div class="careers-position-title">콘텐츠 디자이너</div>
+                            <span class="careers-position-badge">상시채용</span>
+                        </div>
+                        <div class="careers-position-meta">상세페이지 · 브랜드 비주얼 · 정규직</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- CONTACT -->
     <section class="section contact" id="contact">
         <div class="section-inner">
@@ -980,7 +1120,7 @@
                             </div>
                             <div>
                                 <div class="contact-label">Email</div>
-                                <div class="contact-value"><a href="mailto:t7832@naver.com">t7832@naver.com</a></div>
+                                <div class="contact-value"><a href="/cdn-cgi/l/email-protection#81f5b6b9b2b3c1efe0f7e4f3afe2eeec"><span class="__cf_email__" data-cfemail="691d5e515a5b2907081f0c1b470a0604">[email&#160;protected]</span></a></div>
                             </div>
                         </div>
                         <div class="contact-item">
@@ -997,7 +1137,7 @@
                 <div class="contact-right">
                     <h3>브랜드 제안 및<br>비즈니스 문의</h3>
                     <p>새로운 여행 브랜드 제안, 유통 협력, 딜러십 문의 등 비즈니스 관련 문의를 환영합니다.</p>
-                    <a href="mailto:t7832@naver.com" class="contact-btn">
+                    <a href="/cdn-cgi/l/email-protection#3e4a09060d0c7e505f485b4c105d5153" class="contact-btn">
                         이메일 문의
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </a>
@@ -1015,6 +1155,7 @@
                     <a href="#about">회사소개</a>
                     <a href="#brands">브랜드</a>
                     <a href="#business">사업영역</a>
+                    <a href="#careers">채용</a>
                     <a href="#contact">문의</a>
                 </div>
             </div>
@@ -1025,7 +1166,7 @@
         </div>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) entry.target.classList.add('visible');
@@ -1039,12 +1180,4 @@
         }
 
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        });
-    </script>
-</body>
-</html>
+            anchor.addEventListener('click', function
