@@ -7,11 +7,12 @@
     <meta name="description" content="주식회사 트레벤스 - Pacsafe, President, CabinZero 등 글로벌 여행 브랜드를 운영하는 대한민국 대표 트래블 브랜드 그룹">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --white: #ffffff;
             --bg: #fbfbfd;
+            --cream: #f6f3ee;
             --gray-50: #fafafa;
             --gray-100: #f5f5f7;
             --gray-200: #e8e8ed;
@@ -23,16 +24,18 @@
             --gray-800: #2d2d2d;
             --gray-900: #1d1d1f;
             --black: #000000;
-            --blue: #0071e3;
-            --blue-hover: #0077ed;
+            --blue: #2563eb;
+            --blue-light: #3b82f6;
+            --blue-soft: #dbeafe;
+            --blue-bg: #eff6ff;
+            --blue-dark: #1d4ed8;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         html { scroll-behavior: smooth; font-size: 16px; }
 
         body {
-            font-family: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Outfit', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--white);
             color: var(--gray-900);
             overflow-x: hidden;
@@ -45,133 +48,242 @@
             position: fixed;
             top: 0; left: 0; right: 0;
             z-index: 1000;
-            height: 48px;
+            height: 56px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(251, 251, 253, 0.72);
+            background: rgba(255, 255, 255, 0.82);
             backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
         }
 
         .nav-inner {
-            width: 100%; max-width: 1024px;
+            width: 100%; max-width: 1120px;
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 24px;
+            padding: 0 32px;
         }
 
         .nav-logo {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.1rem; font-weight: 700;
-            letter-spacing: -0.01em;
-            color: var(--gray-900); text-decoration: none;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            color: var(--gray-900);
+            text-decoration: none;
         }
 
-        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-links {
+            display: flex; gap: 36px; list-style: none;
+        }
 
         .nav-links a {
-            font-size: 0.75rem; font-weight: 400;
-            color: var(--gray-700); text-decoration: none;
+            font-size: 0.8rem; font-weight: 500;
+            color: var(--gray-600); text-decoration: none;
             transition: color 0.2s ease;
+            letter-spacing: -0.01em;
         }
 
-        .nav-links a:hover { color: var(--gray-900); }
+        .nav-links a:hover { color: var(--blue); }
+
+        .nav-cta {
+            font-size: 0.78rem; font-weight: 600;
+            color: var(--white) !important;
+            background: var(--blue);
+            padding: 8px 20px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .nav-cta:hover {
+            background: var(--blue-dark) !important;
+            color: var(--white) !important;
+        }
 
         .nav-mobile-toggle {
             display: none; cursor: pointer; padding: 8px;
             background: none; border: none;
         }
-
         .nav-mobile-toggle span {
-            display: block; width: 18px; height: 1px;
+            display: block; width: 20px; height: 1.5px;
             background: var(--gray-900); margin: 4px 0;
             transition: all 0.3s ease;
         }
 
         /* ─── HERO ─── */
         .hero {
-            padding-top: 48px; min-height: 100vh;
+            padding-top: 56px;
+            min-height: 100vh;
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
-            text-align: center; background: var(--white);
+            text-align: center;
+            background: var(--white);
+            position: relative;
+            overflow: hidden;
         }
 
-        .hero-content { padding: 0 24px; max-width: 840px; }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -40%; right: -20%;
+            width: 800px; height: 800px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(37,99,235,0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
 
-        .hero-eyebrow {
-            font-size: 1.1rem; font-weight: 600;
-            color: var(--gray-600); margin-bottom: 16px;
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%; left: -15%;
+            width: 600px; height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(37,99,235,0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            padding: 0 24px; max-width: 880px;
+            position: relative; z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 18px;
+            background: var(--blue-bg);
+            border: 1px solid var(--blue-soft);
+            border-radius: 980px;
+            font-size: 0.78rem; font-weight: 600;
+            color: var(--blue);
+            margin-bottom: 28px;
             opacity: 0; transform: translateY(12px);
             animation: fadeUp 0.7s ease 0.2s forwards;
         }
 
-        .hero-title {
-            font-family: 'Inter', sans-serif;
-            font-size: clamp(3.5rem, 9vw, 5.5rem);
-            font-weight: 800; letter-spacing: -0.04em;
-            line-height: 1.05; color: var(--gray-900);
-            margin-bottom: 20px;
+        .hero-badge-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--blue);
+        }
+
+        .hero-logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(3.6rem, 10vw, 6.5rem);
+            font-weight: 700;
+            letter-spacing: 0.13em;
+            color: var(--gray-900);
+            line-height: 1;
+            margin-bottom: 24px;
             opacity: 0; transform: translateY(16px);
             animation: fadeUp 0.7s ease 0.35s forwards;
         }
 
         .hero-subtitle {
             font-family: 'Noto Sans KR', sans-serif;
-            font-size: clamp(1.05rem, 2.2vw, 1.35rem);
-            font-weight: 400; color: var(--gray-600);
-            line-height: 1.6; max-width: 560px;
-            margin: 0 auto 40px; letter-spacing: -0.01em;
+            font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+            font-weight: 400;
+            color: var(--gray-600);
+            line-height: 1.7;
+            max-width: 480px;
+            margin: 0 auto 44px;
+            letter-spacing: -0.01em;
             opacity: 0; transform: translateY(12px);
             animation: fadeUp 0.7s ease 0.5s forwards;
         }
 
         .hero-actions {
-            display: flex; gap: 20px;
+            display: flex; gap: 16px;
             justify-content: center; flex-wrap: wrap;
             opacity: 0; transform: translateY(12px);
             animation: fadeUp 0.7s ease 0.65s forwards;
         }
 
-        .btn-primary {
-            display: inline-flex; align-items: center; gap: 6px;
-            font-size: 1rem; font-weight: 400;
-            color: var(--blue); text-decoration: none;
-            transition: all 0.2s ease;
+        .btn-blue {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 0.92rem; font-weight: 600;
+            color: var(--white);
+            background: var(--blue);
+            text-decoration: none;
+            padding: 14px 32px;
+            border-radius: 12px;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 12px rgba(37,99,235,0.2);
         }
-
-        .btn-primary:hover { text-decoration: underline; }
-
-        .btn-primary svg {
-            width: 14px; height: 14px;
-            transition: transform 0.2s ease;
+        .btn-blue:hover {
+            background: var(--blue-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(37,99,235,0.3);
         }
+        .btn-blue svg { width: 16px; height: 16px; transition: transform 0.2s; }
+        .btn-blue:hover svg { transform: translateX(3px); }
 
-        .btn-primary:hover svg { transform: translateX(3px); }
+        .btn-outline {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 0.92rem; font-weight: 600;
+            color: var(--gray-700);
+            background: var(--white);
+            text-decoration: none;
+            padding: 14px 32px;
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+            transition: all 0.25s ease;
+        }
+        .btn-outline:hover {
+            border-color: var(--gray-300);
+            background: var(--gray-50);
+        }
+        .btn-outline svg { width: 16px; height: 16px; }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 32px; left: 50%;
+            transform: translateX(-50%);
+            display: flex; flex-direction: column;
+            align-items: center; gap: 6px;
+            opacity: 0;
+            animation: fadeUp 0.7s ease 1s forwards;
+        }
+        .hero-scroll-text {
+            font-size: 0.6rem; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--gray-400);
+        }
+        .hero-scroll-line {
+            width: 1px; height: 32px;
+            background: linear-gradient(to bottom, var(--blue), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
 
         /* ─── SECTION COMMON ─── */
-        .section { padding: 120px 24px; text-align: center; }
-
-        .section-inner { max-width: 1024px; margin: 0 auto; }
+        .section { padding: 120px 32px; text-align: center; }
+        .section-inner { max-width: 1120px; margin: 0 auto; }
 
         .section-eyebrow {
-            font-size: 0.9rem; font-weight: 600;
-            color: var(--gray-500); margin-bottom: 8px;
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 0.78rem; font-weight: 600;
+            color: var(--blue); margin-bottom: 12px;
+            letter-spacing: 0.02em;
+        }
+        .section-eyebrow::before {
+            content: '';
+            width: 20px; height: 2px;
+            background: var(--blue);
+            border-radius: 1px;
         }
 
         .section-headline {
-            font-family: 'Inter', 'Noto Sans KR', sans-serif;
-            font-size: clamp(2rem, 5vw, 3.2rem);
-            font-weight: 700; letter-spacing: -0.03em;
-            line-height: 1.12; color: var(--gray-900);
-            margin-bottom: 12px;
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            color: var(--gray-900);
+            margin-bottom: 14px;
         }
 
         .section-body {
             font-family: 'Noto Sans KR', sans-serif;
-            font-size: 1.05rem; font-weight: 400;
-            color: var(--gray-600); line-height: 1.7;
-            max-width: 540px; margin: 0 auto;
+            font-size: 1.02rem; font-weight: 400;
+            color: var(--gray-500); line-height: 1.7;
+            max-width: 520px; margin: 0 auto;
         }
 
         /* ─── ABOUT ─── */
@@ -179,35 +291,48 @@
 
         .about-statement {
             font-family: 'Noto Sans KR', sans-serif;
-            font-size: clamp(1.3rem, 3vw, 1.8rem);
-            font-weight: 400; color: var(--gray-800);
-            line-height: 1.7; max-width: 720px;
-            margin: 48px auto 0; letter-spacing: -0.02em;
+            font-size: clamp(1.15rem, 2.5vw, 1.55rem);
+            font-weight: 400;
+            color: var(--gray-700);
+            line-height: 1.8;
+            max-width: 680px;
+            margin: 48px auto 0;
+            letter-spacing: -0.02em;
         }
-
-        .about-statement strong { font-weight: 700; color: var(--gray-900); }
+        .about-statement strong {
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+        .about-statement .blue-em {
+            color: var(--blue);
+            font-weight: 600;
+        }
 
         .stats-row {
             display: grid; grid-template-columns: repeat(4, 1fr);
-            max-width: 840px; margin: 72px auto 0;
-            border-top: 1px solid var(--gray-200);
-            border-bottom: 1px solid var(--gray-200);
+            max-width: 880px; margin: 72px auto 0;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.03);
+            overflow: hidden;
         }
 
         .stat-item {
-            padding: 40px 16px; text-align: center; position: relative;
+            padding: 44px 16px;
+            text-align: center;
+            position: relative;
         }
-
         .stat-item:not(:last-child)::after {
             content: ''; position: absolute;
-            right: 0; top: 24px; bottom: 24px;
+            right: 0; top: 28px; bottom: 28px;
             width: 1px; background: var(--gray-200);
         }
 
         .stat-number {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-size: 2.8rem; font-weight: 700;
-            letter-spacing: -0.03em; color: var(--gray-900);
+            letter-spacing: -0.03em;
+            color: var(--blue);
             line-height: 1; margin-bottom: 8px;
         }
 
@@ -221,226 +346,323 @@
 
         .brands-grid {
             display: grid; grid-template-columns: repeat(2, 1fr);
-            gap: 16px; max-width: 1024px; margin: 64px auto 0;
+            gap: 16px; max-width: 1120px; margin: 64px auto 0;
         }
 
         .brand-card {
-            background: var(--gray-100); border-radius: 20px;
-            padding: 56px 40px 48px; text-align: center;
+            background: var(--gray-100);
+            border-radius: 20px;
+            padding: 52px 40px 44px;
+            text-align: center;
             transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            cursor: default; overflow: hidden;
+            cursor: default;
+            overflow: hidden;
+            position: relative;
         }
-
         .brand-card:hover {
-            transform: scale(1.015); background: var(--gray-50);
+            transform: scale(1.012);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.06);
         }
 
         .brand-card-icon {
-            width: 52px; height: 52px; margin: 0 auto 24px;
+            width: 52px; height: 52px;
+            margin: 0 auto 22px;
             display: flex; align-items: center; justify-content: center;
-            background: var(--white); border-radius: 14px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            background: var(--white);
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
-
         .brand-card-icon svg { width: 24px; height: 24px; color: var(--gray-700); }
 
         .brand-card-name {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.4rem; font-weight: 700;
-            letter-spacing: -0.02em; color: var(--gray-900);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.35rem; font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--gray-900);
             margin-bottom: 4px;
         }
 
         .brand-card-category {
-            font-size: 0.8rem; font-weight: 500;
-            color: var(--gray-500); margin-bottom: 14px;
+            font-size: 0.78rem; font-weight: 500;
+            color: var(--blue); margin-bottom: 12px;
         }
 
         .brand-card-desc {
             font-family: 'Noto Sans KR', sans-serif;
-            font-size: 0.92rem; color: var(--gray-600); line-height: 1.6;
+            font-size: 0.9rem; color: var(--gray-600);
+            line-height: 1.6;
         }
 
         .brand-card-link {
             display: inline-flex; align-items: center; gap: 4px;
-            font-size: 0.88rem; color: var(--blue);
-            text-decoration: none; margin-top: 20px;
+            font-size: 0.85rem; font-weight: 600;
+            color: var(--blue); text-decoration: none;
+            margin-top: 18px;
             transition: all 0.2s ease;
         }
-
-        .brand-card-link:hover { text-decoration: underline; }
-        .brand-card-link svg { width: 12px; height: 12px; }
+        .brand-card-link:hover { gap: 8px; }
+        .brand-card-link svg { width: 14px; height: 14px; }
 
         /* Featured brand */
         .brand-card.featured {
             grid-column: 1 / -1;
             display: grid; grid-template-columns: 1fr 1fr;
-            text-align: left; padding: 64px 56px;
+            text-align: left; padding: 56px 52px;
             background: var(--gray-900); color: var(--white);
         }
-
-        .brand-card.featured:hover { background: var(--gray-800); transform: scale(1.008); }
-
-        .brand-card.featured .brand-card-icon {
-            margin: 0 0 24px; background: rgba(255, 255, 255, 0.1);
+        .brand-card.featured:hover {
+            background: #222; transform: scale(1.006);
         }
-
-        .brand-card.featured .brand-card-icon svg { color: var(--white); }
-        .brand-card.featured .brand-card-name { color: var(--white); font-size: 1.8rem; }
-        .brand-card.featured .brand-card-category { color: var(--gray-400); }
-        .brand-card.featured .brand-card-desc { color: var(--gray-400); font-size: 1rem; line-height: 1.7; }
-        .brand-card.featured .brand-card-link { color: var(--blue); }
+        .brand-card.featured .brand-card-icon {
+            margin: 0 0 22px;
+            background: rgba(37,99,235,0.15);
+        }
+        .brand-card.featured .brand-card-icon svg { color: var(--blue-light); }
+        .brand-card.featured .brand-card-name { color: var(--white); font-size: 1.7rem; }
+        .brand-card.featured .brand-card-category { color: var(--blue-light); }
+        .brand-card.featured .brand-card-desc { color: var(--gray-400); font-size: 0.98rem; line-height: 1.7; }
+        .brand-card.featured .brand-card-link { color: var(--blue-light); }
 
         .brand-featured-right {
             display: flex; flex-direction: column;
             justify-content: center; padding-left: 40px;
         }
-
         .brand-featured-highlights { display: flex; flex-direction: column; gap: 20px; }
 
         .brand-highlight { display: flex; gap: 14px; align-items: flex-start; }
 
         .brand-highlight-icon {
-            width: 32px; height: 32px;
-            background: rgba(255, 255, 255, 0.06);
-            border-radius: 8px; display: flex;
-            align-items: center; justify-content: center; flex-shrink: 0;
+            width: 36px; height: 36px;
+            background: rgba(37,99,235,0.1);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
         }
+        .brand-highlight-icon svg { width: 16px; height: 16px; color: var(--blue-light); }
 
-        .brand-highlight-icon svg { width: 16px; height: 16px; color: var(--gray-400); }
-
-        .brand-highlight-text { font-size: 0.9rem; color: var(--gray-400); line-height: 1.5; }
+        .brand-highlight-text {
+            font-size: 0.88rem; color: var(--gray-400); line-height: 1.5;
+        }
 
         /* ─── BUSINESS ─── */
         .business { background: var(--bg); }
 
         .business-tiles {
             display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 16px; max-width: 1024px; margin: 64px auto 0;
+            gap: 16px; max-width: 1120px; margin: 64px auto 0;
         }
 
         .business-tile {
-            background: var(--white); border-radius: 20px;
-            padding: 48px 32px; text-align: left;
+            background: var(--white);
+            border-radius: 20px;
+            padding: 44px 32px;
+            text-align: left;
             transition: all 0.3s ease;
+            border: 1px solid transparent;
         }
-
         .business-tile:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+            border-color: var(--blue-soft);
         }
 
         .business-tile-num {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.75rem; font-weight: 600;
-            color: var(--blue); margin-bottom: 20px;
+            display: inline-flex;
+            width: 36px; height: 36px;
+            align-items: center; justify-content: center;
+            background: var(--blue-bg);
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.78rem; font-weight: 700;
+            color: var(--blue);
+            margin-bottom: 20px;
         }
 
         .business-tile-title {
             font-family: 'Noto Sans KR', sans-serif;
-            font-size: 1.2rem; font-weight: 700;
+            font-size: 1.15rem; font-weight: 700;
             color: var(--gray-900); margin-bottom: 12px;
         }
 
         .business-tile-desc {
             font-family: 'Noto Sans KR', sans-serif;
-            font-size: 0.9rem; color: var(--gray-600); line-height: 1.7;
+            font-size: 0.88rem; color: var(--gray-600); line-height: 1.7;
         }
 
         /* ─── CHANNELS ─── */
         .channels { background: var(--white); }
 
         .channels-wrap {
-            max-width: 760px; margin: 48px auto 0;
+            max-width: 800px; margin: 48px auto 0;
             display: flex; flex-wrap: wrap;
             justify-content: center; gap: 10px;
         }
 
         .channel-pill {
-            padding: 10px 22px; background: var(--gray-100);
-            border-radius: 980px; font-size: 0.85rem;
-            font-weight: 500; color: var(--gray-700);
-            transition: all 0.2s ease; cursor: default;
+            padding: 10px 22px;
+            background: var(--gray-100);
+            border-radius: 980px;
+            font-size: 0.85rem; font-weight: 500;
+            color: var(--gray-700);
+            transition: all 0.2s ease;
+            cursor: default;
+            border: 1px solid transparent;
         }
-
-        .channel-pill:hover { background: var(--gray-200); color: var(--gray-900); }
+        .channel-pill:hover {
+            background: var(--blue-bg);
+            color: var(--blue);
+            border-color: var(--blue-soft);
+        }
 
         /* ─── CONTACT ─── */
         .contact { background: var(--bg); }
 
-        .contact-grid {
-            display: grid; grid-template-columns: 1fr 1px 1fr;
-            max-width: 800px; margin: 64px auto 0; text-align: left;
+        .contact-card {
+            max-width: 900px;
+            margin: 64px auto 0;
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 40px rgba(0,0,0,0.04);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
         }
 
-        .contact-divider { background: var(--gray-200); }
+        .contact-left {
+            padding: 56px 48px;
+            text-align: left;
+        }
 
-        .contact-col { padding: 0 48px; }
-
-        .contact-col-title {
+        .contact-left-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.6rem; font-weight: 700;
+            letter-spacing: 0.1em;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+        }
+        .contact-left-sub {
             font-family: 'Noto Sans KR', sans-serif;
-            font-size: 1.1rem; font-weight: 700;
-            color: var(--gray-900); margin-bottom: 24px;
+            font-size: 0.85rem; color: var(--gray-500);
+            margin-bottom: 36px;
         }
 
-        .contact-row { display: flex; flex-direction: column; gap: 20px; }
+        .contact-row { display: flex; flex-direction: column; gap: 24px; }
+
+        .contact-item { display: flex; gap: 14px; align-items: flex-start; }
+
+        .contact-item-icon {
+            width: 40px; height: 40px;
+            background: var(--blue-bg);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .contact-item-icon svg { width: 18px; height: 18px; color: var(--blue); }
 
         .contact-label {
-            font-size: 0.75rem; font-weight: 500;
-            color: var(--gray-500); text-transform: uppercase;
-            letter-spacing: 0.03em; margin-bottom: 2px;
+            font-size: 0.7rem; font-weight: 600;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 2px;
         }
-
         .contact-value {
             font-family: 'Noto Sans KR', sans-serif;
-            font-size: 0.95rem; color: var(--gray-800); line-height: 1.5;
+            font-size: 0.92rem; color: var(--gray-800);
+            line-height: 1.5;
         }
-
-        .contact-value a { color: var(--blue); text-decoration: none; }
+        .contact-value a {
+            color: var(--blue); text-decoration: none;
+        }
         .contact-value a:hover { text-decoration: underline; }
 
-        /* ─── FOOTER ─── */
-        .footer { background: var(--gray-100); padding: 20px 24px; }
+        .contact-right {
+            background: var(--gray-900);
+            padding: 56px 48px;
+            display: flex; flex-direction: column;
+            justify-content: center;
+            color: var(--white);
+        }
 
-        .footer-inner { max-width: 1024px; margin: 0 auto; }
+        .contact-right h3 {
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            font-size: 1.6rem; font-weight: 700;
+            margin-bottom: 16px; line-height: 1.4;
+            letter-spacing: -0.02em;
+        }
+
+        .contact-right p {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 0.92rem; color: var(--gray-400);
+            line-height: 1.7; margin-bottom: 32px;
+        }
+
+        .contact-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 0.85rem; font-weight: 600;
+            color: var(--white);
+            background: var(--blue);
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 12px;
+            transition: all 0.25s ease;
+            align-self: flex-start;
+        }
+        .contact-btn:hover {
+            background: var(--blue-light);
+            transform: translateY(-1px);
+        }
+        .contact-btn svg { width: 16px; height: 16px; }
+
+        /* ─── FOOTER ─── */
+        .footer {
+            background: var(--gray-900);
+            padding: 48px 32px 32px;
+            color: var(--gray-400);
+        }
+
+        .footer-inner { max-width: 1120px; margin: 0 auto; }
 
         .footer-top {
             display: flex; justify-content: space-between;
-            align-items: center; padding-bottom: 16px;
-            border-bottom: 1px solid var(--gray-200);
+            align-items: center; padding-bottom: 32px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
-        .footer-links { display: flex; gap: 24px; }
+        .footer-logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem; font-weight: 700;
+            letter-spacing: 0.12em;
+            color: var(--white);
+        }
 
+        .footer-links { display: flex; gap: 28px; }
         .footer-links a {
-            font-size: 0.75rem; color: var(--gray-600);
+            font-size: 0.78rem; color: var(--gray-500);
             text-decoration: none; transition: color 0.2s;
         }
-
-        .footer-links a:hover { color: var(--gray-900); }
+        .footer-links a:hover { color: var(--blue-light); }
 
         .footer-bottom {
-            padding-top: 16px; font-size: 0.72rem;
-            color: var(--gray-500); line-height: 1.7;
-        }
-
-        .footer-logo-text {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.85rem; font-weight: 700; color: var(--gray-700);
+            padding-top: 24px;
+            font-size: 0.72rem; color: rgba(255,255,255,0.3);
+            line-height: 1.8;
         }
 
         /* ─── ANIMATIONS ─── */
         @keyframes fadeUp {
             to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
 
         .reveal {
             opacity: 0; transform: translateY(28px);
             transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
         .reveal.visible { opacity: 1; transform: translateY(0); }
-
         .reveal-d1 { transition-delay: 0.08s; }
         .reveal-d2 { transition-delay: 0.16s; }
         .reveal-d3 { transition-delay: 0.24s; }
@@ -461,36 +683,33 @@
             .stat-number { font-size: 2rem; }
             .brands-grid { grid-template-columns: 1fr; }
             .brand-card.featured { grid-template-columns: 1fr; padding: 40px 28px; }
-            .brand-featured-right { padding-left: 0; padding-top: 32px; }
+            .brand-featured-right { padding-left: 0; padding-top: 28px; }
             .business-tiles { grid-template-columns: 1fr; }
-            .contact-grid { grid-template-columns: 1fr; gap: 40px; }
-            .contact-divider { display: none; }
-            .contact-col { padding: 0; }
-            .footer-top { flex-direction: column; gap: 12px; align-items: flex-start; }
+            .contact-card { grid-template-columns: 1fr; }
+            .contact-left, .contact-right { padding: 40px 28px; }
+            .footer-top { flex-direction: column; gap: 16px; align-items: flex-start; }
+            .hero-actions { flex-direction: column; align-items: center; }
         }
 
         /* ─── MOBILE MENU ─── */
         .mobile-menu {
             display: none; position: fixed; inset: 0;
-            background: rgba(251, 251, 253, 0.97);
+            background: rgba(255,255,255,0.97);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
-            z-index: 9999; flex-direction: column;
-            align-items: center; justify-content: center; gap: 28px;
+            z-index: 9999;
+            flex-direction: column; align-items: center;
+            justify-content: center; gap: 28px;
         }
-
         .mobile-menu.open { display: flex; }
-
         .mobile-menu a {
-            font-family: 'Inter', 'Noto Sans KR', sans-serif;
-            font-size: 1.6rem; font-weight: 600;
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            font-size: 1.5rem; font-weight: 600;
             color: var(--gray-900); text-decoration: none;
         }
-
         .mobile-menu a:hover { color: var(--blue); }
-
         .mobile-close {
-            position: absolute; top: 14px; right: 20px;
+            position: absolute; top: 16px; right: 24px;
             font-size: 1.8rem; color: var(--gray-700);
             cursor: pointer; background: none; border: none;
         }
@@ -506,7 +725,7 @@
                 <li><a href="#about">회사소개</a></li>
                 <li><a href="#brands">브랜드</a></li>
                 <li><a href="#business">사업영역</a></li>
-                <li><a href="#contact">문의</a></li>
+                <li><a href="#contact" class="nav-cta">문의하기</a></li>
             </ul>
             <button class="nav-mobile-toggle" onclick="toggleMenu()">
                 <span></span><span></span><span></span>
@@ -526,19 +745,29 @@
     <!-- HERO -->
     <section class="hero">
         <div class="hero-content">
-            <p class="hero-eyebrow">Global Travel Brand Group</p>
-            <h1 class="hero-title">여행의 새로운<br>기준을 만듭니다.</h1>
-            <p class="hero-subtitle">주식회사 트레벤스는 글로벌 프리미엄 여행 브랜드를<br>선별하고 운영하는 트래블 브랜드 그룹입니다.</p>
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                Global Travel Brand Group
+            </div>
+            <h1 class="hero-logo-text">TRAVENCE</h1>
+            <p class="hero-subtitle">
+                글로벌 여행 브랜드를 선별하고 운영하며,<br>
+                대한민국 여행자에게 새로운 기준을 제시합니다.
+            </p>
             <div class="hero-actions">
-                <a href="#brands" class="btn-primary">
+                <a href="#brands" class="btn-blue">
                     브랜드 살펴보기
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
-                <a href="#about" class="btn-primary">
+                <a href="#about" class="btn-outline">
                     더 알아보기
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
                 </a>
             </div>
+        </div>
+        <div class="hero-scroll">
+            <span class="hero-scroll-text">Scroll</span>
+            <div class="hero-scroll-line"></div>
         </div>
     </section>
 
@@ -550,9 +779,9 @@
                 <h2 class="section-headline">여행을 더 안전하고,<br>더 가볍고, 더 스마트하게.</h2>
             </div>
             <p class="about-statement reveal reveal-d1">
-                트레벤스는 <strong>Pacsafe, President, CabinZero</strong> 등
+                주식회사 트레벤스는 <strong>Pacsafe, President, CabinZero</strong> 등
                 각 분야에서 세계적으로 인정받는 여행 브랜드를 한국 시장에서 운영합니다.
-                네이버 스마트스토어, 자사몰, 딜러십을 포함한 <strong>40여 개 이상의 판매 채널</strong>을 통해
+                네이버 스마트스토어, 자사몰, 딜러십을 포함한 <span class="blue-em">40여 개 이상의 판매 채널</span>을 통해
                 대한민국 여행자에게 최적의 제품을 제안합니다.
             </p>
             <div class="stats-row reveal reveal-d2">
@@ -722,22 +951,56 @@
                 <h2 class="section-headline">비즈니스 문의.</h2>
                 <p class="section-body">새로운 브랜드 제안, 유통 협력, 딜러십 문의를 환영합니다.</p>
             </div>
-            <div class="contact-grid reveal reveal-d1">
-                <div class="contact-col">
-                    <div class="contact-col-title">회사 정보</div>
+            <div class="contact-card reveal reveal-d1">
+                <div class="contact-left">
+                    <div class="contact-left-title">TRAVENCE</div>
+                    <div class="contact-left-sub">주식회사 트레벤스</div>
                     <div class="contact-row">
-                        <div><div class="contact-label">Company</div><div class="contact-value">주식회사 트레벤스</div></div>
-                        <div><div class="contact-label">Location</div><div class="contact-value">서울특별시</div></div>
-                        <div><div class="contact-label">Website</div><div class="contact-value"><a href="https://www.travence.net">www.travence.net</a></div></div>
+                        <div class="contact-item">
+                            <div class="contact-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            </div>
+                            <div>
+                                <div class="contact-label">Address</div>
+                                <div class="contact-value">서울특별시 중구 을지로 5가 40-3<br>서울패션벤처타운 178호</div>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                            </div>
+                            <div>
+                                <div class="contact-label">Phone</div>
+                                <div class="contact-value"><a href="tel:010-3065-7832">010.3065.7832</a></div>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            </div>
+                            <div>
+                                <div class="contact-label">Email</div>
+                                <div class="contact-value"><a href="mailto:t7832@naver.com">t7832@naver.com</a></div>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                            </div>
+                            <div>
+                                <div class="contact-label">Website</div>
+                                <div class="contact-value"><a href="https://www.travence.net">www.travence.net</a></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="contact-divider"></div>
-                <div class="contact-col">
-                    <div class="contact-col-title">연락처</div>
-                    <div class="contact-row">
-                        <div><div class="contact-label">Email</div><div class="contact-value"><a href="mailto:info@travence.net">info@travence.net</a></div></div>
-                        <div><div class="contact-label">Inquiry</div><div class="contact-value">브랜드 제안, 유통 협력,<br>딜러십 및 기타 문의</div></div>
-                    </div>
+                <div class="contact-right">
+                    <h3>브랜드 제안 및<br>비즈니스 문의</h3>
+                    <p>새로운 여행 브랜드 제안, 유통 협력, 딜러십 문의 등 비즈니스 관련 문의를 환영합니다.</p>
+                    <a href="mailto:t7832@naver.com" class="contact-btn">
+                        이메일 문의
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
                 </div>
             </div>
         </div>
@@ -747,7 +1010,7 @@
     <footer class="footer">
         <div class="footer-inner">
             <div class="footer-top">
-                <span class="footer-logo-text">TRAVENCE</span>
+                <span class="footer-logo">TRAVENCE</span>
                 <div class="footer-links">
                     <a href="#about">회사소개</a>
                     <a href="#brands">브랜드</a>
@@ -755,7 +1018,10 @@
                     <a href="#contact">문의</a>
                 </div>
             </div>
-            <div class="footer-bottom">© 2026 주식회사 트레벤스 (TRAVENCE Inc.) All rights reserved.</div>
+            <div class="footer-bottom">
+                © 2026 주식회사 트레벤스 (TRAVENCE Inc.) All rights reserved.<br>
+                서울특별시 중구 을지로 5가 40-3 서울패션벤처타운 178호
+            </div>
         </div>
     </footer>
 
