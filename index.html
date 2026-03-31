@@ -659,174 +659,7 @@
             font-size: 0.78rem; color: var(--gray-500);
         }
 
-        /* ─── APPLICATION MODAL ─── */
-        .modal-overlay {
-            display: none;
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 10000;
-            align-items: center; justify-content: center;
-            padding: 24px;
-        }
-        .modal-overlay.open { display: flex; }
-
-        .modal {
-            background: var(--white);
-            border-radius: 24px;
-            width: 100%; max-width: 560px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 24px 80px rgba(0,0,0,0.2);
-            position: relative;
-        }
-
-        .modal-header {
-            padding: 36px 40px 0;
-            display: flex; justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .modal-header h3 {
-            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
-            font-size: 1.4rem; font-weight: 700;
-            color: var(--gray-900);
-            letter-spacing: -0.02em;
-        }
-        .modal-header p {
-            font-size: 0.85rem; color: var(--gray-500);
-            margin-top: 4px;
-        }
-
-        .modal-close {
-            width: 36px; height: 36px;
-            border-radius: 10px;
-            background: var(--gray-100);
-            border: none; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; color: var(--gray-600);
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-        .modal-close:hover { background: var(--gray-200); }
-
-        .modal-body { padding: 28px 40px 40px; }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 0.8rem; font-weight: 600;
-            color: var(--gray-700);
-            margin-bottom: 6px;
-        }
-
-        .form-label .required {
-            color: var(--blue); margin-left: 2px;
-        }
-
-        .form-input,
-        .form-select,
-        .form-textarea {
-            width: 100%;
-            padding: 12px 16px;
-            font-family: 'Noto Sans KR', sans-serif;
-            font-size: 0.9rem;
-            color: var(--gray-900);
-            background: var(--gray-50);
-            border: 1px solid var(--gray-200);
-            border-radius: 10px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .form-input:focus,
-        .form-select:focus,
-        .form-textarea:focus {
-            border-color: var(--blue);
-            background: var(--white);
-        }
-
-        .form-select {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2386868b' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 14px center;
-            padding-right: 40px;
-            cursor: pointer;
-        }
-
-        .form-textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .form-submit {
-            width: 100%;
-            padding: 14px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.92rem; font-weight: 600;
-            color: var(--white);
-            background: var(--blue);
-            border: none; border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            margin-top: 8px;
-        }
-        .form-submit:hover {
-            background: var(--blue-dark);
-        }
-
-        .form-note {
-            text-align: center;
-            font-size: 0.75rem; color: var(--gray-500);
-            margin-top: 16px; line-height: 1.6;
-        }
-        .form-note a {
-            color: var(--blue); text-decoration: none;
-        }
-
-        /* Success state */
-        .form-success {
-            display: none;
-            text-align: center;
-            padding: 60px 40px;
-        }
-        .form-success.show { display: block; }
-        .form-success-icon {
-            width: 56px; height: 56px;
-            background: var(--blue-bg);
-            border-radius: 16px;
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 20px;
-        }
-        .form-success-icon svg { width: 28px; height: 28px; color: var(--blue); }
-        .form-success h4 {
-            font-family: 'Noto Sans KR', sans-serif;
-            font-size: 1.2rem; font-weight: 700;
-            color: var(--gray-900); margin-bottom: 8px;
-        }
-        .form-success p {
-            font-size: 0.9rem; color: var(--gray-500);
-            line-height: 1.7;
-        }
-
-        @media (max-width: 768px) {
-            .careers-positions { grid-template-columns: 1fr; }
-            .careers-signature { flex-direction: column; gap: 20px; align-items: flex-start; }
-            .modal { border-radius: 16px; }
-            .modal-header, .modal-body { padding-left: 24px; padding-right: 24px; }
-            .form-row { grid-template-columns: 1fr; }
-        }
+        
 
         /* ─── CONTACT ─── */
         .contact { background: var(--bg); }
@@ -1287,11 +1120,11 @@
                         <div class="careers-sig-title">주식회사 트레벤스 대표</div>
                     </div>
                     <div class="careers-cta-row">
-                        <button class="careers-btn" onclick="openApplyModal()">
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLScUCbXb32zdz2vkzEU5cKztBQK5M2kPz1qGalL9R6zEkCN0LA/viewform" target="_blank" class="careers-btn">
                             지원하기
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                        </button>
-                        <span class="careers-email-note">또는 <a href="mailto:travencebusiness@gmail.com">이메일 문의</a></span>
+                        </a>
+                        <span class="careers-email-note">또는 <a href="/cdn-cgi/l/email-protection#84f0f6e5f2e1eae7e1e6f1f7edeae1f7f7c4e3e9e5ede8aae7ebe9">이메일 문의</a></span>
                     </div>
                 </div>
             </div>
@@ -1322,76 +1155,6 @@
         </div>
     </section>
 
-    <!-- APPLICATION MODAL -->
-    <div class="modal-overlay" id="applyModal">
-        <div class="modal">
-            <div class="modal-header">
-                <div>
-                    <h3>TRAVENCE 입사 지원</h3>
-                    <p>아래 양식을 작성해 주세요</p>
-                </div>
-                <button class="modal-close" onclick="closeApplyModal()">&times;</button>
-            </div>
-            <div class="modal-body" id="applyForm">
-                <form id="applicationForm" onsubmit="submitApplication(event)">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">이름 <span class="required">*</span></label>
-                            <input type="text" class="form-input" name="name" placeholder="홍길동" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">연락처 <span class="required">*</span></label>
-                            <input type="tel" class="form-input" name="phone" placeholder="010-0000-0000" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">이메일 <span class="required">*</span></label>
-                        <input type="email" class="form-input" name="email" placeholder="example@email.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">지원 분야 <span class="required">*</span></label>
-                        <select class="form-select" name="position" required>
-                            <option value="" disabled selected>선택해 주세요</option>
-                            <option>브랜드 매니저</option>
-                            <option>이커머스 마케터</option>
-                            <option>콘텐츠 디자이너</option>
-                            <option>기타 (아래에 기재)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">경력 사항</label>
-                        <select class="form-select" name="experience">
-                            <option value="" disabled selected>선택해 주세요</option>
-                            <option>신입</option>
-                            <option>1~3년</option>
-                            <option>3~5년</option>
-                            <option>5년 이상</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">자기소개 및 지원 동기</label>
-                        <textarea class="form-textarea" name="message" placeholder="간단한 자기소개와 지원 동기를 적어 주세요"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">포트폴리오 / 이력서 링크</label>
-                        <input type="url" class="form-input" name="portfolio" placeholder="Google Drive, Notion 등 링크">
-                    </div>
-                    <button type="submit" class="form-submit">지원서 제출하기</button>
-                </form>
-                <p class="form-note">
-                    문의사항은 언제든 편하게 <a href="mailto:travencebusiness@gmail.com">travencebusiness@gmail.com</a>으로 보내주세요.<br>
-                    제출된 정보는 채용 목적으로만 사용됩니다.
-                </p>
-            </div>
-            <div class="form-success" id="applySuccess">
-                <div class="form-success-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
-                </div>
-                <h4>지원이 완료되었습니다!</h4>
-                <p>검토 후 빠른 시일 내에 연락드리겠습니다.<br>문의사항은 <a href="mailto:travencebusiness@gmail.com" style="color:var(--blue);text-decoration:none">travencebusiness@gmail.com</a>으로 보내주세요.</p>
-            </div>
-        </div>
-    </div>
 
     <!-- CONTACT -->
     <section class="section contact" id="contact">
@@ -1430,7 +1193,7 @@
                             </div>
                             <div>
                                 <div class="contact-label">Email</div>
-                                <div class="contact-value"><a href="mailto:travencebusiness@gmail.com">travencebusiness@gmail.com</a></div>
+                                <div class="contact-value"><a href="/cdn-cgi/l/email-protection#7703051601121914121502041e1912040437101a161e1b5914181a"><span class="__cf_email__" data-cfemail="93e7e1f2e5f6fdf0f6f1e6e0fafdf6e0e0d3f4fef2faffbdf0fcfe">[email&#160;protected]</span></a></div>
                             </div>
                         </div>
                         <div class="contact-item">
@@ -1447,7 +1210,7 @@
                 <div class="contact-right">
                     <h3>브랜드 제안 및<br>비즈니스 문의</h3>
                     <p>새로운 여행 브랜드 제안, 유통 협력, 딜러십 문의 등 비즈니스 관련 문의를 환영합니다.</p>
-                    <a href="mailto:travencebusiness@gmail.com" class="contact-btn">
+                    <a href="/cdn-cgi/l/email-protection#3e4a4c5f485b505d5b5c4b4d57505b4d4d7e59535f5752105d5153" class="contact-btn">
                         이메일 문의
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </a>
@@ -1476,8 +1239,7 @@
         </div>
     </footer>
 
-    <script>
-        // Scroll reveal
+        <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) entry.target.classList.add('visible');
@@ -1486,79 +1248,8 @@
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // Mobile menu
         function toggleMenu() {
             document.getElementById('mobileMenu').classList.toggle('open');
         }
 
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        });
-
-        // Application Modal
-        function openApplyModal() {
-            document.getElementById('applyModal').classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeApplyModal() {
-            document.getElementById('applyModal').classList.remove('open');
-            document.body.style.overflow = '';
-        }
-
-        document.getElementById('applyModal').addEventListener('click', function(e) {
-            if (e.target === this) closeApplyModal();
-        });
-
-        // Submit via EmailJS REST API (no SDK needed)
-        function submitApplication(e) {
-            e.preventDefault();
-            const form = document.getElementById('applicationForm');
-            const submitBtn = form.querySelector('.form-submit');
-            
-            submitBtn.textContent = '전송 중...';
-            submitBtn.disabled = true;
-
-            const templateParams = {
-                name: form.querySelector('[name="name"]').value,
-                phone: form.querySelector('[name="phone"]').value,
-                email: form.querySelector('[name="email"]').value,
-                position: form.querySelector('[name="position"]').value,
-                experience: form.querySelector('[name="experience"]').value || '미선택',
-                message: form.querySelector('[name="message"]').value || '없음',
-                portfolio: form.querySelector('[name="portfolio"]').value || '없음'
-            };
-
-            fetch('https://api.emailjs.com/api/v1.0/email/send', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    service_id: 'service_9o5foq3',
-                    template_id: 'template_4edsu9t',
-                    user_id: '0m5qUlKrm-iA5gST_',
-                    template_params: templateParams
-                })
-            })
-            .then(function(response) {
-                if (response.ok) {
-                    document.getElementById('applyForm').style.display = 'none';
-                    document.getElementById('applySuccess').classList.add('show');
-                } else {
-                    throw new Error('Status: ' + response.status);
-                }
-            })
-            .catch(function(error) {
-                alert('전송에 실패했습니다. travencebusiness@gmail.com으로 직접 이메일을 보내주세요.');
-                submitBtn.textContent = '지원서 제출하기';
-                submitBtn.disabled = false;
-                console.error('EmailJS Error:', error);
-            });
-        }
-    </script>
-</body>
-</html>
+        document.querySelectorAll('a[hre
