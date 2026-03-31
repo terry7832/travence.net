@@ -1028,7 +1028,6 @@
             cursor: pointer; background: none; border: none;
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 
@@ -1478,9 +1477,6 @@
     </footer>
 
     <script>
-        // EmailJS Init
-        emailjs.init('0m5qUlKrm-iA5gST_');
-
         // Scroll reveal
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -1519,7 +1515,7 @@
             if (e.target === this) closeApplyModal();
         });
 
-        // Submit via EmailJS
+        // Submit via EmailJS REST API (no SDK needed)
         function submitApplication(e) {
             e.preventDefault();
             const form = document.getElementById('applicationForm');
@@ -1528,17 +1524,40 @@
             submitBtn.textContent = '전송 중...';
             submitBtn.disabled = true;
 
-            emailjs.sendForm('service_9o5foq3', 'template_4edsu9t', form)
-                .then(function() {
+            const templateParams = {
+                name: form.querySelector('[name="name"]').value,
+                phone: form.querySelector('[name="phone"]').value,
+                email: form.querySelector('[name="email"]').value,
+                position: form.querySelector('[name="position"]').value,
+                experience: form.querySelector('[name="experience"]').value || '미선택',
+                message: form.querySelector('[name="message"]').value || '없음',
+                portfolio: form.querySelector('[name="portfolio"]').value || '없음'
+            };
+
+            fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    service_id: 'service_9o5foq3',
+                    template_id: 'template_4edsu9t',
+                    user_id: '0m5qUlKrm-iA5gST_',
+                    template_params: templateParams
+                })
+            })
+            .then(function(response) {
+                if (response.ok) {
                     document.getElementById('applyForm').style.display = 'none';
                     document.getElementById('applySuccess').classList.add('show');
-                })
-                .catch(function(error) {
-                    alert('전송에 실패했습니다. travencebusiness@gmail.com으로 직접 이메일을 보내주세요.');
-                    submitBtn.textContent = '지원서 제출하기';
-                    submitBtn.disabled = false;
-                    console.error('EmailJS Error:', error);
-                });
+                } else {
+                    throw new Error('Status: ' + response.status);
+                }
+            })
+            .catch(function(error) {
+                alert('전송에 실패했습니다. travencebusiness@gmail.com으로 직접 이메일을 보내주세요.');
+                submitBtn.textContent = '지원서 제출하기';
+                submitBtn.disabled = false;
+                console.error('EmailJS Error:', error);
+            });
         }
     </script>
 </body>
