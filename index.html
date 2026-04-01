@@ -452,11 +452,18 @@
         .brand-card.expanded .brand-card-toggle { color: var(--blue-light); }
 
         .brand-card.expanded .brand-card-detail {
-            max-height: 300px;
+            max-height: 500px;
             opacity: 1;
             padding-top: 28px;
             border-top: 1px solid rgba(255,255,255,0.08);
             margin-top: 24px;
+        }
+
+        .brand-detail-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: center;
         }
 
         .brand-detail-highlights {
@@ -486,8 +493,43 @@
             color: var(--gray-300);
         }
 
+        .brand-detail-visual {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            background: rgba(255,255,255,0.04);
+            border: 1px dashed rgba(255,255,255,0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .brand-detail-visual img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        .brand-visual-placeholder {
+            display: flex; flex-direction: column;
+            align-items: center; gap: 8px;
+            color: rgba(255,255,255,0.15);
+        }
+
+        .brand-visual-placeholder svg {
+            width: 32px; height: 32px;
+        }
+
+        .brand-visual-placeholder span {
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+        }
+
         @media (max-width: 768px) {
             .brand-card.expanded { grid-column: 1; }
+            .brand-detail-inner { grid-template-columns: 1fr; }
+            .brand-detail-visual { aspect-ratio: 16 / 9; }
         }
 
         /* ─── BUSINESS ─── */
@@ -1007,10 +1049,18 @@
                         <span class="brand-card-toggle">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
                     </div>
                     <div class="brand-card-detail">
+                        <div class="brand-detail-inner">
                         <div class="brand-detail-highlights">
                             <div class="brand-highlight"><span class="brand-highlight-text">소매치기 걱정 없이 여행에만 집중할 수 있는 보안 설계</span></div>
                             <div class="brand-highlight"><span class="brand-highlight-text">전 세계 여행자가 선택한 도난 방지 No.1 브랜드</span></div>
                             <div class="brand-highlight"><span class="brand-highlight-text">가방 하나로 여행의 불안을 안심으로 바꿉니다</span></div>
+                        </div>
+                        <div class="brand-detail-visual">
+                            <div class="brand-visual-placeholder">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                                <span>Brand Visual</span>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -1025,10 +1075,18 @@
                         <span class="brand-card-toggle">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
                     </div>
                     <div class="brand-card-detail">
+                        <div class="brand-detail-inner">
                         <div class="brand-detail-highlights">
                             <div class="brand-highlight"><span class="brand-highlight-text">1960년 일본에서 시작된, 60년을 이어온 장인 정신</span></div>
                             <div class="brand-highlight"><span class="brand-highlight-text">비즈니스 출장부터 가족 여행까지 — 믿고 맡기는 가방</span></div>
                             <div class="brand-highlight"><span class="brand-highlight-text">전 세계 90개 이상의 매장에서 만날 수 있는 글로벌 신뢰</span></div>
+                        </div>
+                        <div class="brand-detail-visual">
+                            <div class="brand-visual-placeholder">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                                <span>Brand Visual</span>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -1043,10 +1101,18 @@
                         <span class="brand-card-toggle">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
                     </div>
                     <div class="brand-card-detail">
+                        <div class="brand-detail-inner">
                         <div class="brand-detail-highlights">
                             <div class="brand-highlight"><span class="brand-highlight-text">760g, 물병보다 가벼운 백팩으로 기내반입 고민 끝</span></div>
                             <div class="brand-highlight"><span class="brand-highlight-text">짐이 아니라 자유를 메고 떠나는 여행</span></div>
                             <div class="brand-highlight"><span class="brand-highlight-text">영국에서 시작해 전 세계 배낭여행자의 국민 백팩이 된 브랜드</span></div>
+                        </div>
+                        <div class="brand-detail-visual">
+                            <div class="brand-visual-placeholder">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                                <span>Brand Visual</span>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -1061,10 +1127,18 @@
                         <span class="brand-card-toggle">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
                     </div>
                     <div class="brand-card-detail">
+                        <div class="brand-detail-inner">
                         <div class="brand-detail-highlights">
                             <div class="brand-highlight"><span class="brand-highlight-text">출퇴근길부터 출장까지, 일상과 여행의 경계를 없앤 백팩</span></div>
                             <div class="brand-highlight"><span class="brand-highlight-text">USB 충전, 도난방지, 방수까지 — 기능이 곧 스타일</span></div>
                             <div class="brand-highlight"><span class="brand-highlight-text">"백팩 어디꺼야?" 질문을 가장 많이 받는 브랜드</span></div>
+                        </div>
+                        <div class="brand-detail-visual">
+                            <div class="brand-visual-placeholder">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                                <span>Brand Visual</span>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -1079,10 +1153,18 @@
                         <span class="brand-card-toggle">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
                     </div>
                     <div class="brand-card-detail">
+                        <div class="brand-detail-inner">
                         <div class="brand-detail-highlights">
                             <div class="brand-highlight"><span class="brand-highlight-text">프리미엄 품질을 합리적인 가격으로 — 캘리포니아 감성</span></div>
                             <div class="brand-highlight"><span class="brand-highlight-text">처음 여행가방을 사는 사람도, 열 번째 사는 사람도 만족</span></div>
                             <div class="brand-highlight"><span class="brand-highlight-text">튼튼하고, 조용하고, 예쁜 — 세 마리 토끼를 다 잡은 캐리어</span></div>
+                        </div>
+                        <div class="brand-detail-visual">
+                            <div class="brand-visual-placeholder">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                                <span>Brand Visual</span>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -1097,10 +1179,18 @@
                         <span class="brand-card-toggle">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
                     </div>
                     <div class="brand-card-detail">
+                        <div class="brand-detail-inner">
                         <div class="brand-detail-highlights">
                             <div class="brand-highlight"><span class="brand-highlight-text">도쿄·밀라노·상하이 디자이너가 함께 만든 글로벌 감성</span></div>
                             <div class="brand-highlight"><span class="brand-highlight-text">공항에서 시선을 사로잡는 컬러와 디자인</span></div>
                             <div class="brand-highlight"><span class="brand-highlight-text">50개국 여행자가 인정한 스타일과 내구성의 균형</span></div>
+                        </div>
+                        <div class="brand-detail-visual">
+                            <div class="brand-visual-placeholder">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                                <span>Brand Visual</span>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -1115,10 +1205,18 @@
                         <span class="brand-card-toggle">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
                     </div>
                     <div class="brand-card-detail">
+                        <div class="brand-detail-inner">
                         <div class="brand-detail-highlights">
                             <div class="brand-highlight"><span class="brand-highlight-text">군더더기 없는 모던 디자인, 여행도 미니멀하게</span></div>
                             <div class="brand-highlight"><span class="brand-highlight-text">꺼내놓으면 인테리어가 되는 트래블 기어</span></div>
                             <div class="brand-highlight"><span class="brand-highlight-text">디자인을 아는 여행자가 선택하는 브랜드</span></div>
+                        </div>
+                        <div class="brand-detail-visual">
+                            <div class="brand-visual-placeholder">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                                <span>Brand Visual</span>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -1133,10 +1231,18 @@
                         <span class="brand-card-toggle">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
                     </div>
                     <div class="brand-card-detail">
+                        <div class="brand-detail-inner">
                         <div class="brand-detail-highlights">
                             <div class="brand-highlight"><span class="brand-highlight-text">비행기에서도, 차 안에서도 — 어디서든 깊은 휴식</span></div>
                             <div class="brand-highlight"><span class="brand-highlight-text">목베개 하나로 여행의 피로가 달라집니다</span></div>
                             <div class="brand-highlight"><span class="brand-highlight-text">한 번 써보면 다시는 맨목으로 못 탑니다</span></div>
+                        </div>
+                        <div class="brand-detail-visual">
+                            <div class="brand-visual-placeholder">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                                <span>Brand Visual</span>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>
