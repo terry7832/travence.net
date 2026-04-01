@@ -365,12 +365,15 @@
         }
 
         .brand-card-icon {
-            width: 52px; height: 52px;
+            height: 52px;
+            max-width: 160px;
             margin: 0 auto 22px;
             display: flex; align-items: center; justify-content: center;
-            background: var(--white);
-            border-radius: 14px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 8px;
+        }
+        .brand-card-icon img {
+            max-width: 100%; max-height: 100%;
+            object-fit: contain;
         }
         .brand-card-icon svg { width: 24px; height: 24px; color: var(--gray-700); }
 
@@ -459,9 +462,11 @@
         }
         .brand-card.expanded .brand-card-icon {
             margin: 0 0 20px;
-            background: rgba(37,99,235,0.15);
+            max-width: 180px;
         }
-        .brand-card.expanded .brand-card-icon svg { color: var(--blue-light); }
+        .brand-card.expanded .brand-card-icon img {
+            filter: brightness(0) invert(1);
+        }
         .brand-card.expanded .brand-card-name {
             color: var(--white); font-size: 1.7rem; text-align: left;
         }
@@ -472,6 +477,10 @@
         .brand-card.expanded .brand-card-desc {
             color: var(--gray-400); font-size: 0.95rem;
             line-height: 1.7; text-align: left;
+            margin-bottom: 8px;
+        }
+        .brand-card.expanded .brand-card-link {
+            color: var(--blue-light);
             margin-bottom: 24px;
             padding-bottom: 24px;
             border-bottom: 1px solid rgba(255,255,255,0.08);
@@ -1058,7 +1067,7 @@
                 <!-- Pacsafe -->
                 <div class="brand-card expandable reveal reveal-d1" onclick="toggleBrand(this)">
                     <div class="brand-card-main">
-                        <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                        <div class="brand-card-icon"><img src="logo-pacsafe.png" alt="Pacsafe"></div>
                         <div class="brand-card-name">Pacsafe</div>
                         <div class="brand-card-category">Anti-Theft Travel Gear</div>
                         <p class="brand-card-desc">도난 방지 기술을 적용한 보안 여행용품 글로벌 No.1</p>
@@ -1083,7 +1092,7 @@
                 <!-- President -->
                 <div class="brand-card expandable reveal reveal-d2" onclick="toggleBrand(this)">
                     <div class="brand-card-main">
-                        <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 4v16M4 12h16"/></svg></div>
+                        <div class="brand-card-icon"><img src="logo-president.png" alt="President"></div>
                         <div class="brand-card-name">President</div>
                         <div class="brand-card-category">Premium Luggage</div>
                         <p class="brand-card-desc">50년 전통의 프리미엄 여행가방 브랜드</p>
@@ -1133,8 +1142,8 @@
                 <!-- Mark Ryden -->
                 <div class="brand-card expandable reveal reveal-d4" onclick="toggleBrand(this)">
                     <div class="brand-card-main">
-                        <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
-                        <div class="brand-card-name">Mark Ryden</div>
+                        <div class="brand-card-icon"><img src="logo-mixi.png" alt="Mark Ryden"></div>
+                        <div class="brand-card-name">MIXI</div>
                         <div class="brand-card-category">Smart Backpack</div>
                         <p class="brand-card-desc">비즈니스 & 일상을 위한 스마트 기능 백팩</p>
                         <div class="brand-detail-highlights">
@@ -1157,7 +1166,7 @@
                 <!-- Travelers Choice -->
                 <div class="brand-card expandable reveal reveal-d5" onclick="toggleBrand(this)">
                     <div class="brand-card-main">
-                        <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+                        <div class="brand-card-icon"><img src="logo-travelerschoice.png" alt="Travelers Choice"></div>
                         <div class="brand-card-name">Travelers Choice</div>
                         <div class="brand-card-category">Travel Luggage</div>
                         <p class="brand-card-desc">합리적인 가격의 글로벌 여행가방</p>
@@ -1181,7 +1190,7 @@
                 <!-- Conwood -->
                 <div class="brand-card expandable reveal reveal-d5" onclick="toggleBrand(this)">
                     <div class="brand-card-main">
-                        <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
+                        <div class="brand-card-icon"><img src="logo-conwood.png" alt="Conwood"></div>
                         <div class="brand-card-name">Conwood</div>
                         <div class="brand-card-category">Stylish Luggage</div>
                         <p class="brand-card-desc">50개국 이상에서 사랑받는 스타일리시 캐리어</p>
@@ -1205,7 +1214,7 @@
                 <!-- Landor & Hawa -->
                 <div class="brand-card expandable reveal reveal-d6" onclick="toggleBrand(this)">
                     <div class="brand-card-main">
-                        <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+                        <div class="brand-card-icon"><img src="logo-landorhawa.png" alt="Landor & Hawa"></div>
                         <div class="brand-card-name">Landor & Hawa</div>
                         <div class="brand-card-category">Modern Luggage</div>
                         <p class="brand-card-desc">모던 디자인의 프리미엄 트래블 기어</p>
@@ -1229,7 +1238,7 @@
                 <!-- EasyNap -->
                 <div class="brand-card expandable reveal reveal-d7" onclick="toggleBrand(this)">
                     <div class="brand-card-main">
-                        <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+                        <div class="brand-card-icon"><img src="logo-easynap.jpg" alt="EasyNap"></div>
                         <div class="brand-card-name">EasyNap</div>
                         <div class="brand-card-category">Travel Comfort</div>
                         <p class="brand-card-desc">편안한 여행을 위한 컴포트 솔루션</p>
