@@ -403,45 +403,91 @@
         .brand-card-link:hover { gap: 8px; }
         .brand-card-link svg { width: 14px; height: 14px; }
 
-        /* Featured brand */
-        .brand-card.featured {
+        /* Expandable brand cards */
+        .brand-card.expandable {
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .brand-card-toggle {
+            display: inline-flex; align-items: center; gap: 4px;
+            font-size: 0.85rem; font-weight: 600;
+            color: var(--blue);
+            margin-top: 18px;
+            transition: all 0.2s ease;
+        }
+        .brand-card-toggle svg {
+            width: 16px; height: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .brand-card.expanded .brand-card-toggle svg {
+            transform: rotate(180deg);
+        }
+
+        .brand-card-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                        padding 0.4s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .brand-card.expanded {
             grid-column: 1 / -1;
-            display: grid; grid-template-columns: 1fr 1fr;
-            text-align: left; padding: 56px 52px;
-            background: var(--gray-900); color: var(--white);
+            background: var(--gray-900);
+            color: var(--white);
         }
-        .brand-card.featured:hover {
-            background: #222; transform: scale(1.006);
+        .brand-card.expanded:hover {
+            transform: none;
+            box-shadow: none;
         }
-        .brand-card.featured .brand-card-icon {
-            margin: 0 0 22px;
+        .brand-card.expanded .brand-card-icon {
             background: rgba(37,99,235,0.15);
         }
-        .brand-card.featured .brand-card-icon svg { color: var(--blue-light); }
-        .brand-card.featured .brand-card-name { color: var(--white); font-size: 1.7rem; }
-        .brand-card.featured .brand-card-category { color: var(--blue-light); }
-        .brand-card.featured .brand-card-desc { color: var(--gray-400); font-size: 0.98rem; line-height: 1.7; }
-        .brand-card.featured .brand-card-link { color: var(--blue-light); }
+        .brand-card.expanded .brand-card-icon svg { color: var(--blue-light); }
+        .brand-card.expanded .brand-card-name { color: var(--white); }
+        .brand-card.expanded .brand-card-category { color: var(--blue-light); }
+        .brand-card.expanded .brand-card-desc { color: var(--gray-400); }
+        .brand-card.expanded .brand-card-toggle { color: var(--blue-light); }
 
-        .brand-featured-right {
-            display: flex; flex-direction: column;
-            justify-content: center; padding-left: 40px;
+        .brand-card.expanded .brand-card-detail {
+            max-height: 300px;
+            opacity: 1;
+            padding-top: 28px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            margin-top: 24px;
         }
-        .brand-featured-highlights { display: flex; flex-direction: column; gap: 20px; }
 
-        .brand-highlight { display: flex; gap: 14px; align-items: flex-start; }
+        .brand-detail-highlights {
+            display: flex; flex-direction: column; gap: 16px;
+        }
 
-        .brand-highlight-icon {
-            width: 36px; height: 36px;
-            background: rgba(37,99,235,0.1);
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
+        .brand-highlight {
+            display: flex; gap: 12px; align-items: center;
+        }
+
+        .brand-highlight::before {
+            content: '';
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--blue-light);
             flex-shrink: 0;
         }
-        .brand-highlight-icon svg { width: 16px; height: 16px; color: var(--blue-light); }
 
         .brand-highlight-text {
-            font-size: 0.88rem; color: var(--gray-400); line-height: 1.5;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 0.92rem;
+            color: var(--gray-400);
+            line-height: 1.5;
+        }
+
+        .brand-card.expanded .brand-highlight-text {
+            color: var(--gray-300);
+        }
+
+        @media (max-width: 768px) {
+            .brand-card.expanded { grid-column: 1; }
         }
 
         /* ─── BUSINESS ─── */
@@ -951,89 +997,148 @@
                 <p class="section-body">보안, 경량, 디자인, 기능성 — 각 영역의 글로벌 리더를 선별하여 운영합니다.</p>
             </div>
             <div class="brands-grid">
-                <!-- Featured: Pacsafe -->
-                <div class="brand-card featured reveal reveal-d1">
-                    <div>
-                        <div class="brand-card-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                        </div>
+                <!-- Pacsafe -->
+                <div class="brand-card expandable reveal reveal-d1" onclick="toggleBrand(this)">
+                    <div class="brand-card-main">
+                        <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
                         <div class="brand-card-name">Pacsafe</div>
                         <div class="brand-card-category">Anti-Theft Travel Gear</div>
-                        <p class="brand-card-desc">도난 방지 기술을 적용한 보안 여행용품 글로벌 No.1. 슬래시가드, 턴앤락 지퍼 등 특허 기술로 여행자의 소지품을 보호합니다.</p>
-                        <a href="#" class="brand-card-link">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></a>
+                        <p class="brand-card-desc">도난 방지 기술을 적용한 보안 여행용품 글로벌 No.1</p>
+                        <span class="brand-card-toggle">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
                     </div>
-                    <div class="brand-featured-right">
-                        <div class="brand-featured-highlights">
-                            <div class="brand-highlight">
-                                <div class="brand-highlight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-                                <span class="brand-highlight-text">eXomesh® 슬래시가드 — 칼날 절단 방지 와이어 메쉬</span>
-                            </div>
-                            <div class="brand-highlight">
-                                <div class="brand-highlight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
-                                <span class="brand-highlight-text">턴앤락 보안 지퍼 — 외부 접근 차단</span>
-                            </div>
-                            <div class="brand-highlight">
-                                <div class="brand-highlight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></div>
-                                <span class="brand-highlight-text">RFID 차단 기능 — 개인정보 스키밍 방지</span>
-                            </div>
+                    <div class="brand-card-detail">
+                        <div class="brand-detail-highlights">
+                            <div class="brand-highlight"><span class="brand-highlight-text">소매치기 걱정 없이 여행에만 집중할 수 있는 보안 설계</span></div>
+                            <div class="brand-highlight"><span class="brand-highlight-text">전 세계 여행자가 선택한 도난 방지 No.1 브랜드</span></div>
+                            <div class="brand-highlight"><span class="brand-highlight-text">가방 하나로 여행의 불안을 안심으로 바꿉니다</span></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="brand-card reveal reveal-d2">
-                    <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 4v16M4 12h16"/></svg></div>
-                    <div class="brand-card-name">President</div>
-                    <div class="brand-card-category">Premium Luggage</div>
-                    <p class="brand-card-desc">50년 전통의 프리미엄 여행가방 브랜드</p>
-                    <a href="#" class="brand-card-link">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></a>
+                <!-- President -->
+                <div class="brand-card expandable reveal reveal-d2" onclick="toggleBrand(this)">
+                    <div class="brand-card-main">
+                        <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 4v16M4 12h16"/></svg></div>
+                        <div class="brand-card-name">President</div>
+                        <div class="brand-card-category">Premium Luggage</div>
+                        <p class="brand-card-desc">50년 전통의 프리미엄 여행가방 브랜드</p>
+                        <span class="brand-card-toggle">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
+                    </div>
+                    <div class="brand-card-detail">
+                        <div class="brand-detail-highlights">
+                            <div class="brand-highlight"><span class="brand-highlight-text">1960년 일본에서 시작된, 60년을 이어온 장인 정신</span></div>
+                            <div class="brand-highlight"><span class="brand-highlight-text">비즈니스 출장부터 가족 여행까지 — 믿고 맡기는 가방</span></div>
+                            <div class="brand-highlight"><span class="brand-highlight-text">전 세계 90개 이상의 매장에서 만날 수 있는 글로벌 신뢰</span></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="brand-card reveal reveal-d3">
-                    <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 01-8 0"/></svg></div>
-                    <div class="brand-card-name">CabinZero</div>
-                    <div class="brand-card-category">Ultra-Light Backpack</div>
-                    <p class="brand-card-desc">초경량 기내반입 백팩, 영국 어드벤처 브랜드</p>
-                    <a href="#" class="brand-card-link">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></a>
+                <!-- CabinZero -->
+                <div class="brand-card expandable reveal reveal-d3" onclick="toggleBrand(this)">
+                    <div class="brand-card-main">
+                        <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 01-8 0"/></svg></div>
+                        <div class="brand-card-name">CabinZero</div>
+                        <div class="brand-card-category">Ultra-Light Backpack</div>
+                        <p class="brand-card-desc">초경량 기내반입 백팩, 영국 어드벤처 브랜드</p>
+                        <span class="brand-card-toggle">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
+                    </div>
+                    <div class="brand-card-detail">
+                        <div class="brand-detail-highlights">
+                            <div class="brand-highlight"><span class="brand-highlight-text">760g, 물병보다 가벼운 백팩으로 기내반입 고민 끝</span></div>
+                            <div class="brand-highlight"><span class="brand-highlight-text">짐이 아니라 자유를 메고 떠나는 여행</span></div>
+                            <div class="brand-highlight"><span class="brand-highlight-text">영국에서 시작해 전 세계 배낭여행자의 국민 백팩이 된 브랜드</span></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="brand-card reveal reveal-d4">
-                    <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
-                    <div class="brand-card-name">Mark Ryden</div>
-                    <div class="brand-card-category">Smart Backpack</div>
-                    <p class="brand-card-desc">비즈니스 & 일상을 위한 스마트 기능 백팩</p>
-                    <a href="#" class="brand-card-link">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></a>
+                <!-- Mark Ryden -->
+                <div class="brand-card expandable reveal reveal-d4" onclick="toggleBrand(this)">
+                    <div class="brand-card-main">
+                        <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+                        <div class="brand-card-name">Mark Ryden</div>
+                        <div class="brand-card-category">Smart Backpack</div>
+                        <p class="brand-card-desc">비즈니스 & 일상을 위한 스마트 기능 백팩</p>
+                        <span class="brand-card-toggle">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
+                    </div>
+                    <div class="brand-card-detail">
+                        <div class="brand-detail-highlights">
+                            <div class="brand-highlight"><span class="brand-highlight-text">출퇴근길부터 출장까지, 일상과 여행의 경계를 없앤 백팩</span></div>
+                            <div class="brand-highlight"><span class="brand-highlight-text">USB 충전, 도난방지, 방수까지 — 기능이 곧 스타일</span></div>
+                            <div class="brand-highlight"><span class="brand-highlight-text">"백팩 어디꺼야?" 질문을 가장 많이 받는 브랜드</span></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="brand-card reveal reveal-d5">
-                    <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
-                    <div class="brand-card-name">Travelers Choice</div>
-                    <div class="brand-card-category">Travel Luggage</div>
-                    <p class="brand-card-desc">합리적인 가격의 글로벌 여행가방</p>
-                    <a href="#" class="brand-card-link">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></a>
+                <!-- Travelers Choice -->
+                <div class="brand-card expandable reveal reveal-d5" onclick="toggleBrand(this)">
+                    <div class="brand-card-main">
+                        <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+                        <div class="brand-card-name">Travelers Choice</div>
+                        <div class="brand-card-category">Travel Luggage</div>
+                        <p class="brand-card-desc">합리적인 가격의 글로벌 여행가방</p>
+                        <span class="brand-card-toggle">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
+                    </div>
+                    <div class="brand-card-detail">
+                        <div class="brand-detail-highlights">
+                            <div class="brand-highlight"><span class="brand-highlight-text">프리미엄 품질을 합리적인 가격으로 — 캘리포니아 감성</span></div>
+                            <div class="brand-highlight"><span class="brand-highlight-text">처음 여행가방을 사는 사람도, 열 번째 사는 사람도 만족</span></div>
+                            <div class="brand-highlight"><span class="brand-highlight-text">튼튼하고, 조용하고, 예쁜 — 세 마리 토끼를 다 잡은 캐리어</span></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="brand-card reveal reveal-d5">
-                    <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
-                    <div class="brand-card-name">Rollink</div>
-                    <div class="brand-card-category">Foldable Luggage</div>
-                    <p class="brand-card-desc">세계 최초 접이식 캐리어, 이스라엘 혁신 브랜드</p>
-                    <a href="#" class="brand-card-link">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></a>
+                <!-- Conwood -->
+                <div class="brand-card expandable reveal reveal-d5" onclick="toggleBrand(this)">
+                    <div class="brand-card-main">
+                        <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
+                        <div class="brand-card-name">Conwood</div>
+                        <div class="brand-card-category">Stylish Luggage</div>
+                        <p class="brand-card-desc">50개국 이상에서 사랑받는 스타일리시 캐리어</p>
+                        <span class="brand-card-toggle">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
+                    </div>
+                    <div class="brand-card-detail">
+                        <div class="brand-detail-highlights">
+                            <div class="brand-highlight"><span class="brand-highlight-text">도쿄·밀라노·상하이 디자이너가 함께 만든 글로벌 감성</span></div>
+                            <div class="brand-highlight"><span class="brand-highlight-text">공항에서 시선을 사로잡는 컬러와 디자인</span></div>
+                            <div class="brand-highlight"><span class="brand-highlight-text">50개국 여행자가 인정한 스타일과 내구성의 균형</span></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="brand-card reveal reveal-d6">
-                    <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-                    <div class="brand-card-name">Landor & Hawa</div>
-                    <div class="brand-card-category">Modern Luggage</div>
-                    <p class="brand-card-desc">모던 디자인의 프리미엄 트래블 기어</p>
-                    <a href="#" class="brand-card-link">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></a>
+                <!-- Landor & Hawa -->
+                <div class="brand-card expandable reveal reveal-d6" onclick="toggleBrand(this)">
+                    <div class="brand-card-main">
+                        <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+                        <div class="brand-card-name">Landor & Hawa</div>
+                        <div class="brand-card-category">Modern Luggage</div>
+                        <p class="brand-card-desc">모던 디자인의 프리미엄 트래블 기어</p>
+                        <span class="brand-card-toggle">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
+                    </div>
+                    <div class="brand-card-detail">
+                        <div class="brand-detail-highlights">
+                            <div class="brand-highlight"><span class="brand-highlight-text">군더더기 없는 모던 디자인, 여행도 미니멀하게</span></div>
+                            <div class="brand-highlight"><span class="brand-highlight-text">꺼내놓으면 인테리어가 되는 트래블 기어</span></div>
+                            <div class="brand-highlight"><span class="brand-highlight-text">디자인을 아는 여행자가 선택하는 브랜드</span></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="brand-card reveal reveal-d7">
-                    <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
-                    <div class="brand-card-name">EasyNap</div>
-                    <div class="brand-card-category">Travel Comfort</div>
-                    <p class="brand-card-desc">편안한 여행을 위한 컴포트 솔루션</p>
-                    <a href="#" class="brand-card-link">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></a>
+                <!-- EasyNap -->
+                <div class="brand-card expandable reveal reveal-d7" onclick="toggleBrand(this)">
+                    <div class="brand-card-main">
+                        <div class="brand-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+                        <div class="brand-card-name">EasyNap</div>
+                        <div class="brand-card-category">Travel Comfort</div>
+                        <p class="brand-card-desc">편안한 여행을 위한 컴포트 솔루션</p>
+                        <span class="brand-card-toggle">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
+                    </div>
+                    <div class="brand-card-detail">
+                        <div class="brand-detail-highlights">
+                            <div class="brand-highlight"><span class="brand-highlight-text">비행기에서도, 차 안에서도 — 어디서든 깊은 휴식</span></div>
+                            <div class="brand-highlight"><span class="brand-highlight-text">목베개 하나로 여행의 피로가 달라집니다</span></div>
+                            <div class="brand-highlight"><span class="brand-highlight-text">한 번 써보면 다시는 맨목으로 못 탑니다</span></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1285,12 +1390,28 @@
         // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
-                if (this.dataset.mail) return; // skip email links
+                if (this.dataset.mail) return;
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
+
+        // Brand card expand/collapse
+        function toggleBrand(card) {
+            const wasExpanded = card.classList.contains('expanded');
+            // Close all
+            document.querySelectorAll('.brand-card.expanded').forEach(c => {
+                c.classList.remove('expanded');
+            });
+            // Toggle clicked (if it wasn't already open)
+            if (!wasExpanded) {
+                card.classList.add('expanded');
+                setTimeout(() => {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+            }
+        }
     </script>
 </body>
 </html>
