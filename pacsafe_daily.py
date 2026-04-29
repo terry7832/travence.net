@@ -1,128 +1,70 @@
-name: Travence BIZRAW Reports
+#!/usr/bin/env python3
+"""
+📊 팩세이프 일간 네이버 리포트
+"""
+import os
+import sys
+from report_core import run_report
 
-# 한국시간 기준:
-# - 일간: 매일 오전 8시 (UTC 23:00 전날)
-# - 주간: 매주 월요일 오전 8시
-# - 월간: 매월 1일 오전 9시
-on:
-  schedule:
-    # 매일 KST 08:00 = UTC 23:00 (전날)
-    - cron: "0 23 * * *"
-    # 매월 1일 KST 09:00 = UTC 00:00 (해당일)
-    - cron: "0 0 1 * *"
-  workflow_dispatch:
-    inputs:
-      mode:
-        description: "수동 실행 모드"
-        required: true
-        default: "daily"
-        type: choice
-        options:
-          - daily
-          - weekly
-          - monthly
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 
-jobs:
-  daily:
-    # 매일 실행 (cron 23:00 UTC) 또는 수동 daily
-    if: github.event_name == 'schedule' && github.event.schedule == '0 23 * * *' || (github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'daily')
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: "pip"
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Pacsafe Daily
-        env:
-          ANTHROPIC_API_KEY:           ${{ secrets.ANTHROPIC_API_KEY }}
-          NAVER_CLIENT_ID_PACSAFE:     ${{ secrets.NAVER_CLIENT_ID_PACSAFE }}
-          NAVER_CLIENT_SECRET_PACSAFE: ${{ secrets.NAVER_CLIENT_SECRET_PACSAFE }}
-          GMAIL_APP_PASSWORD:          ${{ secrets.GMAIL_APP_PASSWORD }}
-        run: python pacsafe_daily.py --send
-      - name: President Daily
-        if: always()
-        env:
-          ANTHROPIC_API_KEY:             ${{ secrets.ANTHROPIC_API_KEY }}
-          NAVER_CLIENT_ID_PRESIDENT:     ${{ secrets.NAVER_CLIENT_ID_PRESIDENT }}
-          NAVER_CLIENT_SECRET_PRESIDENT: ${{ secrets.NAVER_CLIENT_SECRET_PRESIDENT }}
-          GMAIL_APP_PASSWORD:            ${{ secrets.GMAIL_APP_PASSWORD }}
-        run: python president_daily.py --send
+PREFIX = "팩세이프"
+PREFIX_EN = "PACSAFE"
 
-  weekly:
-    # 매일 실행되지만, 월요일에만 진짜 실행. 또는 수동 weekly
-    if: github.event_name == 'schedule' && github.event.schedule == '0 23 * * *' || (github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'weekly')
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v4
-      - name: Check if Monday (KST)
-        id: dow
-        run: |
-          # KST 기준 요일 (UTC+9)
-          KST_DOW=$(TZ=Asia/Seoul date +%u)
-          echo "kst_dow=$KST_DOW" >> $GITHUB_OUTPUT
-          echo "현재 KST 요일: $KST_DOW (1=월, 7=일)"
-      - name: Setup Python
-        if: steps.dow.outputs.kst_dow == '1' || github.event_name == 'workflow_dispatch'
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: "pip"
-      - name: Install dependencies
-        if: steps.dow.outputs.kst_dow == '1' || github.event_name == 'workflow_dispatch'
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Pacsafe Weekly
-        if: steps.dow.outputs.kst_dow == '1' || github.event_name == 'workflow_dispatch'
-        env:
-          ANTHROPIC_API_KEY:           ${{ secrets.ANTHROPIC_API_KEY }}
-          NAVER_CLIENT_ID_PACSAFE:     ${{ secrets.NAVER_CLIENT_ID_PACSAFE }}
-          NAVER_CLIENT_SECRET_PACSAFE: ${{ secrets.NAVER_CLIENT_SECRET_PACSAFE }}
-          GMAIL_APP_PASSWORD:          ${{ secrets.GMAIL_APP_PASSWORD }}
-        run: python pacsafe_weekly.py --send
-      - name: President Weekly
-        if: (steps.dow.outputs.kst_dow == '1' || github.event_name == 'workflow_dispatch') && always()
-        env:
-          ANTHROPIC_API_KEY:             ${{ secrets.ANTHROPIC_API_KEY }}
-          NAVER_CLIENT_ID_PRESIDENT:     ${{ secrets.NAVER_CLIENT_ID_PRESIDENT }}
-          NAVER_CLIENT_SECRET_PRESIDENT: ${{ secrets.NAVER_CLIENT_SECRET_PRESIDENT }}
-          GMAIL_APP_PASSWORD:            ${{ secrets.GMAIL_APP_PASSWORD }}
-        run: python president_weekly.py --send
+NAVER_ID = os.environ.get("NAVER_CLIENT_ID_PACSAFE")
+NAVER_SECRET = os.environ.get("NAVER_CLIENT_SECRET_PACSAFE")
+ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY")
+GMAIL_PW = os.environ.get("GMAIL_APP_PASSWORD", "")
 
-  monthly:
-    # 매월 1일 KST 09:00 = UTC 00:00 또는 수동 monthly
-    if: github.event_name == 'schedule' && github.event.schedule == '0 0 1 * *' || (github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'monthly')
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: "pip"
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Pacsafe Monthly
-        env:
-          ANTHROPIC_API_KEY:           ${{ secrets.ANTHROPIC_API_KEY }}
-          NAVER_CLIENT_ID_PACSAFE:     ${{ secrets.NAVER_CLIENT_ID_PACSAFE }}
-          NAVER_CLIENT_SECRET_PACSAFE: ${{ secrets.NAVER_CLIENT_SECRET_PACSAFE }}
-          GMAIL_APP_PASSWORD:          ${{ secrets.GMAIL_APP_PASSWORD }}
-        run: python pacsafe_monthly.py --send
-      - name: President Monthly
-        if: always()
-        env:
-          ANTHROPIC_API_KEY:             ${{ secrets.ANTHROPIC_API_KEY }}
-          NAVER_CLIENT_ID_PRESIDENT:     ${{ secrets.NAVER_CLIENT_ID_PRESIDENT }}
-          NAVER_CLIENT_SECRET_PRESIDENT: ${{ secrets.NAVER_CLIENT_SECRET_PRESIDENT }}
-          GMAIL_APP_PASSWORD:            ${{ secrets.GMAIL_APP_PASSWORD }}
-        run: python president_monthly.py --send
+SENDER = "terryjung@travence.net"
+RECIPIENTS = ["t7832@naver.com", "jung7832@naver.com"]
+
+
+def main():
+    required = {
+        "NAVER_CLIENT_ID_PACSAFE": NAVER_ID,
+        "NAVER_CLIENT_SECRET_PACSAFE": NAVER_SECRET,
+        "ANTHROPIC_API_KEY": ANTHROPIC_KEY,
+    }
+    missing = [k for k, v in required.items() if not v]
+    if missing:
+        print(f"❌ 환경변수 누락: {', '.join(missing)}")
+        sys.exit(1)
+
+    send_mail = "--send" in sys.argv
+    if send_mail and not GMAIL_PW:
+        print("❌ 메일 발송하려면 GMAIL_APP_PASSWORD 필요")
+        sys.exit(1)
+
+    days_offset = 0
+    for i, arg in enumerate(sys.argv):
+        if arg == "--days-ago" and i + 1 < len(sys.argv):
+            try:
+                days_offset = int(sys.argv[i + 1])
+            except ValueError:
+                pass
+
+    save_path = None if send_mail else "preview_pacsafe.html"
+
+    success = run_report(
+        prefix=PREFIX, prefix_en=PREFIX_EN,
+        naver_id=NAVER_ID, naver_secret=NAVER_SECRET,
+        anthropic_key=ANTHROPIC_KEY, gmail_pw=GMAIL_PW,
+        sender=SENDER, recipients=RECIPIENTS,
+        save_html_path=save_path,
+        days_offset=days_offset,
+        mode="daily",
+    )
+
+    if success and save_path:
+        print(f"\n✅ 완료! '{save_path}' 파일을 브라우저로 열어보세요.")
+
+    sys.exit(0 if success else 1)
+
+
+if __name__ == "__main__":
+    main()
