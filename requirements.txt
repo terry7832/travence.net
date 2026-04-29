@@ -1,0 +1,5 @@
+requests
+bcrypt
+anthropic
+python-dotenv
+openpyxl
