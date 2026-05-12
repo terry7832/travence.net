@@ -1314,17 +1314,43 @@ def render_html(prefix, prefix_en, stats, prev_stats, ai, risks, opps, start, en
                   ("#f59e0b", "#fbbf24"), ("#8b5cf6", "#a78bfa"),
                   ("#ef4444", "#f87171"), ("#06b6d4", "#22d3ee"),
                   ("#ec4899", "#f472b6"), ("#14b8a6", "#5eead4")]
+
+    def _share_chip(share, prev_share):
+        """비중 변화 칩 (퍼센트 포인트, ±0.5%p 미만은 숨김)"""
+        delta = share - prev_share
+        if prev_share == 0 or abs(delta) < 0.5:
+            return ""
+        if delta > 0:
+            return (f'<span style="background:#dcfce7; color:#15803d; padding:1px 5px; '
+                    f'border-radius:3px; font-size:9px; font-weight:700; margin-left:4px;">'
+                    f'▲{delta:.1f}%p</span>')
+        return (f'<span style="background:#fee2e2; color:#b91c1c; padding:1px 5px; '
+                f'border-radius:3px; font-size:9px; font-weight:700; margin-left:4px;">'
+                f'▼{abs(delta):.1f}%p</span>')
+
+    def _revenue_chip(rev_change_pct):
+        """매출 변화율 칩 (±5% 미만은 숨김)"""
+        if rev_change_pct is None or abs(rev_change_pct) < 5:
+            return ""
+        if rev_change_pct > 0:
+            return (f'<span style="color:#15803d; font-weight:700; font-size:10px; '
+                    f'margin-left:4px;">▲{rev_change_pct:.0f}%</span>')
+        return (f'<span style="color:#b91c1c; font-weight:700; font-size:10px; '
+                f'margin-left:4px;">▼{abs(rev_change_pct):.0f}%</span>')
+
     cat_html = ""
     for i, c in enumerate(stats.get("categories", [])[:6]):
         c1, c2 = cat_colors[i % len(cat_colors)]
         share = c.get('share', 0)
+        share_chip = _share_chip(share, c.get('prev_share', 0))
+        rev_chip = _revenue_chip(c.get('revenue_change_pct'))
         margin = c.get('margin_rate', 0)
         margin_badge = f"<span style='font-size:10px; color:#64748b; font-weight:500; margin-left:6px;'>마진 {margin:.0f}%</span>" if (margin > 0 and _show_margin(stats)) else ""
         cat_html += f"""
         <div style="margin-bottom:12px;">
           <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
             <span style="font-size:13px; font-weight:600;">{c['name']}{margin_badge}</span>
-            <span style="font-size:13px; font-weight:700; color:{c1};">{share:.0f}% · {format_curr(c['revenue'])}</span>
+            <span style="font-size:13px; font-weight:700; color:{c1};">{share:.0f}%{share_chip} · {format_curr(c['revenue'])}{rev_chip}</span>
           </div>
           <div style="height:10px; background:#f1f5f9; border-radius:5px; overflow:hidden;">
             <div style="height:100%; width:{share:.1f}%; background:linear-gradient(90deg, {c1} 0%, {c2} 100%); border-radius:5px;"></div>
@@ -1338,13 +1364,15 @@ def render_html(prefix, prefix_en, stats, prev_stats, ai, risks, opps, start, en
     for i, l in enumerate(stats.get("lines", [])[:6]):
         c1, c2 = cat_colors[i % len(cat_colors)]
         share = l.get('share', 0)
+        share_chip = _share_chip(share, l.get('prev_share', 0))
+        rev_chip = _revenue_chip(l.get('revenue_change_pct'))
         margin = l.get('margin_rate', 0)
         margin_badge = f"<span style='font-size:10px; color:#64748b; font-weight:500; margin-left:6px;'>마진 {margin:.0f}%</span>" if (margin > 0 and _show_margin(stats)) else ""
         line_html += f"""
         <div style="margin-bottom:12px;">
           <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
             <span style="font-size:13px; font-weight:600;">{l['name']}{margin_badge}</span>
-            <span style="font-size:13px; font-weight:700; color:{c1};">{share:.0f}% · {format_curr(l['revenue'])}</span>
+            <span style="font-size:13px; font-weight:700; color:{c1};">{share:.0f}%{share_chip} · {format_curr(l['revenue'])}{rev_chip}</span>
           </div>
           <div style="height:10px; background:#f1f5f9; border-radius:5px; overflow:hidden;">
             <div style="height:100%; width:{share:.1f}%; background:linear-gradient(90deg, {c1} 0%, {c2} 100%); border-radius:5px;"></div>
