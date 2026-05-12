@@ -1241,6 +1241,31 @@ def render_html(prefix, prefix_en, stats, prev_stats, ai, risks, opps, start, en
         action_period = "TODO 내일"
 
     # 베스트셀러 행 (TOP 8, 마진 제거 + "기타" 합계 행)
+    # 비교 라벨 (전일/전주/전월) — 이 함수 내부에선 직접 알 수 없어 한 줄 요약 라벨 재활용
+    rank_prev_label = "전월" if report_type == "월간" else ("전주" if report_type == "주간" else "전일")
+
+    def _rank_change_badge(prev_rank, change):
+        """순위 변화 배지 HTML 생성"""
+        if prev_rank is None:
+            # 신규 진입 (또는 30위 밖에서 진입)
+            return ('<span style="display:inline-flex; align-items:center; gap:2px; '
+                    'background:#fef3c7; color:#92400e; padding:2px 6px; border-radius:4px; '
+                    'font-size:10px; font-weight:700; margin-left:6px;">🆕 NEW</span>')
+        if change == 0:
+            return ('<span style="display:inline-flex; align-items:center; gap:2px; '
+                    'color:#94a3b8; padding:2px 6px; font-size:10px; font-weight:600; margin-left:6px;">'
+                    f'━ {rank_prev_label} {prev_rank}위</span>')
+        if change > 0:
+            return (f'<span style="display:inline-flex; align-items:center; gap:2px; '
+                    'background:#dcfce7; color:#15803d; padding:2px 6px; border-radius:4px; '
+                    'font-size:10px; font-weight:700; margin-left:6px;">'
+                    f'▲{change} <span style="color:#94a3b8; font-weight:500;">({rank_prev_label} {prev_rank}위)</span></span>')
+        # change < 0 (하락)
+        return (f'<span style="display:inline-flex; align-items:center; gap:2px; '
+                'background:#fee2e2; color:#b91c1c; padding:2px 6px; border-radius:4px; '
+                'font-size:10px; font-weight:700; margin-left:6px;">'
+                f'▼{abs(change)} <span style="color:#94a3b8; font-weight:500;">({rank_prev_label} {prev_rank}위)</span></span>')
+
     bestseller_html = ""
     for i, p in enumerate(stats["products"][:8]):
         name = p.get('_master_name') or p.get('productName', '')[:60]
@@ -1254,6 +1279,8 @@ def render_html(prefix, prefix_en, stats, prev_stats, ai, risks, opps, start, en
             if margin > 0:
                 m_color = "#10b981" if margin >= 50 else ("#3b82f6" if margin >= 30 else "#64748b")
                 margin_info = f" · 마진 <span style='color:{m_color}; font-weight:700;'>{margin:.0f}%</span>"
+        # 순위 변화 배지
+        rank_badge = _rank_change_badge(p.get('_prev_rank'), p.get('_rank_change'))
         bg = "background: linear-gradient(90deg, #fef3c7 0%, transparent 60%);" if i == 0 else ""
         rank_bg = ("linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)" if i == 0 else "#e2e8f0")
         rank_color = "white" if i == 0 else "#64748b"
@@ -1261,7 +1288,7 @@ def render_html(prefix, prefix_en, stats, prev_stats, ai, risks, opps, start, en
         <div style="display:flex; align-items:center; gap:12px; padding:12px; {bg} border-radius:10px;">
           <div style="width:32px; height:32px; background:{rank_bg}; color:{rank_color}; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px;">{i+1}</div>
           <div style="flex:1; min-width:0;">
-            <div style="font-weight:600; font-size:13px; line-height:1.4;">{name}</div>
+            <div style="font-weight:600; font-size:13px; line-height:1.4;">{name}{rank_badge}</div>
             <div style="font-size:11px; color:#64748b; margin-top:2px;">{cat} · {cnt}개 판매{margin_info}</div>
           </div>
           <div style="font-weight:800; font-size:15px; white-space:nowrap;">{format_curr(amt)}</div>
@@ -2071,35 +2098,46 @@ def run_report(prefix, prefix_en, naver_id, naver_secret, anthropic_key,
         curr['daily_breakdown'] = daily_breakdown
         logger.info(f"  ✓ 일별 데이터 {len(daily_breakdown)}일치 수집 완료")
 
-        # 베스트셀러 순위 변동 (현재 vs 이전 기간)
-        prev_ranks = {p.get('_master_name', p.get('productName', '')): i for i, p in enumerate(prev['products'][:30])}
-        for i, p in enumerate(curr['products'][:10]):
-            name = p.get('_master_name') or p.get('productName', '')
-            prev_rank = prev_ranks.get(name)
-            if prev_rank is not None:
-                p['_rank_change'] = prev_rank - i  # 양수=상승, 음수=하락
-                p['_prev_rank'] = prev_rank + 1
-            else:
-                p['_rank_change'] = None  # 신규 진입
-                p['_prev_rank'] = None
+    # === 순위 변동 계산 (일간/주간/월간 모두 적용) ===
+    # 베스트셀러 (prev 상위 30위까지 매핑)
+    prev_ranks = {p.get('_master_name', p.get('productName', '')): i for i, p in enumerate(prev['products'][:30])}
+    for i, p in enumerate(curr['products'][:10]):
+        name = p.get('_master_name') or p.get('productName', '')
+        prev_rank = prev_ranks.get(name)
+        if prev_rank is not None:
+            p['_rank_change'] = prev_rank - i  # 양수=상승, 음수=하락
+            p['_prev_rank'] = prev_rank + 1
+        else:
+            p['_rank_change'] = None  # 신규 진입
+            p['_prev_rank'] = None
 
-        # 카테고리/시리즈 순위 변동
-        prev_cat_ranks = {c['name']: i for i, c in enumerate(prev.get('categories', []))}
-        for i, c in enumerate(curr.get('categories', [])):
-            prev_rank = prev_cat_ranks.get(c['name'])
-            c['rank_change'] = (prev_rank - i) if prev_rank is not None else None
+    # 카테고리/시리즈
+    prev_cat_ranks = {c['name']: i for i, c in enumerate(prev.get('categories', []))}
+    prev_cat_shares = {c['name']: c.get('share', 0) for c in prev.get('categories', [])}
+    prev_cat_revenue = {c['name']: c.get('revenue', 0) for c in prev.get('categories', [])}
+    for i, c in enumerate(curr.get('categories', [])):
+        prev_rank = prev_cat_ranks.get(c['name'])
+        c['rank_change'] = (prev_rank - i) if prev_rank is not None else None
+        c['prev_share'] = prev_cat_shares.get(c['name'], 0)
+        c['prev_revenue'] = prev_cat_revenue.get(c['name'], 0)
+        c['revenue_change_pct'] = pct_change(c.get('revenue', 0), c['prev_revenue'])
 
-        prev_line_ranks = {l['name']: i for i, l in enumerate(prev.get('lines', []))}
-        for i, l in enumerate(curr.get('lines', [])):
-            prev_rank = prev_line_ranks.get(l['name'])
-            l['rank_change'] = (prev_rank - i) if prev_rank is not None else None
+    prev_line_ranks = {l['name']: i for i, l in enumerate(prev.get('lines', []))}
+    prev_line_shares = {l['name']: l.get('share', 0) for l in prev.get('lines', [])}
+    prev_line_revenue = {l['name']: l.get('revenue', 0) for l in prev.get('lines', [])}
+    for i, l in enumerate(curr.get('lines', [])):
+        prev_rank = prev_line_ranks.get(l['name'])
+        l['rank_change'] = (prev_rank - i) if prev_rank is not None else None
+        l['prev_share'] = prev_line_shares.get(l['name'], 0)
+        l['prev_revenue'] = prev_line_revenue.get(l['name'], 0)
+        l['revenue_change_pct'] = pct_change(l.get('revenue', 0), l['prev_revenue'])
 
-        # 키워드 변화 (현재 vs 이전)
-        prev_kw_ranks = {k.get('refKeyword'): i for i, k in enumerate(prev.get('keywords', [])[:30])}
-        for i, k in enumerate(curr.get('keywords', [])[:10]):
-            kw_text = k.get('refKeyword')
-            prev_rank = prev_kw_ranks.get(kw_text)
-            k['rank_change'] = (prev_rank - i) if prev_rank is not None else None
+    # 키워드 순위 변동
+    prev_kw_ranks = {k.get('refKeyword'): i for i, k in enumerate(prev.get('keywords', [])[:30])}
+    for i, k in enumerate(curr.get('keywords', [])[:10]):
+        kw_text = k.get('refKeyword')
+        prev_rank = prev_kw_ranks.get(kw_text)
+        k['rank_change'] = (prev_rank - i) if prev_rank is not None else None
 
     logger.info(f"🔍 위험/기회 신호 탐지 중...")
     risks, opps = detect_alerts(curr, prev, prev_label=prev_label)
