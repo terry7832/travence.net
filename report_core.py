@@ -2040,11 +2040,12 @@ def run_report(prefix, prefix_en, naver_id, naver_secret, anthropic_key,
     logger.info(f"🚀 {prefix} {mode_label} 리포트 시작")
 
     # === 브랜드별 설정 ===
+    # 두 브랜드 모두 원가/마진 정보 보고서 노출 안 함 (의도적)
     brand_config = {
-        "팩세이프":   {"show_margin": True,  "catalog": "네이버_팩세이프_마스터_상품명.xlsx"},
+        "팩세이프":   {"show_margin": False, "catalog": "네이버_팩세이프_마스터_상품명.xlsx"},
         "프레지던트": {"show_margin": False, "catalog": "네이버_프레지던트_마스터_상품명.xlsx"},
     }
-    cfg = brand_config.get(prefix, {"show_margin": True, "catalog": ""})
+    cfg = brand_config.get(prefix, {"show_margin": False, "catalog": ""})
     show_margin = cfg["show_margin"]
 
     # === 마스터 카탈로그 로드 ===
