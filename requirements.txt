@@ -3,3 +3,5 @@ bcrypt
 anthropic
 python-dotenv
 openpyxl
+google-auth
+google-api-python-client
