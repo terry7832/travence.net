@@ -138,6 +138,30 @@ def fetch_gfa_cost(brand: str, start_date, end_date) -> dict:
         return {'amount': 0, 'days_with_data': 0, 'days_missing': []}
 
 
+def _allocate_gfa_to_channels(stats):
+    """GFA를 채널들의 SA 광고비 비율로 비례 배분.
+
+    각 채널의 cost/roas를 SA-only → SA+GFA 통합 값으로 overwrite.
+    원본 SA-only는 ch['sa_only_cost']/ch['sa_only_roas']에 보존.
+    GFA가 0이거나 SA 합계가 0이면 변경 없음.
+    """
+    gfa = stats.get('gfa_cost', 0)
+    if gfa <= 0:
+        return
+    channels = stats.get('channels', [])
+    total_sa = sum(c.get('cost', 0) for c in channels)
+    if total_sa <= 0:
+        return
+    for ch in channels:
+        sa = ch.get('cost', 0)
+        ch['sa_only_cost'] = sa
+        ch['sa_only_roas'] = ch.get('roas', 0)
+        gfa_share = gfa * sa / total_sa
+        ch['gfa_alloc'] = gfa_share
+        ch['cost'] = sa + gfa_share
+        ch['roas'] = (ch.get('revenue', 0) / ch['cost'] * 100) if ch['cost'] > 0 else 0
+
+
 # =========================================================
 # 팩세이프 정리된 상품 카탈로그 (53개) - AI 매핑 기준
 # Raw 상품명을 이 리스트로 매핑
@@ -972,36 +996,43 @@ def render_html(prefix, prefix_en, stats, prev_stats, ai, risks, opps, start, en
     gfa_missing_flag = (gfa_c == 0 and bool(gfa_missing))
 
     # 보조 KPI 카드 — 1행
-    if _show_margin(stats):
-        # 마진 가능 → 매출총이익 + 광고 후 이익
-        row1_html = f"""<div style="display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:12px;">
-    <div style="background:linear-gradient(135deg,#fef9c3,#fef3c7); padding:12px; border-radius:8px; text-align:center; border:1px solid #fde047;">
-      <div style="font-size:10px; color:#854d0e; margin-bottom:4px; font-weight:600;">💵 매출총이익</div>
-      <div style="font-size:16px; font-weight:800;">{format_curr(stats.get('total_gp', 0))}</div>
-      <div style="font-size:10px; color:#64748b; margin-top:2px;">마진율 {stats.get('margin_rate', 0):.0f}%</div>
-    </div>
-    <div style="background:linear-gradient(135deg,#dbeafe,#bfdbfe); padding:12px; border-radius:8px; text-align:center; border:1px solid #93c5fd;">
-      <div style="font-size:10px; color:#1e40af; margin-bottom:4px; font-weight:600;">📊 광고 후 이익</div>
-      <div style="font-size:16px; font-weight:800;">{format_curr(stats.get('total_gp', 0) - total_c)}</div>
-      <div style="font-size:10px; color:#64748b; margin-top:2px;">총 광고비 {format_curr(total_c)} 차감</div>
-    </div>
-  </div>"""
-    else:
-        # 마진 없음 → 평균 객단가 + 전환건수
-        purchases = int(stats.get('total_purchases', 0) or 0)
-        net_revenue = stats.get('total_revenue', 0) - stats.get('total_refund', 0) - stats.get('total_cancel', 0)
-        avg_order = (net_revenue / purchases) if purchases > 0 else 0
-        row1_html = f"""<div style="display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:12px;">
-    <div style="background:#f8fafc; padding:12px; border-radius:8px; text-align:center; border:1px solid #e2e8f0;">
+    # 양쪽 공통: 평균 객단가 + 전환건수 (팩세이프/프레지던트 통일)
+    purchases = int(stats.get('total_purchases', 0) or 0)
+    avg_order = (net_rev / purchases) if purchases > 0 else 0
+    avg_order_card = f"""<div style="background:#f8fafc; padding:12px; border-radius:8px; text-align:center; border:1px solid #e2e8f0;">
       <div style="font-size:10px; color:#64748b; margin-bottom:4px; font-weight:600;">🛒 평균 객단가</div>
       <div style="font-size:16px; font-weight:800;">{format_curr(avg_order)}</div>
       <div style="font-size:10px; color:#64748b; margin-top:2px;">실매출 ÷ {purchases}건</div>
-    </div>
-    <div style="background:#f8fafc; padding:12px; border-radius:8px; text-align:center; border:1px solid #e2e8f0;">
+    </div>"""
+    purchases_card = f"""<div style="background:#f8fafc; padding:12px; border-radius:8px; text-align:center; border:1px solid #e2e8f0;">
       <div style="font-size:10px; color:#64748b; margin-bottom:4px; font-weight:600;">📦 전환건수</div>
       <div style="font-size:16px; font-weight:800;">{purchases}</div>
       <div style="font-size:10px; color:#64748b; margin-top:2px;">건</div>
-    </div>
+    </div>"""
+
+    if _show_margin(stats):
+        # 팩세이프: 매출총이익 + 광고 후 이익 + 평균 객단가 + 전환건수 (2x2)
+        gp_card = f"""<div style="background:linear-gradient(135deg,#fef9c3,#fef3c7); padding:12px; border-radius:8px; text-align:center; border:1px solid #fde047;">
+      <div style="font-size:10px; color:#854d0e; margin-bottom:4px; font-weight:600;">💵 매출총이익</div>
+      <div style="font-size:16px; font-weight:800;">{format_curr(stats.get('total_gp', 0))}</div>
+      <div style="font-size:10px; color:#64748b; margin-top:2px;">마진율 {stats.get('margin_rate', 0):.0f}%</div>
+    </div>"""
+        profit_card = f"""<div style="background:linear-gradient(135deg,#dbeafe,#bfdbfe); padding:12px; border-radius:8px; text-align:center; border:1px solid #93c5fd;">
+      <div style="font-size:10px; color:#1e40af; margin-bottom:4px; font-weight:600;">📊 광고 후 이익</div>
+      <div style="font-size:16px; font-weight:800;">{format_curr(stats.get('total_gp', 0) - total_c)}</div>
+      <div style="font-size:10px; color:#64748b; margin-top:2px;">총 광고비 {format_curr(total_c)} 차감</div>
+    </div>"""
+        row1_html = f"""<div style="display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:12px;">
+    {gp_card}
+    {profit_card}
+    {avg_order_card}
+    {purchases_card}
+  </div>"""
+    else:
+        # 프레지던트: 평균 객단가 + 전환건수만 (마진 정보 없음)
+        row1_html = f"""<div style="display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:12px;">
+    {avg_order_card}
+    {purchases_card}
   </div>"""
 
     # === 보조 KPI 카드 — 2행 (광고비 3분할) ===
@@ -1839,6 +1870,7 @@ def run_report(prefix, prefix_en, naver_id, naver_secret, anthropic_key,
     curr["gfa_days_missing"] = gfa_curr["days_missing"]
     curr["gfa_days_with_data"] = gfa_curr["days_with_data"]
     curr["total_cost"] = curr["sa_cost"] + curr["gfa_cost"]
+    _allocate_gfa_to_channels(curr)
 
     if mode == "daily":
         logger.info(f"📥 비교 데이터: {prev_start_s}")
@@ -1851,6 +1883,7 @@ def run_report(prefix, prefix_en, naver_id, naver_secret, anthropic_key,
     prev["sa_cost"] = prev.get("total_cost", 0)
     prev["gfa_cost"] = gfa_prev["amount"]
     prev["total_cost"] = prev["sa_cost"] + prev["gfa_cost"]
+    _allocate_gfa_to_channels(prev)
 
     # === 주간/월간: 일별 분할 수집 (트렌드 분석용) ===
     daily_breakdown = []
