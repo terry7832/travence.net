@@ -42,6 +42,103 @@ PATHS = {
 }
 
 # =========================================================
+# GFA 광고비 — Google Form 응답 시트 (수기 입력)
+# =========================================================
+GFA_SHEET_ID = "1wyyiNvMEhmCPwJJg6pOai-JFu2vmxMqPYHD9uBJuZ8w"
+GFA_SHEET_TAB = "설문지 응답 시트1"
+GFA_BRAND_COL = {  # 시트 컬럼 인덱스 (0-based: A=0, B=1, C=2, D=3)
+    "팩세이프": 2,
+    "프레지던트": 3,
+}
+
+
+def _parse_form_date(s: str):
+    """Google Form 날짜 응답 파싱. 'yyyy. m. d.' / 'yyyy-mm-dd' / 'yyyy/m/d' 등 처리."""
+    s = s.strip().rstrip(".").replace(" ", "")
+    for fmt in ("%Y-%m-%d", "%Y.%m.%d", "%Y/%m/%d"):
+        try:
+            return datetime.strptime(s, fmt).date()
+        except ValueError:
+            continue
+    raise ValueError(f"날짜 파싱 실패: {s}")
+
+
+def fetch_gfa_cost(brand: str, start_date, end_date) -> dict:
+    """Google Form 응답 시트에서 GFA 광고비 조회.
+
+    Args:
+        brand: '팩세이프' or '프레지던트'
+        start_date, end_date: datetime.date
+
+    Returns:
+        {'amount': int, 'days_with_data': int, 'days_missing': [date,...]}
+        — 시트 접근 실패 / SA JSON 미설정 시 amount=0, 빈 리스트
+    """
+    col_idx = GFA_BRAND_COL.get(brand)
+    if col_idx is None:
+        logger.warning(f"GFA 컬럼 매핑 없는 브랜드: {brand}")
+        return {'amount': 0, 'days_with_data': 0, 'days_missing': []}
+
+    sa_json_str = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON")
+    if not sa_json_str:
+        logger.warning("⚠️  GOOGLE_SERVICE_ACCOUNT_JSON 미설정 → GFA 광고비 0으로 처리 (수동 입력 시 GitHub Secret 추가 필요)")
+        return {'amount': 0, 'days_with_data': 0, 'days_missing': []}
+
+    try:
+        import json as _json
+        from google.oauth2 import service_account
+        from googleapiclient.discovery import build
+
+        creds = service_account.Credentials.from_service_account_info(
+            _json.loads(sa_json_str),
+            scopes=["https://www.googleapis.com/auth/spreadsheets.readonly"],
+        )
+        sheets_api = build("sheets", "v4", credentials=creds, cache_discovery=False)
+        r = sheets_api.spreadsheets().values().get(
+            spreadsheetId=GFA_SHEET_ID,
+            range=f"'{GFA_SHEET_TAB}'!A:D",
+        ).execute()
+        rows = r.get("values", [])
+
+        total = 0
+        days_seen = set()
+        for row in rows[1:]:  # 헤더 스킵
+            if len(row) <= 1:
+                continue
+            date_str = (row[1] if len(row) > 1 else "").strip()
+            if not date_str:
+                continue
+            try:
+                row_date = _parse_form_date(date_str)
+            except Exception:
+                continue
+            if not (start_date <= row_date <= end_date):
+                continue
+            days_seen.add(row_date)
+            if len(row) > col_idx:
+                try:
+                    val_str = str(row[col_idx]).strip().replace(",", "").replace("원", "")
+                    val = int(float(val_str)) if val_str else 0
+                    total += val
+                except (ValueError, IndexError):
+                    pass
+
+        days_in_range = (end_date - start_date).days + 1
+        all_days = {start_date + timedelta(days=i) for i in range(days_in_range)}
+        missing = sorted(all_days - days_seen)
+
+        logger.info(f"  GFA {brand}: {total:,}원 ({len(days_seen)}/{days_in_range}일 입력)")
+        return {
+            'amount': total,
+            'days_with_data': len(days_seen),
+            'days_missing': missing,
+        }
+    except Exception as e:
+        logger.warning(f"GFA 광고비 조회 실패 ({brand}): {e}")
+        return {'amount': 0, 'days_with_data': 0, 'days_missing': []}
+
+
+# =========================================================
 # 팩세이프 정리된 상품 카탈로그 (53개) - AI 매핑 기준
 # Raw 상품명을 이 리스트로 매핑
 # =========================================================
@@ -867,10 +964,17 @@ def render_html(prefix, prefix_en, stats, prev_stats, ai, risks, opps, start, en
     dt_end = datetime.strptime(end, "%Y-%m-%d")
     weekday_kr = ["월", "화", "수", "목", "금", "토", "일"]
 
-    # 보조 KPI 카드
+    # === 광고비 데이터 ===
+    sa_c = stats.get('sa_cost', stats.get('total_cost', 0))
+    gfa_c = stats.get('gfa_cost', 0)
+    total_c = stats.get('total_cost', 0)
+    gfa_missing = stats.get('gfa_days_missing', [])
+    gfa_missing_flag = (gfa_c == 0 and bool(gfa_missing))
+
+    # 보조 KPI 카드 — 1행
     if _show_margin(stats):
         # 마진 가능 → 매출총이익 + 광고 후 이익
-        cost_kpi_html = f"""<div style="display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:12px;">
+        row1_html = f"""<div style="display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:12px;">
     <div style="background:linear-gradient(135deg,#fef9c3,#fef3c7); padding:12px; border-radius:8px; text-align:center; border:1px solid #fde047;">
       <div style="font-size:10px; color:#854d0e; margin-bottom:4px; font-weight:600;">💵 매출총이익</div>
       <div style="font-size:16px; font-weight:800;">{format_curr(stats.get('total_gp', 0))}</div>
@@ -878,27 +982,63 @@ def render_html(prefix, prefix_en, stats, prev_stats, ai, risks, opps, start, en
     </div>
     <div style="background:linear-gradient(135deg,#dbeafe,#bfdbfe); padding:12px; border-radius:8px; text-align:center; border:1px solid #93c5fd;">
       <div style="font-size:10px; color:#1e40af; margin-bottom:4px; font-weight:600;">📊 광고 후 이익</div>
-      <div style="font-size:16px; font-weight:800;">{format_curr(stats.get('total_gp', 0) - stats.get('total_cost', 0))}</div>
-      <div style="font-size:10px; color:#64748b; margin-top:2px;">광고비 {format_curr(stats['total_cost'])} 차감</div>
+      <div style="font-size:16px; font-weight:800;">{format_curr(stats.get('total_gp', 0) - total_c)}</div>
+      <div style="font-size:10px; color:#64748b; margin-top:2px;">총 광고비 {format_curr(total_c)} 차감</div>
     </div>
   </div>"""
     else:
-        # 마진 없음 → 광고비 + 평균 객단가
+        # 마진 없음 → 평균 객단가 + 전환건수
         purchases = int(stats.get('total_purchases', 0) or 0)
         net_revenue = stats.get('total_revenue', 0) - stats.get('total_refund', 0) - stats.get('total_cancel', 0)
         avg_order = (net_revenue / purchases) if purchases > 0 else 0
-        cost_kpi_html = f"""<div style="display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:12px;">
-    <div style="background:#f8fafc; padding:12px; border-radius:8px; text-align:center; border:1px solid #e2e8f0;">
-      <div style="font-size:10px; color:#64748b; margin-bottom:4px; font-weight:600;">📢 광고비</div>
-      <div style="font-size:16px; font-weight:800;">{format_curr(stats.get('total_cost', 0))}</div>
-      <div style="font-size:10px; color:#64748b; margin-top:2px;">판매 {purchases}건</div>
-    </div>
+        row1_html = f"""<div style="display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:12px;">
     <div style="background:#f8fafc; padding:12px; border-radius:8px; text-align:center; border:1px solid #e2e8f0;">
       <div style="font-size:10px; color:#64748b; margin-bottom:4px; font-weight:600;">🛒 평균 객단가</div>
       <div style="font-size:16px; font-weight:800;">{format_curr(avg_order)}</div>
-      <div style="font-size:10px; color:#64748b; margin-top:2px;">실매출 ÷ 판매건수</div>
+      <div style="font-size:10px; color:#64748b; margin-top:2px;">실매출 ÷ {purchases}건</div>
+    </div>
+    <div style="background:#f8fafc; padding:12px; border-radius:8px; text-align:center; border:1px solid #e2e8f0;">
+      <div style="font-size:10px; color:#64748b; margin-bottom:4px; font-weight:600;">📦 전환건수</div>
+      <div style="font-size:16px; font-weight:800;">{purchases}</div>
+      <div style="font-size:10px; color:#64748b; margin-top:2px;">건</div>
     </div>
   </div>"""
+
+    # === 보조 KPI 카드 — 2행 (광고비 3분할) ===
+    # GFA 카드: 미입력 시 빨간 강조, 입력 완료 시 보라색 강조
+    if gfa_missing_flag:
+        gfa_card_style = "background:linear-gradient(135deg,#fee2e2,#fecaca); border:1px solid #fca5a5;"
+        gfa_label_color = "#991b1b"
+        gfa_value_html = f'<span style="color:#dc2626;">미입력</span>'
+        gfa_sub = "폼 입력 필요"
+    else:
+        gfa_card_style = "background:linear-gradient(135deg,#ede9fe,#ddd6fe); border:1px solid #c4b5fd;"
+        gfa_label_color = "#5b21b6"
+        gfa_value_html = format_curr(gfa_c)
+        gfa_sub = "디스플레이"
+
+    sa_share = (sa_c / total_c * 100) if total_c > 0 else 0
+    gfa_share = (gfa_c / total_c * 100) if total_c > 0 else 0
+
+    ad_row_html = f"""<div style="display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:8px;">
+    <div style="background:linear-gradient(135deg,#f1f5f9,#e2e8f0); padding:12px; border-radius:8px; text-align:center; border:1px solid #cbd5e1;">
+      <div style="font-size:10px; color:#334155; margin-bottom:4px; font-weight:600;">📢 총 광고비</div>
+      <div style="font-size:16px; font-weight:800;">{format_curr(total_c)}</div>
+      <div style="font-size:10px; color:#64748b; margin-top:2px;">SA + GFA</div>
+    </div>
+    <div style="background:linear-gradient(135deg,#fef3c7,#fde68a); padding:12px; border-radius:8px; text-align:center; border:1px solid #fcd34d;">
+      <div style="font-size:10px; color:#92400e; margin-bottom:4px; font-weight:600;">🎯 SA 광고비</div>
+      <div style="font-size:16px; font-weight:800;">{format_curr(sa_c)}</div>
+      <div style="font-size:10px; color:#64748b; margin-top:2px;">검색 · 비중 {sa_share:.0f}%</div>
+    </div>
+    <div style="{gfa_card_style} padding:12px; border-radius:8px; text-align:center;">
+      <div style="font-size:10px; color:{gfa_label_color}; margin-bottom:4px; font-weight:600;">📺 GFA 광고비</div>
+      <div style="font-size:16px; font-weight:800;">{gfa_value_html}</div>
+      <div style="font-size:10px; color:#64748b; margin-top:2px;">{gfa_sub}{' · 비중 ' + f'{gfa_share:.0f}%' if not gfa_missing_flag else ''}</div>
+    </div>
+  </div>"""
+
+    cost_kpi_html = row1_html + ad_row_html
 
     if report_type == "월간":
         date_label = f"{dt_start.year}년 {dt_start.month}월"
@@ -1692,12 +1832,25 @@ def run_report(prefix, prefix_en, naver_id, naver_secret, anthropic_key,
     curr = analyze_data(collect_data(token, cno, curr_start_s, curr_end_s), catalog)
     curr["show_margin"] = show_margin
 
+    # === GFA 광고비 추가 (Google Form 응답 시트) ===
+    gfa_curr = fetch_gfa_cost(prefix, curr_start, curr_end)
+    curr["sa_cost"] = curr.get("total_cost", 0)
+    curr["gfa_cost"] = gfa_curr["amount"]
+    curr["gfa_days_missing"] = gfa_curr["days_missing"]
+    curr["gfa_days_with_data"] = gfa_curr["days_with_data"]
+    curr["total_cost"] = curr["sa_cost"] + curr["gfa_cost"]
+
     if mode == "daily":
         logger.info(f"📥 비교 데이터: {prev_start_s}")
     else:
         logger.info(f"📥 비교 데이터: {prev_start_s} ~ {prev_end_s}")
     prev = analyze_data(collect_data(token, cno, prev_start_s, prev_end_s), catalog)
     prev["show_margin"] = show_margin
+
+    gfa_prev = fetch_gfa_cost(prefix, prev_start, prev_end)
+    prev["sa_cost"] = prev.get("total_cost", 0)
+    prev["gfa_cost"] = gfa_prev["amount"]
+    prev["total_cost"] = prev["sa_cost"] + prev["gfa_cost"]
 
     # === 주간/월간: 일별 분할 수집 (트렌드 분석용) ===
     daily_breakdown = []
@@ -1707,6 +1860,11 @@ def run_report(prefix, prefix_en, naver_id, naver_secret, anthropic_key,
         while d <= curr_end:
             ds = d.strftime("%Y-%m-%d")
             day_data = analyze_data(collect_data(token, cno, ds, ds), catalog)
+            # GFA 일별 추가
+            gfa_day = fetch_gfa_cost(prefix, d, d)
+            day_data['sa_cost'] = day_data.get('total_cost', 0)
+            day_data['gfa_cost'] = gfa_day['amount']
+            day_data['total_cost'] = day_data['sa_cost'] + day_data['gfa_cost']
             net_rev = day_data['total_revenue'] - day_data.get('total_cancel', 0) - day_data['total_refund']
             roas = (net_rev / day_data['total_cost'] * 100) if day_data['total_cost'] > 0 else 0
             daily_breakdown.append({
