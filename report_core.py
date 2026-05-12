@@ -163,6 +163,162 @@ def _allocate_gfa_to_channels(stats):
 
 
 # =========================================================
+# Google Drive 자동 적재
+# =========================================================
+DRIVE_SHARED_DRIVE_NAME = "클로드 코드용"
+DRIVE_ROOT_FOLDER = "travence-data"
+
+
+def _drive_jsonable(obj):
+    """JSON 직렬화 가능하게 변환 (datetime/date/set 등)"""
+    from datetime import date as _date, datetime as _datetime
+    if isinstance(obj, dict):
+        return {str(k): _drive_jsonable(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_drive_jsonable(v) for v in obj]
+    if isinstance(obj, (set, frozenset)):
+        return [_drive_jsonable(v) for v in obj]
+    if isinstance(obj, (_datetime, _date)):
+        return obj.isoformat()
+    if isinstance(obj, (int, float, str, bool)) or obj is None:
+        return obj
+    try:
+        return str(obj)
+    except Exception:
+        return None
+
+
+def _drive_get_or_create_folder(drive, name, parent_id, drive_id):
+    safe = name.replace("'", "\\'")
+    q = (f"name='{safe}' and mimeType='application/vnd.google-apps.folder' "
+         f"and '{parent_id}' in parents and trashed=false")
+    r = drive.files().list(
+        q=q, spaces='drive',
+        corpora='drive', driveId=drive_id,
+        includeItemsFromAllDrives=True, supportsAllDrives=True,
+        fields='files(id,name)',
+    ).execute()
+    files = r.get('files', [])
+    if files:
+        return files[0]['id']
+    folder = drive.files().create(
+        body={
+            'name': name,
+            'mimeType': 'application/vnd.google-apps.folder',
+            'parents': [parent_id],
+        },
+        supportsAllDrives=True,
+        fields='id',
+    ).execute()
+    return folder['id']
+
+
+def _drive_upload_or_overwrite(drive, filename, content_bytes, mime_type, parent_id, drive_id):
+    from googleapiclient.http import MediaInMemoryUpload
+    media = MediaInMemoryUpload(content_bytes, mimetype=mime_type, resumable=False)
+    safe = filename.replace("'", "\\'")
+    q = f"name='{safe}' and '{parent_id}' in parents and trashed=false"
+    r = drive.files().list(
+        q=q, spaces='drive',
+        corpora='drive', driveId=drive_id,
+        includeItemsFromAllDrives=True, supportsAllDrives=True,
+        fields='files(id,name)',
+    ).execute()
+    files = r.get('files', [])
+    if files:
+        drive.files().update(
+            fileId=files[0]['id'],
+            media_body=media,
+            supportsAllDrives=True,
+        ).execute()
+    else:
+        drive.files().create(
+            body={'name': filename, 'parents': [parent_id]},
+            media_body=media,
+            supportsAllDrives=True,
+            fields='id',
+        ).execute()
+
+
+def save_to_drive(prefix, mode, curr, prev, ai, risks, opps, html, period_start, period_end):
+    """보고서를 Shared Drive에 raw JSON + HTML로 저장.
+
+    경로: 클로드 코드용/travence-data/{brand_en}/{mode}/{year}/[{month}/]{filename}.{json,html}
+    """
+    sa_json_str = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON")
+    if not sa_json_str:
+        logger.warning("⚠️  Drive 저장 스킵: GOOGLE_SERVICE_ACCOUNT_JSON 미설정")
+        return False
+
+    try:
+        import json as _json
+        from google.oauth2 import service_account
+        from googleapiclient.discovery import build
+
+        creds = service_account.Credentials.from_service_account_info(
+            _json.loads(sa_json_str),
+            scopes=["https://www.googleapis.com/auth/drive"],
+        )
+        drive = build("drive", "v3", credentials=creds, cache_discovery=False)
+
+        # Shared Drive 찾기
+        r = drive.drives().list(q=f"name='{DRIVE_SHARED_DRIVE_NAME}'").execute()
+        drives_list = r.get('drives', [])
+        if not drives_list:
+            logger.warning(f"⚠️  Shared Drive '{DRIVE_SHARED_DRIVE_NAME}' 없음 → Drive 저장 스킵")
+            return False
+        drive_id = drives_list[0]['id']
+
+        # 폴더 경로
+        brand_en = "pacsafe" if prefix == "팩세이프" else "president"
+        year = period_start.strftime("%Y")
+        month = period_start.strftime("%m")
+
+        if mode == "daily":
+            path = [DRIVE_ROOT_FOLDER, brand_en, "daily", year, month]
+            filename_base = period_start.strftime("%Y-%m-%d")
+        elif mode == "weekly":
+            path = [DRIVE_ROOT_FOLDER, brand_en, "weekly", year]
+            filename_base = period_start.strftime("%Y-%m-%d")
+        else:  # monthly
+            path = [DRIVE_ROOT_FOLDER, brand_en, "monthly", year]
+            filename_base = period_start.strftime("%Y-%m")
+
+        parent_id = drive_id
+        for folder_name in path:
+            parent_id = _drive_get_or_create_folder(drive, folder_name, parent_id, drive_id)
+
+        # JSON 페이로드
+        payload = {
+            "brand": prefix,
+            "mode": mode,
+            "period": {
+                "start": period_start.isoformat(),
+                "end": period_end.isoformat(),
+            },
+            "generated_at": datetime.now(KST).isoformat(),
+            "curr": _drive_jsonable(curr),
+            "prev": _drive_jsonable(prev),
+            "ai": _drive_jsonable(ai),
+            "risks": _drive_jsonable(risks),
+            "opportunities": _drive_jsonable(opps),
+        }
+        json_bytes = _json.dumps(payload, ensure_ascii=False, indent=2).encode("utf-8")
+        html_bytes = html.encode("utf-8")
+
+        _drive_upload_or_overwrite(drive, f"{filename_base}.json", json_bytes,
+                                    "application/json", parent_id, drive_id)
+        _drive_upload_or_overwrite(drive, f"{filename_base}.html", html_bytes,
+                                    "text/html", parent_id, drive_id)
+
+        logger.info(f"💾 Drive 저장: {'/'.join(path)}/{filename_base}.{{json,html}}")
+        return True
+    except Exception as e:
+        logger.warning(f"⚠️  Drive 저장 실패: {e}")
+        return False
+
+
+# =========================================================
 # 팩세이프 정리된 상품 카탈로그 (53개) - AI 매핑 기준
 # Raw 상품명을 이 리스트로 매핑
 # =========================================================
@@ -1954,6 +2110,9 @@ def run_report(prefix, prefix_en, naver_id, naver_secret, anthropic_key,
     logger.info(f"🎨 HTML 생성 중...")
     html = render_html(prefix, prefix_en, curr, prev, ai, risks, opps,
                        curr_start_s, curr_end_s, mode_label)
+
+    # === 드라이브 자동 적재 (메일 발송과 무관, 백업/장기 보존용) ===
+    save_to_drive(prefix, mode, curr, prev, ai, risks, opps, html, curr_start, curr_end)
 
     if save_html_path:
         with open(save_html_path, "w", encoding="utf-8") as f:
