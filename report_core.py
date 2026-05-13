@@ -921,23 +921,31 @@ def detect_alerts(curr, prev, prev_label="전일"):
     """매출/광고/상품 변화에서 위험·기회 신호 추출"""
     risks, opportunities = [], []
 
-    # 채널 ROAS 하락 (임계값 -20% 이상, 광고비 5만원 이상)
+    # 채널 ROAS 하락 (임계값 -20% 이상, SA 광고비 5만원 이상)
+    # ※ 채널 알림은 SA 광고비/ROAS만 사용 (GFA 비례 배분으로 인한 ROAS 왜곡 제거)
     for ch in curr.get("channels", []):
         prev_ch = next((p for p in prev.get("channels", []) if p['name'] == ch['name']), None)
-        if prev_ch and prev_ch.get('roas', 0) > 0 and ch.get('cost', 0) > 50000:
-            change = pct_change(ch['roas'], prev_ch['roas'])
+        if not prev_ch:
+            continue
+        curr_sa_cost = ch.get('sa_only_cost', ch.get('cost', 0))
+        curr_sa_roas = ch.get('sa_only_roas', ch.get('roas', 0))
+        prev_sa_roas = prev_ch.get('sa_only_roas', prev_ch.get('roas', 0))
+        if prev_sa_roas > 0 and curr_sa_cost > 50000:
+            change = pct_change(curr_sa_roas, prev_sa_roas)
             if change is not None and change < -20:
                 risks.append({
                     "title": f"{ch['name']} ROAS 하락",
-                    "desc": f"{prev_label} {prev_ch['roas']:.0f}% → 현재 {ch['roas']:.0f}% ({change:+.0f}%p). 입찰가/소재 점검 필요."
+                    "desc": f"{prev_label} {prev_sa_roas:.0f}% → 현재 {curr_sa_roas:.0f}% ({change:+.0f}%p, SA 기준). 입찰가/소재 점검 필요."
                 })
 
-    # 채널 ROAS 100% 미만 (적자 채널)
+    # 채널 ROAS 100% 미만 (적자 채널) — SA 기준
     for ch in curr.get("channels", []):
-        if ch.get('cost', 0) > 100000 and 0 < ch.get('roas', 0) < 100:
+        curr_sa_cost = ch.get('sa_only_cost', ch.get('cost', 0))
+        curr_sa_roas = ch.get('sa_only_roas', ch.get('roas', 0))
+        if curr_sa_cost > 100000 and 0 < curr_sa_roas < 100:
             risks.append({
                 "title": f"{ch['name']} 손익분기 미달",
-                "desc": f"광고비 {format_curr(ch['cost'])}, 매출 {format_curr(ch['revenue'])} (ROAS {ch['roas']:.0f}%). 효율 점검 필요."
+                "desc": f"SA 광고비 {format_curr(curr_sa_cost)}, 매출 {format_curr(ch.get('revenue', 0))} (ROAS {curr_sa_roas:.0f}%, SA 기준). 효율 점검 필요."
             })
 
     # 반품 증가 (임계값 +20% 이상, 30만원 초과)
@@ -975,14 +983,16 @@ def detect_alerts(curr, prev, prev_label="전일"):
                     "desc": f"노출 {change:+.0f}%. 광고비 추가 배정 검토 가치."
                 })
 
-    # 고효율 채널 (ROAS 500% 이상 + 광고비 일정 이상) - 기회
+    # 고효율 채널 (ROAS 500% 이상 + SA 광고비 일정 이상) - 기회 (SA 기준)
     for ch in curr.get("channels", []):
-        if ch.get('cost', 0) > 100000 and ch.get('roas', 0) > 500:
+        curr_sa_cost = ch.get('sa_only_cost', ch.get('cost', 0))
+        curr_sa_roas = ch.get('sa_only_roas', ch.get('roas', 0))
+        if curr_sa_cost > 100000 and curr_sa_roas > 500:
             # 같은 채널이 위험에도 들어갔으면 스킵
             if not any(ch['name'] in r['title'] for r in risks):
                 opportunities.append({
-                    "title": f"{ch['name']} 고효율 ({ch['roas']:.0f}%)",
-                    "desc": f"광고비 {format_curr(ch['cost'])} → 매출 {format_curr(ch['revenue'])}. 예산 추가 배정 검토."
+                    "title": f"{ch['name']} 고효율 ({curr_sa_roas:.0f}%, SA 기준)",
+                    "desc": f"SA 광고비 {format_curr(curr_sa_cost)} → 매출 {format_curr(ch.get('revenue', 0))}. 예산 추가 배정 검토."
                 })
                 break  # 고효율 채널은 1개만
 
