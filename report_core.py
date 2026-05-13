@@ -1893,21 +1893,34 @@ body {{ font-family:'Pretendard',-apple-system,sans-serif; background:#f1f5f9; c
 <!-- Bestsellers -->
 <div class="card" style="padding:24px;">
   <div style="font-size:11px; font-weight:700; letter-spacing:1.5px; color:#64748b;">🏆 BESTSELLERS</div>
-  <h2 style="font-size:18px; font-weight:700; margin-top:4px; margin-bottom:16px;">베스트셀러 TOP 8</h2>
+  <h2 style="font-size:18px; font-weight:700; margin-top:4px; margin-bottom:6px;">베스트셀러 TOP 8</h2>
+  <div style="font-size:11px; color:#94a3b8; margin-bottom:14px; line-height:1.5;">
+    상품명 옆 배지: <span style="background:#dcfce7; color:#15803d; padding:1px 5px; border-radius:3px; font-size:9px; font-weight:700;">▲N</span> 순위 상승
+    · <span style="background:#fee2e2; color:#b91c1c; padding:1px 5px; border-radius:3px; font-size:9px; font-weight:700;">▼N</span> 하락
+    · <span style="background:#fef3c7; color:#92400e; padding:1px 5px; border-radius:3px; font-size:9px; font-weight:700;">🆕 NEW</span> {rank_prev_label} TOP 30 밖 신규 진입
+  </div>
   <div style="display:flex; flex-direction:column; gap:8px;">{bestseller_html}</div>
 </div>
 
 <!-- Categories -->
 <div class="card" style="padding:24px;">
   <div style="font-size:11px; font-weight:700; letter-spacing:1.5px; color:#64748b;">📦 CATEGORY MIX</div>
-  <h2 style="font-size:18px; font-weight:700; margin-top:4px; margin-bottom:16px;">카테고리별 매출 비중</h2>
+  <h2 style="font-size:18px; font-weight:700; margin-top:4px; margin-bottom:6px;">카테고리별 매출 비중</h2>
+  <div style="font-size:11px; color:#94a3b8; margin-bottom:14px; line-height:1.5;">
+    각 행 읽는 법: <strong style="color:#475569;">비중%</strong> <span style="background:#dcfce7; color:#15803d; padding:1px 4px; border-radius:3px; font-size:9px; font-weight:700;">▲N.N%p</span><span style="color:#94a3b8;"> 비중 변화({rank_prev_label} 대비, %p)</span>
+    · <strong style="color:#475569;">매출액</strong> <span style="color:#15803d; font-weight:700; font-size:10px;">▲N%</span><span style="color:#94a3b8;"> 매출 변화({rank_prev_label} 대비, %)</span>
+  </div>
   {cat_html}
 </div>
 
 <!-- Lines (NEW) -->
 <div class="card" style="padding:24px;">
   <div style="font-size:11px; font-weight:700; letter-spacing:1.5px; color:#64748b;">🏷️ PRODUCT LINES</div>
-  <h2 style="font-size:18px; font-weight:700; margin-top:4px; margin-bottom:16px;">시리즈별 매출 비중</h2>
+  <h2 style="font-size:18px; font-weight:700; margin-top:4px; margin-bottom:6px;">시리즈별 매출 비중</h2>
+  <div style="font-size:11px; color:#94a3b8; margin-bottom:14px; line-height:1.5;">
+    각 행 읽는 법: <strong style="color:#475569;">비중%</strong> <span style="background:#dcfce7; color:#15803d; padding:1px 4px; border-radius:3px; font-size:9px; font-weight:700;">▲N.N%p</span><span style="color:#94a3b8;"> 비중 변화({rank_prev_label} 대비, %p)</span>
+    · <strong style="color:#475569;">매출액</strong> <span style="color:#15803d; font-weight:700; font-size:10px;">▲N%</span><span style="color:#94a3b8;"> 매출 변화({rank_prev_label} 대비, %)</span>
+  </div>
   {line_html}
 </div>
 
