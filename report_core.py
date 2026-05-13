@@ -1896,8 +1896,10 @@ body {{ font-family:'Pretendard',-apple-system,sans-serif; background:#f1f5f9; c
   <h2 style="font-size:18px; font-weight:700; margin-top:4px; margin-bottom:6px;">베스트셀러 TOP 8</h2>
   <div style="font-size:12px; color:#1e293b; margin-bottom:14px; line-height:1.7; font-weight:600;">
     상품명 옆 배지: <span style="background:#dcfce7; color:#15803d; padding:1px 6px; border-radius:3px; font-size:10px; font-weight:800;">▲N</span> 순위 상승 ({rank_prev_label} X위 → 현재)
-    · <span style="background:#fee2e2; color:#b91c1c; padding:1px 6px; border-radius:3px; font-size:10px; font-weight:800;">▼N</span> 순위 하락
-    · <span style="background:#fef3c7; color:#92400e; padding:1px 6px; border-radius:3px; font-size:10px; font-weight:800;">🆕 NEW</span> {rank_prev_label} 판매 없던 신규 상품
+    <span style="color:#cbd5e1; margin:0 8px; font-weight:400;">/</span>
+    <span style="background:#fee2e2; color:#b91c1c; padding:1px 6px; border-radius:3px; font-size:10px; font-weight:800;">▼N</span> 순위 하락
+    <span style="color:#cbd5e1; margin:0 8px; font-weight:400;">/</span>
+    <span style="background:#fef3c7; color:#92400e; padding:1px 6px; border-radius:3px; font-size:10px; font-weight:800;">🆕 NEW</span> {rank_prev_label} 판매 없던 신규 상품
   </div>
   <div style="display:flex; flex-direction:column; gap:8px;">{bestseller_html}</div>
 </div>
@@ -1911,7 +1913,8 @@ body {{ font-family:'Pretendard',-apple-system,sans-serif; background:#f1f5f9; c
     <span style="background:#dcfce7; color:#15803d; padding:1px 5px; border-radius:3px; font-size:10px; font-weight:800; margin:0 2px;">▲N.N%p</span>
     <span style="background:#fee2e2; color:#b91c1c; padding:1px 5px; border-radius:3px; font-size:10px; font-weight:800; margin-right:4px;">▼N.N%p</span>
     <span style="color:#1e293b;">비중 변화 ({rank_prev_label} 대비, %p)</span>
-    · <strong style="color:#0f172a;">매출액</strong>
+    <span style="color:#cbd5e1; margin:0 8px; font-weight:400;">/</span>
+    <strong style="color:#0f172a;">매출액</strong>
     <span style="color:#15803d; font-weight:800; font-size:12px; margin:0 2px;">▲N%</span>
     <span style="color:#b91c1c; font-weight:800; font-size:12px; margin-right:4px;">▼N%</span>
     <span style="color:#1e293b;">매출 변화 ({rank_prev_label} 대비, %)</span>
@@ -1928,7 +1931,8 @@ body {{ font-family:'Pretendard',-apple-system,sans-serif; background:#f1f5f9; c
     <span style="background:#dcfce7; color:#15803d; padding:1px 5px; border-radius:3px; font-size:10px; font-weight:800; margin:0 2px;">▲N.N%p</span>
     <span style="background:#fee2e2; color:#b91c1c; padding:1px 5px; border-radius:3px; font-size:10px; font-weight:800; margin-right:4px;">▼N.N%p</span>
     <span style="color:#1e293b;">비중 변화 ({rank_prev_label} 대비, %p)</span>
-    · <strong style="color:#0f172a;">매출액</strong>
+    <span style="color:#cbd5e1; margin:0 8px; font-weight:400;">/</span>
+    <strong style="color:#0f172a;">매출액</strong>
     <span style="color:#15803d; font-weight:800; font-size:12px; margin:0 2px;">▲N%</span>
     <span style="color:#b91c1c; font-weight:800; font-size:12px; margin-right:4px;">▼N%</span>
     <span style="color:#1e293b;">매출 변화 ({rank_prev_label} 대비, %)</span>
