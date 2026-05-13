@@ -1656,14 +1656,14 @@ def render_html(prefix, prefix_en, stats, prev_stats, ai, risks, opps, start, en
     <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:1px solid #86efac; padding:16px; border-radius:12px;">
       <div style="font-size:11px; color:#15803d; font-weight:700; margin-bottom:6px;">🌟 BEST</div>
       <div style="font-size:15px; font-weight:700;">{best_day['date'].month}월 {best_day['date'].day}일 ({best_wd})</div>
-      <div style="font-size:22px; font-weight:800; color:#15803d; margin-top:4px;">{format_curr(best_day['revenue'])}</div>
+      <div style="font-size:23px; font-weight:800; color:#15803d; margin-top:4px;">{format_curr(best_day['revenue'])}</div>
       <div style="font-size:11px; color:#64748b; margin-top:6px;">ROAS {best_day['roas']:.0f}% · {int(best_day['purchases'])}건</div>
       <div style="font-size:11px; color:#64748b; margin-top:4px;">TOP: {best_day['top_product'][:30]}</div>
     </div>
     <div style="background:linear-gradient(135deg,#fef2f2,#fee2e2); border:1px solid #fca5a5; padding:16px; border-radius:12px;">
       <div style="font-size:11px; color:#991b1b; font-weight:700; margin-bottom:6px;">⚠️ WORST</div>
       <div style="font-size:15px; font-weight:700;">{worst_day['date'].month}월 {worst_day['date'].day}일 ({worst_wd})</div>
-      <div style="font-size:22px; font-weight:800; color:#991b1b; margin-top:4px;">{format_curr(worst_day['revenue'])}</div>
+      <div style="font-size:23px; font-weight:800; color:#991b1b; margin-top:4px;">{format_curr(worst_day['revenue'])}</div>
       <div style="font-size:11px; color:#64748b; margin-top:6px;">ROAS {worst_day['roas']:.0f}% · {int(worst_day['purchases'])}건</div>
       <div style="font-size:11px; color:#64748b; margin-top:4px;">TOP: {worst_day['top_product'][:30]}</div>
     </div>
@@ -1780,7 +1780,7 @@ def render_html(prefix, prefix_en, stats, prev_stats, ai, risks, opps, start, en
   <div style="font-size:11px; font-weight:700; letter-spacing:1.5px; color:#94a3b8;">📊 ANNUAL PROJECTION</div>
   <h2 style="font-size:18px; font-weight:700; margin-top:4px; margin-bottom:16px;">연 환산 추정</h2>
   <div style="font-size:13px; color:#cbd5e1; margin-bottom:8px;">이번달 페이스를 12개월 유지하면</div>
-  <div style="font-size:32px; font-weight:900; color:#60a5fa;">{format_curr(annual_estimate)}원</div>
+  <div style="font-size:33px; font-weight:900; color:#60a5fa;">{format_curr(annual_estimate)}원</div>
   <div style="font-size:12px; color:#94a3b8; margin-top:8px;">연 매출 추정 · {annual_gp_text}</div>
 </div>"""
 
@@ -1867,7 +1867,7 @@ body {{ font-family:'Pretendard',-apple-system,sans-serif; background:#f1f5f9; c
     <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:28px;">
       <div>
         <div style="color:#60a5fa; font-size:10px; font-weight:800; letter-spacing:2.5px; margin-bottom:10px;">DAILY EXECUTIVE BRIEFING</div>
-        <h1 style="font-size:38px; font-weight:900; letter-spacing:-1.5px; line-height:0.95; margin-bottom:8px;">{prefix_en}</h1>
+        <h1 style="font-size:39px; font-weight:900; letter-spacing:-1.5px; line-height:0.95; margin-bottom:8px;">{prefix_en}</h1>
         <div style="color:#03c75a; font-size:18px; font-weight:700; letter-spacing:-0.3px;">{prefix} · {report_type} 네이버 리포트</div>
       </div>
       <div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); padding:8px 16px; border-radius:20px; font-size:12px; font-weight:600; color:#cbd5e1; white-space:nowrap;">📅 {date_label}</div>
@@ -1885,23 +1885,23 @@ body {{ font-family:'Pretendard',-apple-system,sans-serif; background:#f1f5f9; c
   <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:12px;">
     <div style="background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 100%); border:1px solid #bfdbfe; padding:18px; border-radius:12px;">
       <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;"><span style="font-size:18px;">💰</span><span style="font-size:11px; font-weight:600; color:#1e40af;">매출</span></div>
-      <div style="font-size:24px; font-weight:800;">{format_curr(stats['total_revenue'])}</div>
+      <div style="font-size:25px; font-weight:800;">{format_curr(stats['total_revenue'])}</div>
       <div style="margin-top:6px;">{get_delta_chip(stats['total_revenue'], prev_stats['total_revenue'])}</div>
     </div>
     <div style="background:linear-gradient(135deg,#f0fdf4 0%,#dcfce7 100%); border:1px solid #86efac; padding:18px; border-radius:12px;">
       <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;"><span style="font-size:18px;">🎯</span><span style="font-size:11px; font-weight:600; color:#15803d;">ROAS</span></div>
-      <div style="font-size:24px; font-weight:800;">{roas:.0f}%</div>
+      <div style="font-size:25px; font-weight:800;">{roas:.0f}%</div>
       <div style="margin-top:6px;">{get_delta_chip(roas, prev_roas, is_percent=True)}</div>
     </div>
     <div style="background:linear-gradient(135deg,#ecfeff 0%,#cffafe 100%); border:1px solid #67e8f9; padding:18px; border-radius:12px;">
       <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;"><span style="font-size:18px;">💵</span><span style="font-size:11px; font-weight:600; color:#0e7490;">실매출</span></div>
-      <div style="font-size:24px; font-weight:800;">{format_curr(net_rev)}</div>
+      <div style="font-size:25px; font-weight:800;">{format_curr(net_rev)}</div>
       <div style="margin-top:6px;">{get_delta_chip(net_rev, prev_net)}</div>
       <div style="font-size:10px; color:#64748b; margin-top:4px;">매출 - 환불</div>
     </div>
     <div style="background:linear-gradient(135deg,#fef2f2 0%,#fee2e2 100%); border:1px solid #fca5a5; padding:18px; border-radius:12px;">
       <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;"><span style="font-size:18px;">↩️</span><span style="font-size:11px; font-weight:600; color:#991b1b;">환불</span></div>
-      <div style="font-size:24px; font-weight:800;">{format_curr(stats.get('total_returns', 0))}</div>
+      <div style="font-size:25px; font-weight:800;">{format_curr(stats.get('total_returns', 0))}</div>
       <div style="margin-top:6px;">{get_delta_chip(stats.get('total_returns', 0), prev_stats.get('total_returns', 0), inverse=True)}</div>
       <div style="font-size:10px; color:#64748b; margin-top:4px;">취소 + 반품</div>
     </div>
