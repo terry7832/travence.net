@@ -1933,15 +1933,19 @@ body {{ font-family:'Pretendard',-apple-system,sans-serif; background:#f1f5f9; c
   <div style="font-size:11px; font-weight:700; letter-spacing:1.5px; color:#64748b;">📦 CATEGORY MIX</div>
   <h2 style="font-size:18px; font-weight:700; margin-top:4px; margin-bottom:6px;">카테고리별 매출 비중</h2>
   <div style="font-size:12px; color:#1e293b; margin-bottom:14px; line-height:1.7; font-weight:600;">
-    각 행 읽는 법: <strong style="color:#0f172a;">비중%</strong>
-    <span style="background:#dcfce7; color:#15803d; padding:1px 5px; border-radius:3px; font-size:10px; font-weight:800; margin:0 2px;">▲N.N%p</span>
-    <span style="background:#fee2e2; color:#b91c1c; padding:1px 5px; border-radius:3px; font-size:10px; font-weight:800; margin-right:4px;">▼N.N%p</span>
-    <span style="color:#1e293b;">비중 변화 ({rank_prev_label} 대비, %p)</span>
+    각 행 읽는 법:
+    <span style="background:#dcfce7; color:#15803d; padding:1px 5px; border-radius:3px; font-size:10px; font-weight:800;">▲N.N%p</span>
+    <span style="color:#1e293b;"> 비중 상승</span>
     <span style="color:#cbd5e1; margin:0 8px; font-weight:400;">/</span>
-    <strong style="color:#0f172a;">매출액</strong>
-    <span style="color:#15803d; font-weight:800; font-size:12px; margin:0 2px;">▲N%</span>
-    <span style="color:#b91c1c; font-weight:800; font-size:12px; margin-right:4px;">▼N%</span>
-    <span style="color:#1e293b;">매출 변화 ({rank_prev_label} 대비, %)</span>
+    <span style="background:#fee2e2; color:#b91c1c; padding:1px 5px; border-radius:3px; font-size:10px; font-weight:800;">▼N.N%p</span>
+    <span style="color:#1e293b;"> 비중 하락</span>
+    <span style="color:#cbd5e1; margin:0 8px; font-weight:400;">/</span>
+    <span style="color:#15803d; font-weight:800; font-size:12px;">▲N%</span>
+    <span style="color:#1e293b;"> 매출 상승</span>
+    <span style="color:#cbd5e1; margin:0 8px; font-weight:400;">/</span>
+    <span style="color:#b91c1c; font-weight:800; font-size:12px;">▼N%</span>
+    <span style="color:#1e293b;"> 매출 하락</span>
+    <span style="color:#64748b; font-weight:500; margin-left:4px;">({rank_prev_label} 대비)</span>
   </div>
   {cat_html}
 </div>
@@ -1951,15 +1955,19 @@ body {{ font-family:'Pretendard',-apple-system,sans-serif; background:#f1f5f9; c
   <div style="font-size:11px; font-weight:700; letter-spacing:1.5px; color:#64748b;">🏷️ PRODUCT LINES</div>
   <h2 style="font-size:18px; font-weight:700; margin-top:4px; margin-bottom:6px;">시리즈별 매출 비중</h2>
   <div style="font-size:12px; color:#1e293b; margin-bottom:14px; line-height:1.7; font-weight:600;">
-    각 행 읽는 법: <strong style="color:#0f172a;">비중%</strong>
-    <span style="background:#dcfce7; color:#15803d; padding:1px 5px; border-radius:3px; font-size:10px; font-weight:800; margin:0 2px;">▲N.N%p</span>
-    <span style="background:#fee2e2; color:#b91c1c; padding:1px 5px; border-radius:3px; font-size:10px; font-weight:800; margin-right:4px;">▼N.N%p</span>
-    <span style="color:#1e293b;">비중 변화 ({rank_prev_label} 대비, %p)</span>
+    각 행 읽는 법:
+    <span style="background:#dcfce7; color:#15803d; padding:1px 5px; border-radius:3px; font-size:10px; font-weight:800;">▲N.N%p</span>
+    <span style="color:#1e293b;"> 비중 상승</span>
     <span style="color:#cbd5e1; margin:0 8px; font-weight:400;">/</span>
-    <strong style="color:#0f172a;">매출액</strong>
-    <span style="color:#15803d; font-weight:800; font-size:12px; margin:0 2px;">▲N%</span>
-    <span style="color:#b91c1c; font-weight:800; font-size:12px; margin-right:4px;">▼N%</span>
-    <span style="color:#1e293b;">매출 변화 ({rank_prev_label} 대비, %)</span>
+    <span style="background:#fee2e2; color:#b91c1c; padding:1px 5px; border-radius:3px; font-size:10px; font-weight:800;">▼N.N%p</span>
+    <span style="color:#1e293b;"> 비중 하락</span>
+    <span style="color:#cbd5e1; margin:0 8px; font-weight:400;">/</span>
+    <span style="color:#15803d; font-weight:800; font-size:12px;">▲N%</span>
+    <span style="color:#1e293b;"> 매출 상승</span>
+    <span style="color:#cbd5e1; margin:0 8px; font-weight:400;">/</span>
+    <span style="color:#b91c1c; font-weight:800; font-size:12px;">▼N%</span>
+    <span style="color:#1e293b;"> 매출 하락</span>
+    <span style="color:#64748b; font-weight:500; margin-left:4px;">({rank_prev_label} 대비)</span>
   </div>
   {line_html}
 </div>
