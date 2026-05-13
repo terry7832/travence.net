@@ -1254,10 +1254,21 @@ def render_html(prefix, prefix_en, stats, prev_stats, ai, risks, opps, start, en
     # 비교 라벨 (전일/전주/전월) — 이 함수 내부에선 직접 알 수 없어 한 줄 요약 라벨 재활용
     rank_prev_label = "전월" if report_type == "월간" else ("전주" if report_type == "주간" else "전일")
 
-    def _rank_change_badge(prev_rank, change):
-        """순위 변화 배지 HTML 생성"""
+    def _rank_change_badge(prev_rank, change, is_in_catalog=True):
+        """순위 변화 배지 HTML 생성
+
+        prev_rank is None일 때:
+          - is_in_catalog=True: 기존 상품인데 {prev_label}에 안 팔림 → '💤 어제 미판매' (회색 톤)
+          - is_in_catalog=False: 마스터에 없는 진짜 신규 상품 → '🆕 NEW' (노란 톤)
+        """
         if prev_rank is None:
-            # 신규 진입 (또는 30위 밖에서 진입)
+            if is_in_catalog:
+                # 기존 상품 + 전일 미판매
+                return (f'<span style="display:inline-flex; align-items:center; gap:2px; '
+                        'background:#f1f5f9; color:#475569; padding:2px 6px; border-radius:4px; '
+                        'font-size:10px; font-weight:700; margin-left:6px;">'
+                        f'💤 {rank_prev_label} 미판매</span>')
+            # 마스터에 없는 진짜 신규 상품
             return ('<span style="display:inline-flex; align-items:center; gap:2px; '
                     'background:#fef3c7; color:#92400e; padding:2px 6px; border-radius:4px; '
                     'font-size:10px; font-weight:700; margin-left:6px;">🆕 NEW</span>')
@@ -1289,8 +1300,9 @@ def render_html(prefix, prefix_en, stats, prev_stats, ai, risks, opps, start, en
             if margin > 0:
                 m_color = "#10b981" if margin >= 50 else ("#3b82f6" if margin >= 30 else "#64748b")
                 margin_info = f" · 마진 <span style='color:{m_color}; font-weight:700;'>{margin:.0f}%</span>"
-        # 순위 변화 배지
-        rank_badge = _rank_change_badge(p.get('_prev_rank'), p.get('_rank_change'))
+        # 순위 변화 배지 (마스터 카탈로그 매칭 여부 함께 전달)
+        is_in_catalog = bool(p.get('_master_name'))
+        rank_badge = _rank_change_badge(p.get('_prev_rank'), p.get('_rank_change'), is_in_catalog)
         bg = "background: linear-gradient(90deg, #fef3c7 0%, transparent 60%);" if i == 0 else ""
         rank_bg = ("linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)" if i == 0 else "#e2e8f0")
         rank_color = "white" if i == 0 else "#64748b"
@@ -1909,7 +1921,9 @@ body {{ font-family:'Pretendard',-apple-system,sans-serif; background:#f1f5f9; c
     <span style="color:#cbd5e1; margin:0 8px; font-weight:400;">/</span>
     <span style="background:#fee2e2; color:#b91c1c; padding:1px 6px; border-radius:3px; font-size:10px; font-weight:800;">▼N</span> 순위 하락
     <span style="color:#cbd5e1; margin:0 8px; font-weight:400;">/</span>
-    <span style="background:#fef3c7; color:#92400e; padding:1px 6px; border-radius:3px; font-size:10px; font-weight:800;">🆕 NEW</span> {rank_prev_label} 판매 없던 신규 상품
+    <span style="background:#f1f5f9; color:#475569; padding:1px 6px; border-radius:3px; font-size:10px; font-weight:800;">💤 {rank_prev_label} 미판매</span> 기존 상품인데 {rank_prev_label} 0건
+    <span style="color:#cbd5e1; margin:0 8px; font-weight:400;">/</span>
+    <span style="background:#fef3c7; color:#92400e; padding:1px 6px; border-radius:3px; font-size:10px; font-weight:800;">🆕 NEW</span> 마스터에 없는 진짜 신규 상품
   </div>
   <div style="display:flex; flex-direction:column; gap:8px;">{bestseller_html}</div>
 </div>
