@@ -1895,9 +1895,9 @@ body {{ font-family:'Pretendard',-apple-system,sans-serif; background:#f1f5f9; c
   <div style="font-size:11px; font-weight:700; letter-spacing:1.5px; color:#64748b;">🏆 BESTSELLERS</div>
   <h2 style="font-size:18px; font-weight:700; margin-top:4px; margin-bottom:6px;">베스트셀러 TOP 8</h2>
   <div style="font-size:11px; color:#475569; margin-bottom:14px; line-height:1.6; font-weight:500;">
-    상품명 옆 배지: <span style="background:#dcfce7; color:#15803d; padding:1px 5px; border-radius:3px; font-size:9px; font-weight:700;">▲N</span> 순위 상승
+    상품명 옆 배지: <span style="background:#dcfce7; color:#15803d; padding:1px 5px; border-radius:3px; font-size:9px; font-weight:700;">▲N</span> 순위 상승 ({rank_prev_label} X위 → 현재)
     · <span style="background:#fee2e2; color:#b91c1c; padding:1px 5px; border-radius:3px; font-size:9px; font-weight:700;">▼N</span> 순위 하락
-    · <span style="background:#fef3c7; color:#92400e; padding:1px 5px; border-radius:3px; font-size:9px; font-weight:700;">🆕 NEW</span> {rank_prev_label} TOP 30 밖 신규 진입
+    · <span style="background:#fef3c7; color:#92400e; padding:1px 5px; border-radius:3px; font-size:9px; font-weight:700;">🆕 NEW</span> {rank_prev_label} 판매 없던 신규 상품
   </div>
   <div style="display:flex; flex-direction:column; gap:8px;">{bestseller_html}</div>
 </div>
@@ -2153,8 +2153,8 @@ def run_report(prefix, prefix_en, naver_id, naver_secret, anthropic_key,
         logger.info(f"  ✓ 일별 데이터 {len(daily_breakdown)}일치 수집 완료")
 
     # === 순위 변동 계산 (일간/주간/월간 모두 적용) ===
-    # 베스트셀러 (prev 상위 30위까지 매핑)
-    prev_ranks = {p.get('_master_name', p.get('productName', '')): i for i, p in enumerate(prev['products'][:30])}
+    # 베스트셀러 (prev 전체 상품 매핑 — 30위 밖도 정확한 순위 표시 위해)
+    prev_ranks = {p.get('_master_name', p.get('productName', '')): i for i, p in enumerate(prev['products'])}
     for i, p in enumerate(curr['products'][:10]):
         name = p.get('_master_name') or p.get('productName', '')
         prev_rank = prev_ranks.get(name)
