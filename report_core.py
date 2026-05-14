@@ -1142,6 +1142,9 @@ def render_html(prefix, prefix_en, stats, prev_stats, ai, risks, opps, start, en
     roas = (net_rev / stats["total_cost"] * 100) if stats["total_cost"] > 0 else 0
     prev_net = prev_stats["total_revenue"] - prev_stats["total_refund"] - prev_stats.get("total_cancel", 0)
     prev_roas = (prev_net / prev_stats["total_cost"] * 100) if prev_stats["total_cost"] > 0 else 0
+    total_returns = stats.get("total_returns", stats["total_refund"] + stats.get("total_cancel", 0))
+    prev_total_returns = prev_stats.get("total_returns", prev_stats["total_refund"] + prev_stats.get("total_cancel", 0))
+    returns_revenue_rate = (total_returns / stats["total_revenue"] * 100) if stats["total_revenue"] > 0 else 0
 
     new_cust = stats.get("customer_new", 0)
     ret_cust = stats.get("customer_returning", 0)
@@ -1901,8 +1904,11 @@ body {{ font-family:'Pretendard',-apple-system,sans-serif; background:#f1f5f9; c
     </div>
     <div style="background:linear-gradient(135deg,#fef2f2 0%,#fee2e2 100%); border:1px solid #fca5a5; padding:18px; border-radius:12px;">
       <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;"><span style="font-size:18px;">↩️</span><span style="font-size:11px; font-weight:600; color:#991b1b;">환불</span></div>
-      <div style="font-size:25px; font-weight:800;">{format_curr(stats.get('total_returns', 0))}</div>
-      <div style="margin-top:6px;">{get_delta_chip(stats.get('total_returns', 0), prev_stats.get('total_returns', 0), inverse=True)}</div>
+      <div style="display:flex; align-items:baseline; gap:8px; flex-wrap:wrap;">
+        <span style="font-size:25px; font-weight:800;">{format_curr(total_returns)}</span>
+        <span style="font-size:13px; font-weight:800; color:#991b1b;">({returns_revenue_rate:.1f}%)</span>
+      </div>
+      <div style="margin-top:6px;">{get_delta_chip(total_returns, prev_total_returns, inverse=True)}</div>
       <div style="font-size:10px; color:#64748b; margin-top:4px;">취소 + 반품</div>
     </div>
   </div>
