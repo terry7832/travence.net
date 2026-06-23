@@ -121,7 +121,7 @@ export function Brands() {
                 </div>
                 <div className="brand-card-detail">
                   <div className="brand-detail-visual">
-                    <Image src={`/brands/${b.slug}-photo.jpg`} alt={b.kr} fill sizes="(max-width: 768px) 100vw, 45vw" style={{ objectFit: "cover" }} />
+                    <Image src={`/brands/${b.slug}-photo.jpg`} alt={b.kr} fill sizes="(max-width: 768px) 100vw, 45vw" style={{ objectFit: "cover" }} loading="eager" />
                   </div>
                 </div>
               </div>
