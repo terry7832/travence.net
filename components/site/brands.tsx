@@ -151,7 +151,7 @@ export function Brands({ lang }: { lang: Lang }) {
             const isOpen = expanded === b.slug;
             const desc = isEn ? b.descEn : b.desc;
             const highlights = isEn ? b.highlightsEn : b.highlights;
-            const storeLink = isEn ? b.linkEn : b.link;
+            const storeLink = isEn ? b.linkEn : (b.link ?? b.linkEn);
             return (
               <div
                 key={b.slug}
