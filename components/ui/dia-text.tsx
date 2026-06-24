@@ -179,7 +179,8 @@ const DiaTextReveal = forwardRef<HTMLSpanElement, DiaTextRevealProps>(
       (): NonNullable<DiaTextMotionProps["style"]> => ({
         ...(isMulti && {
           display: "inline-block",
-          overflow: "hidden",
+          overflowX: "clip",
+          overflowY: "visible",
           whiteSpace: "nowrap",
           verticalAlign: "text-center" as CSSProperties["verticalAlign"],
           ...(fixedW != null && { width: fixedW }),
@@ -195,6 +196,8 @@ const DiaTextReveal = forwardRef<HTMLSpanElement, DiaTextRevealProps>(
         backgroundClip: "text",
         WebkitBackgroundClip: "text",
         backgroundSize: "100% 100%",
+        paddingBottom: "0.2em",
+        marginBottom: "-0.2em",
         backgroundImage,
         opacity: textOpacity,
         filter: contentFilter,

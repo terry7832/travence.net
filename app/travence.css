@@ -1090,3 +1090,20 @@
 /* expanded 카드 로고: 흰 배경 박스 (다크 배경에서 로고 또렷하게) */
 .brand-card.expanded .brand-card-icon { background: #fff; border-radius: 12px; padding: 12px 22px; }
 .brand-card.expanded .brand-card-icon img { filter: none; }
+
+/* 언어 토글 + 영어 about 헤드라인 간격 */
+.nav-langs { display: inline-flex; align-items: center; gap: 7px; }
+.nav-lang { display: inline-flex; align-items: center; gap: 5px; font-size: 0.78rem; font-weight: 700; color: var(--gray-400); letter-spacing: 0.02em; text-decoration: none; transition: color 0.2s ease; }
+.nav-lang.active { color: var(--gray-900); }
+.nav-lang:hover { color: var(--blue); }
+.nav-lang svg { width: 19px; height: 13px; border-radius: 2px; display: block; box-shadow: 0 0 0 1px rgba(0,0,0,0.08); }
+.nav-lang-sep { color: var(--gray-300); font-weight: 400; }
+.mobile-langs { display: inline-flex; align-items: center; gap: 16px; }
+.mobile-lang { display: inline-flex; align-items: center; gap: 8px; font-size: 1.05rem; font-weight: 700; color: var(--gray-400); text-decoration: none; }
+.mobile-lang.active { color: var(--gray-900); }
+.mobile-lang svg { width: 28px; height: 19px; border-radius: 3px; box-shadow: 0 0 0 1px rgba(0,0,0,0.08); }
+.mobile-lang-sep { color: var(--gray-300); }
+.section.about.about-en .section-headline { word-spacing: normal; }
+/* 영어판 브랜드 카드 — 영어명 상시 표시 */
+.brands-en .name-kr { display: none; }
+.brands-en .name-en { display: inline; }
