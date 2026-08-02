@@ -2,6 +2,11 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+Copy `.env.example` to `.env.local` and configure the Resend settings used by
+the website inquiry form. `CONTACT_FROM_EMAIL` must use a domain verified in
+Resend. Inquiry contents are emailed to `CONTACT_TO_EMAIL` and are not stored
+by the application.
+
 First, run the development server:
 
 ```bash

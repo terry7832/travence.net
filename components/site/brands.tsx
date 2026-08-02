@@ -157,18 +157,16 @@ export function Brands({ lang }: { lang: Lang }) {
                 key={b.slug}
                 data-reveal={b.slug}
                 className={`brand-card expandable ${rev(b.slug)} reveal-d${b.delay}${isOpen ? " expanded" : ""}`}
-                onClick={(e) => {
-                  const willOpen = expanded !== b.slug;
-                  setExpanded(willOpen ? b.slug : null);
-                  if (willOpen) {
-                    const card = e.currentTarget;
-                    setTimeout(() => card.scrollIntoView({ behavior: "smooth", block: "center" }), 80);
-                  }
-                }}
               >
                 <div className="brand-card-main">
                   <div className="brand-card-icon">
-                    <Image src={`/brands/${b.slug}-logo.png`} alt={b.en} width={b.logoW} height={b.logoH} />
+                    <Image
+                      src={`/brands/${b.slug}-logo.png`}
+                      alt={`${b.en} logo`}
+                      width={b.logoW}
+                      height={b.logoH}
+                      sizes="(max-width: 768px) 112px, 180px"
+                    />
                   </div>
                   <div className="brand-card-name">
                     {isEn ? b.en : (
@@ -187,31 +185,45 @@ export function Brands({ lang }: { lang: Lang }) {
                     )}
                   </div>
                   <p className="brand-card-desc">{desc}</p>
-                  {storeLink && (
-                    <a
-                      href={storeLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="brand-card-link"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      {t.officialStore}
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-                    </a>
-                  )}
                   <div className="brand-detail-highlights">
                     {highlights.map((h, i) => (
                       <div key={i} className="brand-highlight"><span className="brand-highlight-text">{h}</span></div>
                     ))}
                   </div>
-                  <span className="brand-card-toggle">
-                    {isOpen ? t.collapse : t.expand}
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M6 9l6 6 6-6" /></svg>
-                  </span>
+                  <div className="brand-card-actions">
+                    {storeLink ? (
+                      <a
+                        href={storeLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="brand-card-link"
+                      >
+                        {t.officialStore}
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                      </a>
+                    ) : null}
+                    <button
+                      type="button"
+                      className="brand-card-toggle"
+                      aria-expanded={isOpen}
+                      aria-controls={`brand-detail-${b.slug}`}
+                      onClick={(event) => {
+                        const willOpen = expanded !== b.slug;
+                        setExpanded(willOpen ? b.slug : null);
+                        if (willOpen) {
+                          const card = event.currentTarget.closest<HTMLElement>(".brand-card");
+                          setTimeout(() => card?.scrollIntoView({ behavior: "smooth", block: "center" }), 80);
+                        }
+                      }}
+                    >
+                      {isOpen ? t.collapse : t.expand}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M6 9l6 6 6-6" /></svg>
+                    </button>
+                  </div>
                 </div>
-                <div className="brand-card-detail">
+                <div className="brand-card-detail" id={`brand-detail-${b.slug}`}>
                   <div className="brand-detail-visual">
-                    <Image src={`/brands/${b.slug}-photo.jpg`} alt={b.en} fill sizes="(max-width: 768px) 100vw, 45vw" style={{ objectFit: "cover" }} loading="eager" />
+                    <Image src={`/brands/${b.slug}-photo.jpg`} alt="" fill sizes="(max-width: 768px) 100vw, 45vw" style={{ objectFit: "cover" }} />
                   </div>
                 </div>
               </div>

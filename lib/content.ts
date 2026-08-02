@@ -3,6 +3,7 @@ export type Lang = "ko" | "en";
 type Stat = { num: string; label: string };
 type Tile = { num: string; title: string; desc: string };
 type Position = { title: string; meta: string };
+type InquiryOption = { value: string; label: string };
 
 export type SiteContent = {
   nav: { about: string; brands: string; business: string; careers: string; contact: string; cta: string };
@@ -39,7 +40,29 @@ export type SiteContent = {
     address: string;
     rightHead: string;
     rightBody: string;
-    emailBtn: string;
+    form: {
+      requiredNotice: string;
+      category: string;
+      categoryPlaceholder: string;
+      categoryOptions: InquiryOption[];
+      company: string;
+      companyPlaceholder: string;
+      name: string;
+      namePlaceholder: string;
+      email: string;
+      emailPlaceholder: string;
+      website: string;
+      websitePlaceholder: string;
+      message: string;
+      messagePlaceholder: string;
+      consent: string;
+      submit: string;
+      pending: string;
+      successTitle: string;
+      successBody: string;
+      copyEmail: string;
+      copiedEmail: string;
+    };
   };
   footer: { links: string[]; copyright: string; address: string };
 };
@@ -111,7 +134,35 @@ export const content: Record<Lang, SiteContent> = {
       address: "서울특별시 중구 을지로 5가 40-3<br/>서울패션벤처타운 178호",
       rightHead: "브랜드 제안 및<br/>비즈니스 문의",
       rightBody: "새로운 여행 브랜드 제안, 유통 협력, 딜러십 문의 등 비즈니스 관련 문의를 환영합니다.",
-      emailBtn: "이메일 문의",
+      form: {
+        requiredNotice: "* 필수 항목",
+        category: "문의 유형",
+        categoryPlaceholder: "문의 유형을 선택해 주세요",
+        categoryOptions: [
+          { value: "brand-proposal", label: "브랜드 제안" },
+          { value: "distribution", label: "유통·총판 협력" },
+          { value: "dealership", label: "도매·딜러십" },
+          { value: "partnership", label: "마케팅·사업 제휴" },
+          { value: "other", label: "기타 문의" },
+        ],
+        company: "회사명",
+        companyPlaceholder: "회사명을 입력해 주세요",
+        name: "담당자명",
+        namePlaceholder: "성함을 입력해 주세요",
+        email: "회신 이메일",
+        emailPlaceholder: "name@company.com",
+        website: "회사·브랜드 웹사이트",
+        websitePlaceholder: "https://",
+        message: "문의 내용",
+        messagePlaceholder: "제안 또는 협력 내용을 간단히 알려주세요.",
+        consent: "문의 답변을 위한 개인정보 수집 및 이용에 동의합니다.",
+        submit: "문의 접수하기",
+        pending: "접수 중...",
+        successTitle: "문의가 접수되었습니다.",
+        successBody: "남겨주신 이메일로 담당자가 답변드리겠습니다.",
+        copyEmail: "이메일 주소 복사",
+        copiedEmail: "이메일 주소가 복사되었습니다",
+      },
     },
     footer: {
       links: ["회사소개", "사업영역", "브랜드", "채용", "문의"],
@@ -186,7 +237,35 @@ export const content: Record<Lang, SiteContent> = {
       address: "178, Seoul Fashion Venture Town,<br/>40-3 Eulji-ro 5-ga, Jung-gu, Seoul, Korea",
       rightHead: "Brand Proposals &<br/>Business Inquiries",
       rightBody: "We welcome business inquiries including new travel brand proposals, distribution partnerships, and dealerships.",
-      emailBtn: "Email Us",
+      form: {
+        requiredNotice: "* Required",
+        category: "Inquiry type",
+        categoryPlaceholder: "Select an inquiry type",
+        categoryOptions: [
+          { value: "brand-proposal", label: "Brand proposal" },
+          { value: "distribution", label: "Distribution partnership" },
+          { value: "dealership", label: "Wholesale & dealership" },
+          { value: "partnership", label: "Marketing & business partnership" },
+          { value: "other", label: "Other inquiry" },
+        ],
+        company: "Company",
+        companyPlaceholder: "Company name",
+        name: "Contact name",
+        namePlaceholder: "Your name",
+        email: "Reply email",
+        emailPlaceholder: "name@company.com",
+        website: "Company or brand website",
+        websitePlaceholder: "https://",
+        message: "Message",
+        messagePlaceholder: "Tell us briefly about your proposal or partnership.",
+        consent: "I agree to the collection and use of my information for a response to this inquiry.",
+        submit: "Submit inquiry",
+        pending: "Submitting...",
+        successTitle: "Your inquiry has been received.",
+        successBody: "Our team will reply to the email address you provided.",
+        copyEmail: "Copy email address",
+        copiedEmail: "Email address copied",
+      },
     },
     footer: {
       links: ["About", "Business", "Brands", "Partnership", "Contact"],
