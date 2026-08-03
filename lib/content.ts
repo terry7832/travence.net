@@ -58,6 +58,7 @@ export type SiteContent = {
       consent: string;
       submit: string;
       pending: string;
+      responseNote: string;
       successTitle: string;
       successBody: string;
       copyEmail: string;
@@ -158,6 +159,7 @@ export const content: Record<Lang, SiteContent> = {
         consent: "문의 답변을 위한 개인정보 수집 및 이용에 동의합니다.",
         submit: "문의 접수하기",
         pending: "접수 중...",
+        responseNote: "최대한 빠르게 답변드리겠습니다.",
         successTitle: "문의가 접수되었습니다.",
         successBody: "남겨주신 이메일로 담당자가 답변드리겠습니다.",
         copyEmail: "이메일 주소 복사",
@@ -261,6 +263,7 @@ export const content: Record<Lang, SiteContent> = {
         consent: "I agree to the collection and use of my information for a response to this inquiry.",
         submit: "Submit inquiry",
         pending: "Submitting...",
+        responseNote: "We’ll get back to you as soon as possible.",
         successTitle: "Your inquiry has been received.",
         successBody: "Our team will reply to the email address you provided.",
         copyEmail: "Copy email address",

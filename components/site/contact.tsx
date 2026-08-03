@@ -1,11 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useActionState, useCallback, useRef, useState } from "react";
-import { MapPin, Phone, Mail, Globe } from "lucide-react";
 import { submitInquiry, type InquiryActionState } from "@/app/inquiry-actions";
 import { useReveal } from "@/lib/use-reveal";
-import { EMAIL } from "@/lib/site";
 import { Lang, content } from "@/lib/content";
 
 const initialState: InquiryActionState = { status: "idle" };
@@ -21,7 +18,6 @@ const emptyFormValues = {
 
 export function Contact({ lang }: { lang: Lang }) {
   const ref = useRef<HTMLElement>(null);
-  const [emailCopied, setEmailCopied] = useState(false);
   const [formValues, setFormValues] = useState(emptyFormValues);
   const submitAndReset = useCallback(async (previousState: InquiryActionState, formData: FormData) => {
     const result = await submitInquiry(previousState, formData);
@@ -32,17 +28,8 @@ export function Contact({ lang }: { lang: Lang }) {
   useReveal(ref);
   const t = content[lang].contact;
 
-  async function copyEmail() {
-    try {
-      await navigator.clipboard.writeText(EMAIL);
-      setEmailCopied(true);
-    } catch {
-      window.prompt(t.form.copyEmail, EMAIL);
-    }
-  }
-
   return (
-    <section className="section contact" id="contact" ref={ref}>
+    <section className="section contact" id="contact-section" ref={ref}>
       <div className="section-inner">
         <div className="reveal">
           <p className="section-eyebrow">{t.eyebrow}</p>
@@ -50,48 +37,7 @@ export function Contact({ lang }: { lang: Lang }) {
           <p className="section-body">{t.body}</p>
         </div>
         <div className="contact-card reveal reveal-d1">
-          <div className="contact-left">
-            <Image className="contact-left-title" src="/contact-title.png" alt="TRAVENCE" width={600} height={388} />
-            <div className="contact-left-sub">{t.sub}</div>
-            <div className="contact-row">
-              <div className="contact-item">
-                <div className="contact-item-icon"><MapPin size={20} strokeWidth={1.5} /></div>
-                <div>
-                  <div className="contact-label">{t.labels.address}</div>
-                  <div className="contact-value" dangerouslySetInnerHTML={{ __html: t.address }} />
-                </div>
-              </div>
-              <div className="contact-item">
-                <div className="contact-item-icon"><Phone size={20} strokeWidth={1.5} /></div>
-                <div>
-                  <div className="contact-label">{t.labels.phone}</div>
-                  <div className="contact-value"><a href="tel:02-2274-8240">02.2274.8240</a></div>
-                </div>
-              </div>
-              <div className="contact-item">
-                <div className="contact-item-icon"><Mail size={20} strokeWidth={1.5} /></div>
-                <div>
-                  <div className="contact-label">{t.labels.email}</div>
-                  <div className="contact-value">
-                    <button type="button" className="contact-email-copy" onClick={copyEmail}>
-                      {EMAIL}
-                    </button>
-                    <span className="contact-copy-hint" aria-live="polite">
-                      {emailCopied ? t.form.copiedEmail : t.form.copyEmail}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="contact-item">
-                <div className="contact-item-icon"><Globe size={20} strokeWidth={1.5} /></div>
-                <div>
-                  <div className="contact-label">{t.labels.website}</div>
-                  <div className="contact-value"><a href="https://www.travence.net">www.travence.net</a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="contact-right">
+          <div className="contact-right" id="contact">
             <h3 dangerouslySetInnerHTML={{ __html: t.rightHead }} />
             <p>{t.rightBody}</p>
             {state.status === "success" && !pending ? (
@@ -102,9 +48,9 @@ export function Contact({ lang }: { lang: Lang }) {
             ) : null}
             <form action={formAction} className="contact-form">
               <input type="hidden" name="lang" value={lang} />
-              <div className="contact-honeypot" aria-hidden="true">
+              <div className="contact-honeypot" aria-hidden="true" inert>
                 <label htmlFor={`contact-fax-${lang}`}>Fax</label>
-                <input id={`contact-fax-${lang}`} name="fax" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+                <input id={`contact-fax-${lang}`} name="fax" type="text" tabIndex={-1} autoComplete="off" />
               </div>
 
               <div className="contact-form-required">{t.form.requiredNotice}</div>
@@ -242,6 +188,7 @@ export function Contact({ lang }: { lang: Lang }) {
                 {pending ? t.form.pending : t.form.submit}
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
               </button>
+              <p className="contact-response-note">{t.form.responseNote}</p>
             </form>
           </div>
         </div>

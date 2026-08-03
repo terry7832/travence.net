@@ -79,7 +79,14 @@ export function ScrollExpand({ lang }: { lang: Lang }) {
     <section className="scroll-expand" id="scrollExpand" ref={secRef}>
       <div className="se-sticky">
         <div className="se-media" id="seMedia" ref={mediaRef}>
-          <video src="/hero-bg.mp4" autoPlay muted loop playsInline preload="auto"></video>
+          <Image
+            className="se-background"
+            src="/hero-matterhorn.webp"
+            alt={lang === "en" ? "The Matterhorn at dawn above the clouds" : "구름 위로 솟은 새벽의 마테호른"}
+            fill
+            priority
+            sizes="100vw"
+          />
           <div className="se-overlay"></div>
           <div className="se-logo-cover" ref={coverRef}>
             <Image src="/hero-logo.png" alt="TRAVENCE" width={912} height={598} priority />
