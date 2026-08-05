@@ -1512,7 +1512,28 @@
 }
 .se-titles { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; pointer-events: none; mix-blend-mode: difference; }
 .se-titles h2 { font-size: clamp(2.2rem, 7vw, 5rem); font-weight: 800; letter-spacing: -.02em; color: #fff; line-height: 1.05; will-change: transform; }
-.se-hint { position: absolute; bottom: 8%; left: 50%; transform: translateX(-50%); z-index: 5; color: #fff; font-size: .78rem; letter-spacing: .16em; font-weight: 500; text-shadow: 0 1px 8px rgba(0,0,0,.4); }
+.se-hint {
+    position: absolute;
+    bottom: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 15px;
+    border: 1px solid rgba(15,23,42,.1);
+    border-radius: 999px;
+    background: rgba(255,255,255,.88);
+    box-shadow: 0 10px 30px rgba(15,23,42,.14);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    color: #273244;
+    font-size: .76rem;
+    letter-spacing: .12em;
+    font-weight: 700;
+    white-space: nowrap;
+}
 
 /* hero 버튼 하단 배치 (로고·문구 제거 후) */
 .hero-actions--bottom { position: absolute; bottom: 15%; left: 0; right: 0; z-index: 2; }
