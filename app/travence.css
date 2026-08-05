@@ -1417,8 +1417,8 @@
 /* ─── SCROLL EXPAND (영상 확장 섹션) ─── */
 .scroll-expand { position: relative; height: 300vh; background: var(--bg); }
 .se-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-.se-media { position: relative; overflow: hidden; border-radius: 24px; box-shadow: 0 30px 80px rgba(0,0,0,.28); will-change: width, height; }
-.se-media .se-background { object-fit: cover; object-position: center 48%; }
+.se-media { position: relative; overflow: hidden; border-radius: 24px; box-shadow: 0 30px 80px rgba(0,0,0,.28); will-change: width, height; transform: translateZ(0); backface-visibility: hidden; contain: layout paint; }
+.se-media .se-background { object-fit: cover; object-position: center 48%; transform: scale(1.015) translateZ(0); backface-visibility: hidden; }
 .se-media .se-overlay {
     position: absolute;
     inset: 0;

@@ -22,9 +22,17 @@ export function ScrollExpand({ lang }: { lang: Lang }) {
     const hint = hintRef.current;
     const story = storyRef.current;
     if (!sec || !media || !cover || !cta || !hint || !story) return;
+    const sectionElement = sec;
+    const mediaElement = media;
+    const coverElement = cover;
+    const ctaElement = cta;
+    const hintElement = hint;
+    const storyElement = story;
 
     const lerp = (a: number, b: number, t2: number) => a + (b - a) * t2;
     const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
+    const smoothstep = (v: number) => v * v * (3 - 2 * v);
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     let vw = 0, vh = 0, startW = 0, startH = 0;
     function recalc() {
@@ -34,48 +42,84 @@ export function ScrollExpand({ lang }: { lang: Lang }) {
       startH = Math.min(480, vh * 0.56);
     }
 
-    let ticking = false;
-    function update() {
-      ticking = false;
-      if (!sec || !media || !cover || !cta || !hint || !story) return;
-      const rect = sec.getBoundingClientRect();
-      const total = sec.offsetHeight - vh;
+    function readProgress() {
+      const rect = sectionElement.getBoundingClientRect();
+      const total = sectionElement.offsetHeight - vh;
       const passed = clamp(-rect.top, 0, total);
       const p = total > 0 ? passed / total : 0;
-      const e = clamp(p / 0.8, 0, 1);
+      return clamp(p / 0.8, 0, 1);
+    }
 
-      media.style.width = lerp(startW, vw, e) + "px";
-      media.style.height = lerp(startH, vh, e) + "px";
-      media.style.borderRadius = lerp(24, 0, e) + "px";
-      cover.style.opacity = String(clamp(1 - e * 2, 0, 1));
-      cta.style.opacity = String(clamp(1 - e * 2.5, 0, 1));
-      cta.style.pointerEvents = e > 0.25 ? "none" : "auto";
-      hint.style.opacity = String(clamp(1 - e * 2, 0, 1));
-      const storyReveal = clamp((e - 0.48) / 0.28, 0, 1);
-      story.style.opacity = String(storyReveal);
-      story.style.transform = `translateY(${lerp(24, 0, storyReveal)}px)`;
+    function render(progress: number) {
+      const e = smoothstep(progress);
+
+      mediaElement.style.width = lerp(startW, vw, e) + "px";
+      mediaElement.style.height = lerp(startH, vh, e) + "px";
+      mediaElement.style.borderRadius = lerp(24, 0, e) + "px";
+      coverElement.style.opacity = String(1 - smoothstep(clamp((e - 0.04) / 0.46, 0, 1)));
+      ctaElement.style.opacity = String(1 - smoothstep(clamp((e - 0.02) / 0.32, 0, 1)));
+      ctaElement.style.pointerEvents = e > 0.25 ? "none" : "auto";
+      hintElement.style.opacity = String(1 - smoothstep(clamp((e - 0.05) / 0.37, 0, 1)));
+      const storyReveal = smoothstep(clamp((e - 0.42) / 0.3, 0, 1));
+      storyElement.style.opacity = String(storyReveal);
+      storyElement.style.transform = `translateY(${lerp(24, 0, storyReveal)}px)`;
+    }
+
+    let currentProgress = 0;
+    let targetProgress = 0;
+    let frameId = 0;
+    let lastFrame = 0;
+    let initialized = false;
+
+    function animate(now: number) {
+      const deltaSeconds = Math.min((now - lastFrame) / 1000, 0.05);
+      lastFrame = now;
+      const damping = 1 - Math.exp(-11 * deltaSeconds);
+      currentProgress += (targetProgress - currentProgress) * damping;
+
+      if (Math.abs(targetProgress - currentProgress) < 0.0005) {
+        currentProgress = targetProgress;
+        render(currentProgress);
+        frameId = 0;
+        return;
+      }
+
+      render(currentProgress);
+      frameId = requestAnimationFrame(animate);
+    }
+
+    function syncProgress(immediate = false) {
+      targetProgress = readProgress();
+      if (!initialized || immediate || reduceMotion) {
+        initialized = true;
+        currentProgress = targetProgress;
+        render(currentProgress);
+        return;
+      }
+      if (!frameId) {
+        lastFrame = performance.now();
+        frameId = requestAnimationFrame(animate);
+      }
     }
 
     function onScroll() {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
+      syncProgress();
     }
     function onResize() {
       recalc();
-      update();
+      syncProgress(true);
     }
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
     recalc();
-    update();
-    const timer = setTimeout(() => { recalc(); update(); }, 250);
+    syncProgress(true);
+    const timer = setTimeout(() => { recalc(); syncProgress(true); }, 250);
 
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
+      if (frameId) cancelAnimationFrame(frameId);
       clearTimeout(timer);
     };
   }, []);
