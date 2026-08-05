@@ -23,6 +23,23 @@ function LangSwitch({ lang, variant, onNav }: { lang: Lang; variant: "nav" | "mo
   );
 }
 
+function MobileLangSwitch({ lang, onNav }: { lang: Lang; onNav: () => void }) {
+  const isKo = lang === "ko";
+
+  return (
+    <Link
+      href={isKo ? "/en" : "/"}
+      hrefLang={isKo ? "en" : "ko"}
+      className="nav-mobile-lang"
+      onClick={onNav}
+      aria-label={isKo ? "View English site" : "한국어 사이트 보기"}
+    >
+      {isKo ? <FlagUS /> : <FlagKR />}
+      <span>{isKo ? "EN" : "KR"}</span>
+    </Link>
+  );
+}
+
 export function SiteNav({ lang }: { lang: Lang }) {
   const [open, setOpen] = useState(false);
   const t = content[lang].nav;
@@ -44,9 +61,12 @@ export function SiteNav({ lang }: { lang: Lang }) {
             <li><LangSwitch lang={lang} variant="nav" onNav={close} /></li>
             <li><a href={`${base}#contact`} className="nav-cta">{t.cta}</a></li>
           </ul>
-          <button className="nav-mobile-toggle" onClick={() => setOpen((o) => !o)} aria-label="menu">
-            <span></span><span></span><span></span>
-          </button>
+          <div className="nav-mobile-controls">
+            <MobileLangSwitch lang={lang} onNav={close} />
+            <button className="nav-mobile-toggle" onClick={() => setOpen((o) => !o)} aria-label="menu">
+              <span></span><span></span><span></span>
+            </button>
+          </div>
         </div>
       </nav>
 

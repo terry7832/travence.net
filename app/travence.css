@@ -100,6 +100,29 @@
             display: none; cursor: pointer; padding: 8px;
             background: none; border: none;
         }
+        .nav-mobile-controls {
+            display: none;
+            align-items: center;
+            gap: 2px;
+        }
+        .nav-mobile-lang {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 5px;
+            color: var(--gray-700);
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            line-height: 1;
+            text-decoration: none;
+        }
+        .nav-mobile-lang svg {
+            width: 18px;
+            height: 12px;
+            border-radius: 2px;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+        }
         .nav-mobile-toggle span {
             display: block; width: 20px; height: 1.5px;
             background: var(--gray-900); margin: 4px 0;
@@ -1213,7 +1236,11 @@
 
         /* ─── RESPONSIVE ─── */
         @media (max-width: 768px) {
+            .nav-inner { padding: 0 20px; }
             .nav-links { display: none; }
+            .nav-logo { min-width: 0; }
+            .nav-logo img { width: auto; max-width: 55vw; height: 22px; object-fit: contain; }
+            .nav-mobile-controls { display: flex; }
             .nav-mobile-toggle { display: block; }
             .section { padding: 72px 20px; scroll-margin-top: 56px; }
             .hero {
