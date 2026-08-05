@@ -149,17 +149,19 @@ export function ScrollExpand({ lang }: { lang: Lang }) {
             <p className="se-logo-tagline">{t.tagline}</p>
           </div>
         </div>
-        <div className="se-cta" ref={ctaRef}>
-          <a href={`${base}#brands`} className="btn-blue">
-            {t.exploreBrands}
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-          </a>
-          <a href={`${base}#about`} className="btn-outline">
-            {t.learnMore}
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M9 18l6-6-6-6" /></svg>
-          </a>
+        <div className="se-action-stack">
+          <div className="se-hint" id="seHint" ref={hintRef}>{t.scrollHint}</div>
+          <div className="se-cta" ref={ctaRef}>
+            <a href={`${base}#brands`} className="btn-blue">
+              {t.exploreBrands}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </a>
+            <a href={`${base}#about`} className="btn-outline">
+              {t.learnMore}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M9 18l6-6-6-6" /></svg>
+            </a>
+          </div>
         </div>
-        <div className="se-hint" id="seHint" ref={hintRef}>{t.scrollHint}</div>
       </div>
     </section>
   );

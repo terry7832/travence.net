@@ -1512,12 +1512,18 @@
 }
 .se-titles { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; pointer-events: none; mix-blend-mode: difference; }
 .se-titles h2 { font-size: clamp(2.2rem, 7vw, 5rem); font-weight: 800; letter-spacing: -.02em; color: #fff; line-height: 1.05; will-change: transform; }
-.se-hint {
+.se-action-stack {
     position: absolute;
-    bottom: 8%;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 5;
+    bottom: 10%;
+    left: 0;
+    right: 0;
+    z-index: 7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+.se-hint {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1541,7 +1547,7 @@
 /* scroll-expand 로고 커버 + 버튼 (첫 화면) */
 .se-logo-cover { position: absolute; inset: 0; z-index: 6; display: flex; align-items: center; justify-content: center; background: var(--bg); border-radius: inherit; overflow: hidden; }
 .se-logo-cover img { width: 64%; max-width: 360px; height: auto; }
-.se-cta { position: absolute; bottom: 12%; left: 0; right: 0; z-index: 7; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.se-cta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
 /* 로고 카드: 로고 아래 부제 */
 .se-logo-cover { flex-direction: column; gap: 18px; }
