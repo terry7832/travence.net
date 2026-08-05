@@ -7,7 +7,13 @@ type InquiryOption = { value: string; label: string };
 
 export type SiteContent = {
   nav: { about: string; brands: string; business: string; careers: string; contact: string; cta: string };
-  hero: { tagline: string; exploreBrands: string; learnMore: string; scrollHint: string };
+  hero: {
+    tagline: string;
+    exploreBrands: string;
+    learnMore: string;
+    scrollHint: string;
+    origin: { eyebrow: string; title: string[]; body: string };
+  };
   about: {
     eyebrow: string;
     headLead: string;
@@ -71,7 +77,17 @@ export type SiteContent = {
 export const content: Record<Lang, SiteContent> = {
   ko: {
     nav: { about: "회사소개", brands: "브랜드", business: "사업영역", careers: "채용", contact: "문의", cta: "문의하기" },
-    hero: { tagline: "여행의 본질을 담다", exploreBrands: "브랜드 살펴보기", learnMore: "더 알아보기", scrollHint: "스크롤하여 펼치기" },
+    hero: {
+      tagline: "여행의 본질을 담다",
+      exploreBrands: "브랜드 살펴보기",
+      learnMore: "더 알아보기",
+      scrollHint: "스크롤하여 펼치기",
+      origin: {
+        eyebrow: "THE MATTERHORN · SWITZERLAND",
+        title: ["마테호른에서 탄생한", "트레벤스의 상징"],
+        body: "마테호른이 알프스를 대표하는 상징이듯, 트레벤스는 더 나은 여행을 대표하는 상징이 되고자 합니다. 그 지향점을 마테호른의 형태에 담아 트레벤스의 로고로 완성했습니다.",
+      },
+    },
     about: {
       eyebrow: "About",
       headLead: "여행을 더",
@@ -175,7 +191,17 @@ export const content: Record<Lang, SiteContent> = {
 
   en: {
     nav: { about: "About", brands: "Brands", business: "Business", careers: "Partnership", contact: "Contact", cta: "Contact Us" },
-    hero: { tagline: "Capturing the essence of travel", exploreBrands: "Explore Brands", learnMore: "Learn More", scrollHint: "Scroll to expand" },
+    hero: {
+      tagline: "Capturing the essence of travel",
+      exploreBrands: "Explore Brands",
+      learnMore: "Learn More",
+      scrollHint: "Scroll to expand",
+      origin: {
+        eyebrow: "THE MATTERHORN · SWITZERLAND",
+        title: ["An Emblem Born", "from the Matterhorn"],
+        body: "As the Matterhorn stands as the ultimate benchmark of the Alps, Travence strives to set a new standard for travel. That promise is built directly into our logo—a peak that guides you toward better journeys.",
+      },
+    },
     about: {
       eyebrow: "About",
       headLead: "Make Travel",

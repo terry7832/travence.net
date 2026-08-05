@@ -12,6 +12,7 @@ export function ScrollExpand({ lang }: { lang: Lang }) {
   const coverRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const hintRef = useRef<HTMLDivElement>(null);
+  const storyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const sec = secRef.current;
@@ -19,7 +20,8 @@ export function ScrollExpand({ lang }: { lang: Lang }) {
     const cover = coverRef.current;
     const cta = ctaRef.current;
     const hint = hintRef.current;
-    if (!sec || !media || !cover || !cta || !hint) return;
+    const story = storyRef.current;
+    if (!sec || !media || !cover || !cta || !hint || !story) return;
 
     const lerp = (a: number, b: number, t2: number) => a + (b - a) * t2;
     const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
@@ -35,7 +37,7 @@ export function ScrollExpand({ lang }: { lang: Lang }) {
     let ticking = false;
     function update() {
       ticking = false;
-      if (!sec || !media || !cover || !cta || !hint) return;
+      if (!sec || !media || !cover || !cta || !hint || !story) return;
       const rect = sec.getBoundingClientRect();
       const total = sec.offsetHeight - vh;
       const passed = clamp(-rect.top, 0, total);
@@ -49,6 +51,9 @@ export function ScrollExpand({ lang }: { lang: Lang }) {
       cta.style.opacity = String(clamp(1 - e * 2.5, 0, 1));
       cta.style.pointerEvents = e > 0.25 ? "none" : "auto";
       hint.style.opacity = String(clamp(1 - e * 2, 0, 1));
+      const storyReveal = clamp((e - 0.48) / 0.28, 0, 1);
+      story.style.opacity = String(storyReveal);
+      story.style.transform = `translateY(${lerp(24, 0, storyReveal)}px)`;
     }
 
     function onScroll() {
@@ -88,6 +93,13 @@ export function ScrollExpand({ lang }: { lang: Lang }) {
             sizes="100vw"
           />
           <div className="se-overlay"></div>
+          <div className="se-story" ref={storyRef}>
+            <p className="se-story-eyebrow">{t.origin.eyebrow}</p>
+            <h2>
+              {t.origin.title.map((line) => <span key={line}>{line}</span>)}
+            </h2>
+            <p className="se-story-body">{t.origin.body}</p>
+          </div>
           <div className="se-logo-cover" ref={coverRef}>
             <Image src="/hero-logo.png" alt="TRAVENCE" width={912} height={598} priority />
             <p className="se-logo-tagline">{t.tagline}</p>
