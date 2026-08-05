@@ -198,7 +198,7 @@ export const content: Record<Lang, SiteContent> = {
       scrollHint: "Scroll to expand",
       origin: {
         eyebrow: "THE MATTERHORN · SWITZERLAND",
-        title: ["An Emblem Born", "from the Matterhorn"],
+        title: ["A Logo Born", "from the Matterhorn"],
         body: "As the Matterhorn stands as the ultimate benchmark of the Alps, Travence strives to set a new standard for travel. That promise is built directly into our logo—a peak that guides you toward better journeys.",
       },
     },
