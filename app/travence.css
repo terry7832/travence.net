@@ -261,13 +261,13 @@
             text-decoration: none;
             padding: 14px 32px;
             border-radius: 12px;
-            transition: all 0.25s ease;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
             box-shadow: 0 2px 12px rgba(37,99,235,0.2);
         }
         .btn-blue:hover {
             background: var(--blue-dark);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 20px rgba(37,99,235,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(37,99,235,0.3);
         }
         .btn-blue svg { width: 16px; height: 16px; transition: transform 0.2s; }
         .btn-blue:hover svg { transform: translateX(3px); }
@@ -281,11 +281,13 @@
             padding: 14px 32px;
             border-radius: 12px;
             border: 1px solid var(--gray-200);
-            transition: all 0.25s ease;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .btn-outline:hover {
             border-color: var(--gray-300);
             background: var(--gray-50);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(15,23,42,0.08);
         }
         .btn-outline svg { width: 16px; height: 16px; }
 
@@ -1441,11 +1443,38 @@
         }
 
 
-/* ─── SCROLL EXPAND (영상 확장 섹션) ─── */
+/* ─── SCROLL EXPAND (히어로: 카드가 창처럼 열리는 섹션) ─── */
 .scroll-expand { position: relative; height: 300vh; background: var(--bg); }
-.se-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-.se-media { position: relative; overflow: hidden; border-radius: 24px; box-shadow: 0 30px 80px rgba(0,0,0,.28); will-change: width, height; transform: translateZ(0); backface-visibility: hidden; contain: layout paint; }
-.se-media .se-background { object-fit: cover; object-position: center 48%; transform: scale(1.015) translateZ(0); backface-visibility: hidden; }
+.se-sticky { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+/* 카드 = 화면을 가득 채운 이미지에 clip-path 로 창을 낸 것 — 확장 중 이미지 리레이아웃이 없어 부드럽다 */
+.se-media {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    clip-path: inset(calc((100% - min(480px, 56vh)) / 2) calc((100% - min(360px, 86vw)) / 2) round 28px);
+    clip-path: inset(calc((100% - min(480px, 56svh)) / 2) calc((100% - min(360px, 86svw)) / 2) round 28px);
+    will-change: clip-path;
+    backface-visibility: hidden;
+    contain: layout paint;
+    animation: seCardIn 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.se-zoom { position: absolute; inset: 0; transform: scale(1.14) translateZ(0); will-change: transform; backface-visibility: hidden; }
+.se-media .se-background { object-fit: cover; object-position: center 48%; }
+/* clip-path 는 그림자를 못 그리므로, 카드 크기를 따라가는 그림자 판을 뒤에 깐다 */
+.se-card-shadow {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: min(360px, 86vw);
+    height: min(480px, 56vh);
+    width: min(360px, 86svw);
+    height: min(480px, 56svh);
+    border-radius: 28px;
+    box-shadow: 0 40px 90px rgba(15,23,42,.15), 0 16px 36px rgba(15,23,42,.10), 0 3px 10px rgba(15,23,42,.06);
+    will-change: width, height, opacity;
+    pointer-events: none;
+    animation: seCardIn 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
 .se-media .se-overlay {
     position: absolute;
     inset: 0;
@@ -1453,18 +1482,37 @@
         linear-gradient(90deg, rgba(7,16,32,.42) 0%, rgba(7,16,32,.1) 58%, rgba(7,16,32,.02) 100%),
         linear-gradient(180deg, rgba(0,0,0,.08) 38%, rgba(5,12,26,.58) 100%);
 }
+@keyframes seCardIn {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+}
+@keyframes seRise {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes seFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+@keyframes seNudge {
+    0%, 100% { transform: translateY(0); opacity: .6; }
+    50% { transform: translateY(3px); opacity: 1; }
+}
 .se-story {
     position: absolute;
-    left: clamp(32px, 7vw, 112px);
-    bottom: clamp(54px, 9vh, 104px);
+    /* --se-ix/--se-iy = clip 창의 안쪽 가장자리 — 텍스트가 창과 함께 미끄러져 들어온다 */
+    left: calc(var(--se-ix, 0px) + clamp(32px, 7vw, 112px));
+    bottom: calc(var(--se-iy, 0px) + clamp(54px, 9vh, 104px));
     z-index: 4;
     width: min(620px, calc(100% - 64px));
     color: #fff;
-    opacity: 0;
-    transform: translateY(24px);
-    will-change: opacity, transform;
     pointer-events: none;
     text-shadow: 0 2px 18px rgba(0,0,0,.28);
+}
+/* 스토리 각 줄(눈썹글·제목·본문)은 JS 가 시차를 두고 띄운다 */
+.se-story-eyebrow, .se-story h2, .se-story-body {
+    opacity: 0;
+    will-change: opacity, transform;
 }
 .se-story-eyebrow {
     display: flex;
@@ -1505,17 +1553,17 @@
 
 @media (max-width: 768px) {
     .scroll-expand { height: 220vh; }
-    .se-media {
-        box-shadow: 0 24px 60px rgba(15,23,42,.2);
+    .se-card-shadow {
+        box-shadow: 0 24px 60px rgba(15,23,42,.16), 0 8px 24px rgba(15,23,42,.10);
     }
     .se-media .se-background { object-position: center center; }
     .se-media .se-overlay {
         background: linear-gradient(180deg, rgba(8,16,31,.02) 34%, rgba(8,16,31,.76) 100%);
     }
     .se-story {
-        left: 24px;
-        right: 24px;
-        bottom: max(34px, 5vh);
+        left: calc(var(--se-ix, 0px) + 24px);
+        right: calc(var(--se-ix, 0px) + 24px);
+        bottom: calc(var(--se-iy, 0px) + max(56px, 7vh));
         width: auto;
         text-shadow: 0 2px 14px rgba(0,0,0,.36);
     }
@@ -1549,16 +1597,18 @@
     flex-direction: column;
     align-items: center;
     gap: 12px;
+    animation: seRise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
 }
 .se-hint {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 9px 15px;
-    border: 1px solid rgba(15,23,42,.1);
+    gap: 7px;
+    padding: 9px 14px 9px 17px;
+    border: 1px solid rgba(15,23,42,.08);
     border-radius: 999px;
-    background: rgba(255,255,255,.88);
-    box-shadow: 0 10px 30px rgba(15,23,42,.14);
+    background: rgba(255,255,255,.9);
+    box-shadow: 0 10px 30px rgba(15,23,42,.12);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
     color: #273244;
@@ -1567,18 +1617,52 @@
     font-weight: 700;
     white-space: nowrap;
 }
+.se-hint-chevron {
+    width: 13px;
+    height: 13px;
+    color: var(--blue);
+    animation: seNudge 2.2s ease-in-out infinite;
+}
 
 /* hero 버튼 하단 배치 (로고·문구 제거 후) */
 .hero-actions--bottom { position: absolute; bottom: 15%; left: 0; right: 0; z-index: 2; }
 
 /* scroll-expand 로고 커버 + 버튼 (첫 화면) */
-.se-logo-cover { position: absolute; inset: 0; z-index: 6; display: flex; align-items: center; justify-content: center; background: var(--bg); border-radius: inherit; overflow: hidden; }
-.se-logo-cover img { width: 64%; max-width: 360px; height: auto; }
+/* 커버는 화면 전체를 덮고 clip-path 창 안쪽만 보인다 — 로고 크기는 창 기준으로 잡는다 */
+.se-logo-cover {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(130% 100% at 50% 26%, #ffffff 0%, #fbfbfd 52%, #eef2f8 100%);
+    overflow: hidden;
+}
+.se-logo-cover img {
+    width: min(230px, 55vw);
+    width: min(230px, 55svw);
+    height: auto;
+    animation: seRise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both, seFloat 6s ease-in-out 1.6s infinite;
+}
 .se-cta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
 /* 로고 카드: 로고 아래 부제 */
 .se-logo-cover { flex-direction: column; gap: 18px; }
-.se-logo-tagline { margin: 0; font-family: 'Noto Sans KR', sans-serif; font-size: clamp(0.95rem, 1.6vw, 1.15rem); font-weight: 500; color: var(--gray-500); letter-spacing: -0.01em; }
+.se-logo-tagline {
+    margin: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+    font-weight: 500;
+    color: var(--gray-500);
+    letter-spacing: -0.01em;
+    animation: seRise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.28s both;
+}
+
+/* 움직임 줄이기 설정 존중 — 등장·부유 애니메이션 전부 끈다 */
+@media (prefers-reduced-motion: reduce) {
+    .se-media, .se-card-shadow, .se-logo-cover img, .se-logo-tagline, .se-action-stack, .se-hint-chevron { animation: none; }
+}
 
 /* about 왼쪽 정렬 + 헤드라인 줄높이 통일 */
 .section.about { text-align: left; }
@@ -1593,9 +1677,6 @@
 
 /* brand 제품사진 fill 컨테이너 */
 .brand-detail-visual { position: relative; overflow: hidden; }
-
-/* scroll-expand 첫 카드 초기 크기 (JS 전 레이아웃 시프트 방지) */
-.se-media { width: min(360px, 86vw); height: min(480px, 56vh); }
 
 /* expanded 카드 로고: 흰 배경 박스 (다크 배경에서 로고 또렷하게) */
 .brand-card.expanded .brand-card-icon { background: #fff; border-radius: 12px; padding: 12px 22px; }
