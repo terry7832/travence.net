@@ -485,7 +485,10 @@
         /* Expandable brand cards */
         .brand-card.expandable {
             cursor: default;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition:
+                opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.35s ease;
         }
 
         .brand-card-toggle {
@@ -586,6 +589,14 @@
             align-items: stretch;
             grid-column: 2;
             grid-row: 1;
+            animation: brandDetailIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        @keyframes brandDetailIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .brand-card.expanded .brand-card-detail { animation: none; }
         }
 
         /* Highlights move into main (left) via JS */
@@ -627,7 +638,22 @@
         .brand-detail-visual img {
             width: 100%; height: 100%;
             object-fit: cover;
+            z-index: 1; /* 스켈레톤 위에 그려져, 받아둔 사진은 펼치는 즉시 보인다 */
         }
+        /* 사진이 아직 없을 때만 보이는 스켈레톤 — 사진이 그려지면 자연히 가려진다 */
+        .brand-detail-visual::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(120deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 100%);
+            background-size: 200% 100%;
+            animation: brandShimmer 1.4s ease-in-out infinite;
+        }
+        .brand-detail-visual.is-loaded::before { display: none; }
+        @keyframes brandShimmer {
+            from { background-position: 100% 0; }
+            to { background-position: -100% 0; }
+        }
+        .brand-detail-close { display: none; }
 
         .brand-visual-placeholder {
             display: flex; flex-direction: column;
@@ -1347,9 +1373,28 @@
                 padding-top: 16px;
             }
             .brand-card.expanded .brand-detail-visual {
-                min-height: 200px;
-                aspect-ratio: 4 / 3;
+                height: auto;
+                min-height: 0;
+                aspect-ratio: 1 / 1;
+                max-height: min(72vh, 560px);
             }
+            .brand-card.expanded[data-photo="portrait"] .brand-detail-visual {
+                aspect-ratio: 4 / 5;
+            }
+            .brand-detail-close {
+                position: absolute; right: 14px; bottom: 14px; z-index: 2;
+                display: inline-flex; align-items: center; gap: 4px;
+                padding: 10px 14px;
+                border: 0; border-radius: 999px;
+                background: rgba(17, 17, 17, 0.72);
+                color: #fff;
+                font-family: inherit; font-size: 0.78rem; font-weight: 600; line-height: 1;
+                -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+                box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+                cursor: pointer;
+            }
+            .brand-detail-close svg { width: 14px; height: 14px; }
+            .brand-detail-close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
             .brand-card.featured { grid-template-columns: 1fr; padding: 40px 28px; }
             .brand-featured-right { padding-left: 0; padding-top: 28px; }
             .business-tiles { grid-template-columns: 1fr; }

@@ -19,6 +19,8 @@ type Brand = {
   delay: number;
   logoW: number;
   logoH: number;
+  /** 제품 사진 원본 비율 — 모바일에서 잘리지 않도록 박스 비율을 맞추는 데 사용 */
+  photo: "portrait" | "square";
 };
 
 const BRANDS: Brand[] = [
@@ -31,6 +33,7 @@ const BRANDS: Brand[] = [
     highlights: ["소매치기 걱정 없이 여행에만 집중할 수 있는 보안 설계", "전 세계 여행자가 선택한 도난 방지 No.1 브랜드", "가방 하나로 여행의 불안을 안심으로 바꿉니다"],
     highlightsEn: ["Security-engineered so you can focus on the journey, not pickpockets.", "The No.1 anti-theft brand chosen by travelers worldwide.", "One bag that turns travel anxiety into peace of mind."],
     delay: 1, logoW: 300, logoH: 72,
+    photo: "portrait",
   },
   {
     slug: "president", kr: "프레지던트", en: "President", catKr: "프리미엄 여행가방", catEn: "Premium Luggage",
@@ -41,6 +44,7 @@ const BRANDS: Brand[] = [
     highlights: ["1960년 일본에서 시작된, 60년을 이어온 장인 정신", "비즈니스 출장부터 가족 여행까지 — 믿고 맡기는 가방", "전 세계 90개 이상의 매장에서 만날 수 있는 글로벌 신뢰"],
     highlightsEn: ["Craftsmanship carried on since its founding in Japan in 1960 — 60 years strong.", "From business trips to family travel — luggage you can rely on.", "Global trust, available in over 90 stores around the world."],
     delay: 2, logoW: 300, logoH: 53,
+    photo: "square",
   },
   {
     slug: "cabinzero", kr: "캐빈제로", en: "CabinZero", catKr: "초경량 백팩", catEn: "Ultra-Light Backpack",
@@ -51,6 +55,7 @@ const BRANDS: Brand[] = [
     highlights: ["760g, 물병보다 가벼운 백팩으로 기내반입 고민 끝", "짐이 아니라 자유를 메고 떠나는 여행", "영국에서 시작해 전 세계 배낭여행자의 국민 백팩이 된 브랜드"],
     highlightsEn: ["At 760g — lighter than a water bottle — carry-on worries are over.", "Travel carrying freedom on your back, not baggage.", "Born in the UK, now a go-to backpack for backpackers worldwide."],
     delay: 3, logoW: 300, logoH: 212,
+    photo: "portrait",
   },
   {
     slug: "markryden", kr: "마크라이든", en: "Mark Ryden", catKr: "스마트 백팩", catEn: "Smart Backpack",
@@ -60,6 +65,7 @@ const BRANDS: Brand[] = [
     highlights: ["출퇴근길부터 출장까지, 일상과 여행의 경계를 없앤 백팩", "USB 충전, 도난방지, 방수까지 — 기능이 곧 스타일", "\"백팩 어디꺼야?\" 질문을 가장 많이 받는 브랜드"],
     highlightsEn: ["From the commute to the business trip — a backpack that erases the line between daily life and travel.", "USB charging, anti-theft, water resistance — function becomes style.", "The brand that gets asked \"where's that backpack from?\" the most."],
     delay: 4, logoW: 182, logoH: 52,
+    photo: "portrait",
   },
   {
     slug: "mixi", kr: "믹시", en: "MIXI", catKr: "스마트 캐리어", catEn: "Smart Carrier",
@@ -69,6 +75,7 @@ const BRANDS: Brand[] = [
     highlights: ["실용성과 디자인을 모두 잡은 스마트 캐리어", "가볍고 튼튼한 소재로 어떤 여행에도 든든한 동반자", "합리적인 가격에 프리미엄 품질을 담았습니다"],
     highlightsEn: ["Smart luggage that captures both practicality and design.", "Light yet durable materials make it a dependable companion on any trip.", "Premium quality at a reasonable price."],
     delay: 5, logoW: 300, logoH: 59,
+    photo: "square",
   },
   {
     slug: "travelerschoice", kr: "트래블러스초이스", en: "Travelers Choice", catKr: "여행가방", catEn: "Travel Luggage",
@@ -78,6 +85,7 @@ const BRANDS: Brand[] = [
     highlights: ["프리미엄 품질을 합리적인 가격으로 — 캘리포니아 감성", "처음 여행가방을 사는 사람도, 열 번째 사는 사람도 만족", "튼튼하고, 조용하고, 예쁜 — 세 마리 토끼를 다 잡은 캐리어"],
     highlightsEn: ["Premium quality at a fair price — with California spirit.", "Satisfying whether it's your first suitcase or your tenth.", "Sturdy, quiet, and good-looking — luggage that nails all three."],
     delay: 5, logoW: 300, logoH: 70,
+    photo: "square",
   },
   {
     slug: "conwood", kr: "콘우드", en: "Conwood", catKr: "스타일리시 캐리어", catEn: "Stylish Luggage",
@@ -87,6 +95,7 @@ const BRANDS: Brand[] = [
     highlights: ["도쿄·밀라노·상하이 디자이너가 함께 만든 글로벌 감성", "공항에서 시선을 사로잡는 컬러와 디자인", "50개국 여행자가 인정한 스타일과 내구성의 균형"],
     highlightsEn: ["A global sensibility crafted by designers from Tokyo, Milan, and Shanghai.", "Colors and design that turn heads at the airport.", "A balance of style and durability recognized by travelers in 50 countries."],
     delay: 5, logoW: 300, logoH: 63,
+    photo: "square",
   },
   {
     slug: "landorhawa", kr: "랜도르앤하와", en: "Landor & Hawa", catKr: "모던 캐리어", catEn: "Modern Luggage",
@@ -95,6 +104,7 @@ const BRANDS: Brand[] = [
     highlights: ["군더더기 없는 모던 디자인, 여행도 미니멀하게", "꺼내놓으면 인테리어가 되는 트래블 기어", "디자인을 아는 여행자가 선택하는 브랜드"],
     highlightsEn: ["Clean, modern design — travel kept minimal.", "Travel gear that doubles as décor when left out.", "The brand chosen by travelers who know design."],
     delay: 6, logoW: 300, logoH: 300,
+    photo: "square",
   },
   {
     slug: "easynap", kr: "이지냅", en: "EasyNap", catKr: "트래블 컴포트", catEn: "Travel Comfort",
@@ -103,13 +113,22 @@ const BRANDS: Brand[] = [
     highlights: ["비행기에서도, 차 안에서도 — 어디서든 깊은 인체공학적 휴식", "내 손안에 들어가는 간편한 목베개", "목베개 · 요추쿠션 · 여행 컴포트 — 당신의 여행과 건강에 필요한 필수품만"],
     highlightsEn: ["Deep, ergonomic rest anywhere — on the plane or in the car.", "A travel pillow compact enough to fit in your hand.", "Neck pillows, lumbar cushions, travel comfort — only the essentials for your trip and well-being."],
     delay: 7, logoW: 288, logoH: 300,
+    photo: "square",
   },
 ];
 
+const NAV_OFFSET = 56 + 12;
+
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 export function Brands({ lang }: { lang: Lang }) {
   const ref = useRef<HTMLElement>(null);
+  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const [expanded, setExpanded] = useState<string | null>(null);
   const [shown, setShown] = useState<Set<string>>(new Set());
+  const [loaded, setLoaded] = useState<Set<string>>(new Set());
   const t = content[lang].brandsSection;
   const isEn = lang === "en";
 
@@ -136,6 +155,37 @@ export function Brands({ lang }: { lang: Lang }) {
     return () => observer.disconnect();
   }, []);
 
+  // 펼친 뒤 레이아웃이 확정된 다음 카드 위치를 잡는다.
+  // 화면보다 큰 카드는 상단(로고·이름)이 내비 바로 아래 오도록, 작은 카드는 가운데로.
+  useEffect(() => {
+    if (!expanded) return;
+    const card = cardRefs.current[expanded];
+    if (!card) return;
+    const frame = requestAnimationFrame(() => {
+      const rect = card.getBoundingClientRect();
+      const viewH = window.innerHeight;
+      const fits = rect.height <= viewH - NAV_OFFSET - 16;
+      const top = fits
+        ? window.scrollY + rect.top - (viewH - rect.height) / 2
+        : window.scrollY + rect.top - NAV_OFFSET;
+      window.scrollTo({ top: Math.max(top, 0), behavior: prefersReducedMotion() ? "auto" : "smooth" });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [expanded]);
+
+  const collapse = (slug: string) => {
+    setExpanded(null);
+    // 접힌 뒤 카드 상단이 내비 뒤로 숨었다면 다시 보이게 끌어내린다
+    requestAnimationFrame(() => {
+      const card = cardRefs.current[slug];
+      if (!card) return;
+      const rect = card.getBoundingClientRect();
+      if (rect.top < NAV_OFFSET) {
+        window.scrollTo({ top: window.scrollY + rect.top - NAV_OFFSET, behavior: prefersReducedMotion() ? "auto" : "smooth" });
+      }
+    });
+  };
+
   const rev = (key: string) => `reveal${shown.has(key) ? " visible" : ""}`;
 
   return (
@@ -152,10 +202,14 @@ export function Brands({ lang }: { lang: Lang }) {
             const desc = isEn ? b.descEn : b.desc;
             const highlights = isEn ? b.highlightsEn : b.highlights;
             const storeLink = isEn ? b.linkEn : (b.link ?? b.linkEn);
+            const isShown = shown.has(b.slug);
+            const isLoaded = loaded.has(b.slug);
             return (
               <div
                 key={b.slug}
+                ref={(el) => { cardRefs.current[b.slug] = el; }}
                 data-reveal={b.slug}
+                data-photo={b.photo}
                 className={`brand-card expandable ${rev(b.slug)} reveal-d${b.delay}${isOpen ? " expanded" : ""}`}
               >
                 <div className="brand-card-main">
@@ -207,14 +261,7 @@ export function Brands({ lang }: { lang: Lang }) {
                       className="brand-card-toggle"
                       aria-expanded={isOpen}
                       aria-controls={`brand-detail-${b.slug}`}
-                      onClick={(event) => {
-                        const willOpen = expanded !== b.slug;
-                        setExpanded(willOpen ? b.slug : null);
-                        if (willOpen) {
-                          const card = event.currentTarget.closest<HTMLElement>(".brand-card");
-                          setTimeout(() => card?.scrollIntoView({ behavior: "smooth", block: "center" }), 80);
-                        }
-                      }}
+                      onClick={() => (isOpen ? collapse(b.slug) : setExpanded(b.slug))}
                     >
                       {isOpen ? t.collapse : t.expand}
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M6 9l6 6 6-6" /></svg>
@@ -222,8 +269,27 @@ export function Brands({ lang }: { lang: Lang }) {
                   </div>
                 </div>
                 <div className="brand-card-detail" id={`brand-detail-${b.slug}`}>
-                  <div className="brand-detail-visual">
-                    <Image src={`/brands/${b.slug}-photo.jpg`} alt="" fill sizes="(max-width: 768px) 100vw, 45vw" style={{ objectFit: "cover" }} />
+                  <div className={`brand-detail-visual${isLoaded ? " is-loaded" : ""}`}>
+                    {/* 카드가 화면에 들어오면 미리 받아 두어, 펼치는 순간 사진이 바로 보이게 */}
+                    <Image
+                      src={`/brands/${b.slug}-photo.jpg`}
+                      alt=""
+                      fill
+                      sizes="(max-width: 768px) 100vw, 45vw"
+                      loading={isShown ? "eager" : "lazy"}
+                      style={{ objectFit: "cover" }}
+                      onLoad={() => setLoaded((prev) => (prev.has(b.slug) ? prev : new Set(prev).add(b.slug)))}
+                    />
+                    {isOpen ? (
+                      <button
+                        type="button"
+                        className="brand-detail-close"
+                        onClick={() => collapse(b.slug)}
+                      >
+                        {t.collapse}
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 15l-6-6-6 6" /></svg>
+                      </button>
+                    ) : null}
                   </div>
                 </div>
               </div>
