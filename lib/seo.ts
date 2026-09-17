@@ -64,6 +64,13 @@ export function metadataFor(lang: Lang): Metadata {
       description: s.description,
       images: [OG_IMAGE.url],
     },
+    // 서치콘솔/서치어드바이저 소유 확인 — Vercel 환경변수만 넣으면 코드 수정 없이 반영
+    verification: {
+      google: process.env.GOOGLE_SITE_VERIFICATION,
+      other: process.env.NAVER_SITE_VERIFICATION
+        ? { "naver-site-verification": process.env.NAVER_SITE_VERIFICATION }
+        : undefined,
+    },
     robots: {
       index: true,
       follow: true,
