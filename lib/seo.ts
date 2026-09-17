@@ -65,11 +65,13 @@ export function metadataFor(lang: Lang): Metadata {
       images: [OG_IMAGE.url],
     },
     // 서치콘솔/서치어드바이저 소유 확인 — Vercel 환경변수만 넣으면 코드 수정 없이 반영
+    // (공개 토큰이라 코드에 둬도 무방 — 환경변수가 있으면 그것이 우선)
     verification: {
       google: process.env.GOOGLE_SITE_VERIFICATION,
-      other: process.env.NAVER_SITE_VERIFICATION
-        ? { "naver-site-verification": process.env.NAVER_SITE_VERIFICATION }
-        : undefined,
+      other: {
+        "naver-site-verification":
+          process.env.NAVER_SITE_VERIFICATION ?? "8666726a6343791590fcf1e3ee2df4da76c850b6",
+      },
     },
     robots: {
       index: true,
