@@ -167,6 +167,8 @@ export function ScrollExpand({ lang }: { lang: Lang }) {
 
   return (
     <section className="scroll-expand" id="scrollExpand" ref={secRef}>
+      {/* 페이지 유일의 h1 — 로고 이미지 대신 검색엔진·AI가 읽을 텍스트 제목 */}
+      <h1 className="sr-only">{t.seoHeading}</h1>
       <div className="se-sticky" ref={stickyRef}>
         <div className="se-card-shadow" ref={shadowRef} aria-hidden="true"></div>
         <div className="se-media" id="seMedia" ref={mediaRef}>

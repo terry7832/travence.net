@@ -8,6 +8,7 @@ type InquiryOption = { value: string; label: string };
 export type SiteContent = {
   nav: { about: string; brands: string; business: string; careers: string; contact: string; cta: string };
   hero: {
+    seoHeading: string;
     tagline: string;
     exploreBrands: string;
     learnMore: string;
@@ -78,6 +79,7 @@ export const content: Record<Lang, SiteContent> = {
   ko: {
     nav: { about: "회사소개", brands: "브랜드", business: "사업영역", careers: "채용", contact: "문의", cta: "문의하기" },
     hero: {
+      seoHeading: "트레벤스(TRAVENCE) — 글로벌 여행 브랜드 전문 기업, Pacsafe · President · CabinZero 한국 공식 유통",
       tagline: "여행의 본질을 담다",
       exploreBrands: "브랜드 살펴보기",
       learnMore: "더 알아보기",
@@ -192,6 +194,7 @@ export const content: Record<Lang, SiteContent> = {
   en: {
     nav: { about: "About", brands: "Brands", business: "Business", careers: "Partnership", contact: "Contact", cta: "Contact Us" },
     hero: {
+      seoHeading: "TRAVENCE — Global travel brand partner in Korea: official distributor of Pacsafe, President and CabinZero",
       tagline: "Capturing the essence of travel",
       exploreBrands: "Explore Brands",
       learnMore: "Learn More",
