@@ -32,6 +32,23 @@ export const SEO = {
 
 const OG_IMAGE = { url: "/og-image.jpg", width: 1200, height: 630, type: "image/jpeg" } as const;
 
+// 아이콘은 public/ 에 두고 경로를 직접 지정한다.
+// app/ 파일 규칙을 쓰면 배포마다 ?해시 쿼리가 붙어 URL이 바뀌는데,
+// 구글은 파비콘 URL이 고정돼 있어야 검색결과 아이콘을 갱신한다.
+// 크기는 구글 권장대로 48px의 배수(ico 안에 48/96/144 프레임 포함).
+const ICONS = {
+  icon: [
+    { url: "/favicon.ico", sizes: "48x48", type: "image/x-icon" },
+    { url: "/icon-96.png", sizes: "96x96", type: "image/png" },
+    { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+    { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    // 다크 모드 브라우저 탭에서 검은 마크가 묻히지 않도록
+    { url: "/icon-dark-96.png", sizes: "96x96", type: "image/png", media: "(prefers-color-scheme: dark)" },
+  ],
+  shortcut: ["/favicon.ico"],
+  apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+} as const;
+
 const LANGUAGES = { "ko-KR": "/", en: "/en", "x-default": "/" } as const;
 
 /** 언어별 페이지 메타데이터 — 두 루트 레이아웃이 공유 */
@@ -47,6 +64,11 @@ export function metadataFor(lang: Lang): Metadata {
     creator: "주식회사 트레벤스",
     publisher: "주식회사 트레벤스",
     category: "Travel commerce",
+    icons: {
+      icon: [...ICONS.icon],
+      shortcut: [...ICONS.shortcut],
+      apple: [...ICONS.apple],
+    },
     alternates: { canonical: s.path, languages: LANGUAGES },
     openGraph: {
       type: "website",
