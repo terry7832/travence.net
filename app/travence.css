@@ -1629,21 +1629,10 @@
         line-height: 1.68;
         color: rgba(255,255,255,.82);
     }
+    .se-cta { margin-top: 20px; }
 }
 .se-titles { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; pointer-events: none; mix-blend-mode: difference; }
 .se-titles h2 { font-size: clamp(2.2rem, 7vw, 5rem); font-weight: 800; letter-spacing: -.02em; color: #fff; line-height: 1.05; will-change: transform; }
-.se-action-stack {
-    position: absolute;
-    bottom: max(10%, 86px); /* 아래 스크롤 힌트(≈54px + 18px 여백)와 겹치지 않는 최소값 */
-    left: 0;
-    right: 0;
-    z-index: 7;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    animation: seRise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
-}
 .se-hint {
     position: absolute;
     left: 0;
@@ -1694,10 +1683,8 @@
     100% { transform: translateY(30px); opacity: 0; }
 }
 @media (max-width: 768px) {
-    /* 버튼을 힌트 위에 고정 간격으로 앉혀, 낮은 화면(667px 폰)에서도 겹치지 않게 */
-    .se-action-stack { bottom: calc(max(18px, env(safe-area-inset-bottom, 0px) + 12px) + 64px); }
-    /* 버튼 두 개가 항상 한 줄 — 좁은 폰(360px)에서 두 줄로 접히며 카드를 덮던 문제 방지 */
-    .se-cta { width: 100%; box-sizing: border-box; padding: 0 16px; gap: 10px; flex-wrap: nowrap; }
+    /* 버튼 두 개가 항상 한 줄 — 좁은 폰(360px)에서 두 줄로 접히지 않게 */
+    .se-cta { gap: 10px; flex-wrap: nowrap; }
     .se-cta .btn-blue, .se-cta .btn-outline {
         flex: 1 1 0; min-width: 0; max-width: 240px;
         justify-content: center; white-space: nowrap;
@@ -1707,18 +1694,17 @@
     .se-hint-text { font-size: .6rem; letter-spacing: .14em; }
     .se-hint-line { height: 28px; }
 }
-/* 낮은 화면(667px 폰)에서는 글자를 빼고 라인만 남겨 카드·버튼 간격을 확보 */
+/* 낮은 화면(667px 폰)에서는 글자를 빼고 라인만 */
 @media (max-width: 768px) and (max-height: 700px) {
     .se-hint-text { display: none; }
-    .se-action-stack { bottom: calc(max(18px, env(safe-area-inset-bottom, 0px) + 12px) + 44px); }
 }
 /* 아주 좁은 폰(320px)에서도 한 줄을 유지하도록 글자·여백 축소 */
 @media (max-width: 360px) {
     .se-cta .btn-blue, .se-cta .btn-outline { gap: 6px; padding: 12px 10px; font-size: .8rem; }
     .se-cta .btn-blue svg, .se-cta .btn-outline svg { width: 14px; height: 14px; }
 }
-/* 화면이 아주 낮으면(가로 모드 폰·구형 SE) 힌트를 숨겨 버튼 공간을 확보 */
-@media (max-height: 600px) {
+/* 화면이 아주 낮으면(가로 모드 폰) 힌트를 숨긴다 */
+@media (max-height: 560px) {
     .se-hint { display: none; }
 }
 
@@ -1743,7 +1729,15 @@
     height: auto;
     animation: seRise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both, seFloat 6s ease-in-out 1.6s infinite;
 }
-.se-cta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+/* 스토리 아래 버튼 — 카드가 다 펼쳐진 뒤 JS 가 띄운다 (초기엔 숨김) */
+.se-cta {
+    display: flex; gap: 14px; justify-content: flex-start; flex-wrap: wrap;
+    margin-top: 28px;
+    opacity: 0;
+    pointer-events: none;
+    will-change: opacity, transform;
+}
+.se-story .se-cta .btn-outline { border-color: rgba(255,255,255,.35); background: rgba(255,255,255,.92); }
 
 /* 로고 카드: 로고 아래 부제 */
 .se-logo-cover { flex-direction: column; gap: 18px; }
@@ -1759,7 +1753,7 @@
 
 /* 움직임 줄이기 설정 존중 — 등장·부유 애니메이션 전부 끈다 */
 @media (prefers-reduced-motion: reduce) {
-    .se-media, .se-card-shadow, .se-logo-cover img, .se-logo-tagline, .se-action-stack, .se-hint-text, .se-hint-line, .se-hint-dot { animation: none; }
+    .se-media, .se-card-shadow, .se-logo-cover img, .se-logo-tagline, .se-hint-text, .se-hint-line, .se-hint-dot { animation: none; }
     .se-hint-dot { top: 11px; opacity: .9; }
 }
 

@@ -87,15 +87,17 @@ export function ScrollExpand({ lang }: { lang: Lang }) {
       shadowElement.style.opacity = String(1 - smoothstep(clamp((e - 0.5) / 0.4, 0, 1)));
 
       coverElement.style.opacity = String(1 - smoothstep(clamp((e - 0.05) / 0.45, 0, 1)));
-      ctaElement.style.opacity = String(1 - smoothstep(clamp((e - 0.02) / 0.32, 0, 1)));
-      ctaElement.style.pointerEvents = e > 0.25 ? "none" : "auto";
       hintElement.style.opacity = String(1 - smoothstep(clamp((e - 0.05) / 0.37, 0, 1)));
 
-      // 스토리는 눈썹글 → 제목 → 본문 순서로 시차를 두고 떠오른다
+      // 스토리는 눈썹글 → 제목 → 본문 → 버튼 순서로 시차를 두고 떠오른다
       const reveal = (from: number, span: number) => smoothstep(clamp((e - from) / span, 0, 1));
       const eEyebrow = reveal(0.4, 0.26);
       const eTitle = reveal(0.45, 0.28);
       const eBody = reveal(0.51, 0.3);
+      const eCta = reveal(0.6, 0.3);
+      ctaElement.style.opacity = String(eCta);
+      ctaElement.style.transform = `translateY(${lerp(20, 0, eCta).toFixed(2)}px)`;
+      ctaElement.style.pointerEvents = eCta > 0.5 ? "auto" : "none";
       eyebrowElement.style.opacity = String(eEyebrow);
       eyebrowElement.style.transform = `translateY(${lerp(18, 0, eEyebrow).toFixed(2)}px)`;
       titleElement.style.opacity = String(eTitle);
@@ -189,22 +191,21 @@ export function ScrollExpand({ lang }: { lang: Lang }) {
               {t.origin.title.map((line) => <span key={line}>{line}</span>)}
             </h2>
             <p className="se-story-body" ref={bodyRef}>{t.origin.body}</p>
+            {/* 버튼은 카드를 끝까지 펼친 뒤 스토리 아래에서 나타난다 — 스크롤을 유도하기 위함 */}
+            <div className="se-cta" ref={ctaRef}>
+              <a href={`${base}#brands`} className="btn-blue">
+                {t.exploreBrands}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+              </a>
+              <a href={`${base}#about`} className="btn-outline">
+                {t.learnMore}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M9 18l6-6-6-6" /></svg>
+              </a>
+            </div>
           </div>
           <div className="se-logo-cover" ref={coverRef}>
             <Image src="/hero-logo.png" alt="TRAVENCE" width={912} height={598} priority />
             <p className="se-logo-tagline">{t.tagline}</p>
-          </div>
-        </div>
-        <div className="se-action-stack">
-          <div className="se-cta" ref={ctaRef}>
-            <a href={`${base}#brands`} className="btn-blue">
-              {t.exploreBrands}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-            </a>
-            <a href={`${base}#about`} className="btn-outline">
-              {t.learnMore}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M9 18l6-6-6-6" /></svg>
-            </a>
           </div>
         </div>
         {/* 스크롤 힌트 — 화면 맨 아래에 작게, 점이 라인을 따라 흐르는 은근한 신호 */}
