@@ -196,10 +196,6 @@ export function ScrollExpand({ lang }: { lang: Lang }) {
           </div>
         </div>
         <div className="se-action-stack">
-          <div className="se-hint" id="seHint" ref={hintRef}>
-            <span>{t.scrollHint}</span>
-            <svg className="se-hint-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
-          </div>
           <div className="se-cta" ref={ctaRef}>
             <a href={`${base}#brands`} className="btn-blue">
               {t.exploreBrands}
@@ -210,6 +206,11 @@ export function ScrollExpand({ lang }: { lang: Lang }) {
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M9 18l6-6-6-6" /></svg>
             </a>
           </div>
+        </div>
+        {/* 스크롤 힌트 — 화면 맨 아래에 작게, 점이 라인을 따라 흐르는 은근한 신호 */}
+        <div className="se-hint" id="seHint" ref={hintRef} aria-hidden="true">
+          <span className="se-hint-text">{t.scrollHint}</span>
+          <span className="se-hint-line"><span className="se-hint-dot" /></span>
         </div>
       </div>
     </section>
