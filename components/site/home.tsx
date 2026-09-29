@@ -13,13 +13,15 @@ export function Home({ lang }: { lang: Lang }) {
   return (
     <>
       <SiteNav lang={lang} />
-      <ScrollExpand lang={lang} />
-      <About lang={lang} />
-      <Business lang={lang} />
-      <Brands lang={lang} />
-      <Channels lang={lang} />
-      <Careers lang={lang} />
-      <Contact lang={lang} />
+      <main>
+        <ScrollExpand lang={lang} />
+        <About lang={lang} />
+        <Business lang={lang} />
+        <Brands lang={lang} />
+        <Channels lang={lang} />
+        <Careers lang={lang} />
+        <Contact lang={lang} />
+      </main>
       <Footer lang={lang} />
     </>
   );

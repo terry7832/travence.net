@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap');
 
         :root {
             --white: #ffffff;
@@ -26,7 +25,7 @@
         html { scroll-behavior: smooth; font-size: 16px; }
 
         body {
-            font-family: 'Outfit', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: var(--font-outfit), var(--font-noto-kr), -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--white);
             color: var(--gray-900);
             overflow-x: hidden;
@@ -62,7 +61,7 @@
             display: block;
         }
         .nav-logo {
-            font-family: 'Outfit', sans-serif;
+            font-family: var(--font-outfit), sans-serif;
             font-size: 1.25rem;
             font-weight: 700;
             letter-spacing: 0.12em;
@@ -221,7 +220,7 @@
             .hero-logo-img { max-width: 260px; }
         }
         .hero-logo-text {
-            font-family: 'Outfit', sans-serif;
+            font-family: var(--font-outfit), sans-serif;
             font-size: clamp(3.6rem, 10vw, 6.5rem);
             font-weight: 700;
             letter-spacing: 0.13em;
@@ -233,7 +232,7 @@
         }
 
         .hero-subtitle {
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: var(--font-noto-kr), sans-serif;
             font-size: clamp(1.05rem, 2.2vw, 1.3rem);
             font-weight: 500;
             color: var(--white);
@@ -328,7 +327,7 @@
         }
 
         .section-headline {
-            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            font-family: var(--font-outfit), var(--font-noto-kr), sans-serif;
             font-size: clamp(2rem, 5vw, 3rem);
             font-weight: 700;
             letter-spacing: -0.03em;
@@ -338,7 +337,7 @@
         }
 
         .section-body {
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: var(--font-noto-kr), sans-serif;
             font-size: 1.02rem; font-weight: 400;
             color: var(--gray-500); line-height: 1.7;
             max-width: 520px; margin: 0 auto;
@@ -348,7 +347,7 @@
         .about { background: var(--bg); }
 
         .about-statement {
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: var(--font-noto-kr), sans-serif;
             font-size: clamp(1.15rem, 2.5vw, 1.55rem);
             font-weight: 400;
             color: var(--gray-700);
@@ -387,7 +386,7 @@
         }
 
         .stat-number {
-            font-family: 'Outfit', sans-serif;
+            font-family: var(--font-outfit), sans-serif;
             font-size: 2.8rem; font-weight: 700;
             letter-spacing: -0.03em;
             color: var(--blue);
@@ -395,7 +394,7 @@
         }
 
         .stat-label {
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: var(--font-noto-kr), sans-serif;
             font-size: 0.85rem; color: var(--gray-500);
         }
 
@@ -436,7 +435,7 @@
         .brand-card-icon svg { width: 24px; height: 24px; color: var(--gray-700); }
 
         .brand-card-name {
-            font-family: 'Outfit', sans-serif;
+            font-family: var(--font-outfit), sans-serif;
             font-size: 1.35rem; font-weight: 700;
             letter-spacing: -0.02em;
             color: var(--gray-900);
@@ -449,7 +448,7 @@
         }
 
         .brand-card-desc {
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: var(--font-noto-kr), sans-serif;
             font-size: 0.9rem; color: var(--gray-600);
             line-height: 1.6;
         }
@@ -618,7 +617,7 @@
         }
 
         .brand-highlight-text {
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: var(--font-noto-kr), sans-serif;
             font-size: 0.9rem;
             color: var(--gray-300);
             line-height: 1.5;
@@ -713,20 +712,20 @@
             align-items: center; justify-content: center;
             background: var(--blue-bg);
             border-radius: 10px;
-            font-family: 'Outfit', sans-serif;
+            font-family: var(--font-outfit), sans-serif;
             font-size: 0.78rem; font-weight: 700;
             color: var(--blue);
             margin-bottom: 20px;
         }
 
         .business-tile-title {
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: var(--font-noto-kr), sans-serif;
             font-size: 1.15rem; font-weight: 700;
             color: var(--gray-900); margin-bottom: 12px;
         }
 
         .business-tile-desc {
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: var(--font-noto-kr), sans-serif;
             font-size: 0.88rem; color: var(--gray-600); line-height: 1.7;
         }
 
@@ -779,7 +778,7 @@
         }
 
         .careers-quote {
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: var(--font-noto-kr), sans-serif;
             font-size: clamp(1.05rem, 2vw, 1.2rem);
             font-weight: 400;
             color: var(--gray-700);
@@ -815,7 +814,7 @@
         }
 
         .careers-sig-name {
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: var(--font-noto-kr), sans-serif;
             font-size: 1rem; font-weight: 700;
             color: var(--gray-900);
         }
@@ -882,7 +881,7 @@
         }
 
         .careers-position-title {
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: var(--font-noto-kr), sans-serif;
             font-size: 0.95rem; font-weight: 700;
             color: var(--gray-900);
         }
@@ -947,14 +946,14 @@
         }
 
         .contact-right h3 {
-            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            font-family: var(--font-outfit), var(--font-noto-kr), sans-serif;
             font-size: 1.6rem; font-weight: 700;
             margin-bottom: 16px; line-height: 1.4;
             letter-spacing: -0.02em;
         }
 
         .contact-right p {
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: var(--font-noto-kr), sans-serif;
             font-size: 0.92rem; color: var(--gray-400);
             line-height: 1.7; margin-bottom: 24px;
         }
@@ -982,7 +981,7 @@
             gap: 7px;
         }
         .contact-field label {
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: var(--font-noto-kr), sans-serif;
             color: var(--gray-300);
             font-size: 0.76rem;
             font-weight: 600;
@@ -1020,7 +1019,7 @@
         .contact-field [aria-invalid="true"] { border-color: #ff8e8e; }
         .contact-field-error {
             color: #ffaaaa;
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: var(--font-noto-kr), sans-serif;
             font-size: 0.72rem;
             line-height: 1.4;
         }
@@ -1038,7 +1037,7 @@
         }
         .contact-consent label {
             color: var(--gray-400);
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: var(--font-noto-kr), sans-serif;
             font-size: 0.72rem;
             line-height: 1.5;
             cursor: pointer;
@@ -1051,7 +1050,7 @@
             margin-bottom: 16px;
             border-radius: 10px;
             padding: 12px 14px;
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: var(--font-noto-kr), sans-serif;
             font-size: 0.78rem;
             line-height: 1.5;
         }
@@ -1107,7 +1106,7 @@
         .contact-response-note {
             margin: -6px 0 0;
             color: var(--gray-500);
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: var(--font-noto-kr), sans-serif;
             font-size: 0.7rem;
             line-height: 1.5;
             text-align: center;
@@ -1139,7 +1138,7 @@
 
         .footer-company-name {
             margin-top: 12px;
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: var(--font-noto-kr), sans-serif;
             font-size: 0.86rem;
             color: var(--gray-500);
         }
@@ -1178,7 +1177,7 @@
         }
 
         .footer-contact-value {
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: var(--font-noto-kr), sans-serif;
             font-size: 0.82rem;
             color: var(--gray-700);
             line-height: 1.55;
@@ -1476,7 +1475,7 @@
         }
         .mobile-menu.open { display: flex; }
         .mobile-menu a {
-            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            font-family: var(--font-outfit), var(--font-noto-kr), sans-serif;
             font-size: 1.5rem; font-weight: 600;
             color: var(--gray-900); text-decoration: none;
         }
@@ -1564,7 +1563,7 @@
     align-items: center;
     gap: 12px;
     margin: 0 0 18px;
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--font-outfit), sans-serif;
     font-size: .76rem;
     font-weight: 700;
     letter-spacing: .18em;
@@ -1580,7 +1579,7 @@
 }
 .se-story h2 {
     margin: 0;
-    font-family: 'Noto Sans KR', 'Outfit', sans-serif;
+    font-family: var(--font-noto-kr), var(--font-outfit), sans-serif;
     font-size: clamp(2.35rem, 4.1vw, 3.8rem);
     font-weight: 750;
     line-height: 1.12;
@@ -1649,7 +1648,7 @@
     animation: seRise 1s cubic-bezier(0.22, 1, 0.36, 1) 1.1s both;
 }
 .se-hint-text {
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: var(--font-noto-kr), sans-serif;
     font-size: .64rem;
     font-weight: 600;
     letter-spacing: .16em;
@@ -1721,7 +1720,7 @@
 .se-logo-cover { flex-direction: column; gap: 18px; }
 .se-logo-tagline {
     margin: 0;
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: var(--font-noto-kr), sans-serif;
     font-size: clamp(0.95rem, 1.6vw, 1.15rem);
     font-weight: 500;
     color: var(--gray-500);
@@ -1772,3 +1771,7 @@
 
 /* 화면에서는 숨기고 스크린리더·검색엔진에는 노출 */
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+/* 명도 대비 보강 (Lighthouse color-contrast) — 작은 회색 글자만 살짝 진하게 */
+.se-hint-text { color: rgba(39,50,68,.72); }
+.footer-company-name, .footer-copy-hint, .footer-bottom { color: #6e6e73; }

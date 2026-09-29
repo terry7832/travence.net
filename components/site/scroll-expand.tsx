@@ -173,6 +173,7 @@ export function ScrollExpand({ lang }: { lang: Lang }) {
               alt={lang === "en" ? "The Matterhorn at dawn above the clouds" : "구름 위로 솟은 새벽의 마테호른"}
               fill
               priority
+              fetchPriority="high"
               sizes="100vw"
             />
           </div>
