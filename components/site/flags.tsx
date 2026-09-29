@@ -25,7 +25,7 @@ function Trigram({ cx, cy, rot, p }: { cx: number; cy: number; rot: number; p: b
 
 export function FlagKR({ className }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="한국어">
+    <svg className={className} width={30} height={20} viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="한국어">
       <rect width="30" height="20" fill="#fff" />
       {/* taegeuk — red over blue, rotated to the flag's 33.69° axis */}
       <g transform="rotate(-33.69 15 10)">
@@ -43,7 +43,7 @@ export function FlagKR({ className }: { className?: string }) {
 
 export function FlagUS({ className }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="English">
+    <svg className={className} width={30} height={20} viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="English">
       <rect width="30" height="20" fill="#fff" />
       <g fill="#b22234">
         <rect width="30" height="1.538" y="0" />

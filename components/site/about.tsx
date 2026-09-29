@@ -18,7 +18,6 @@ export function About({ lang }: { lang: Lang }) {
           <h2 className="section-headline">
             {t.headLead}{" "}
             <DiaText
-              className="-translate-y-[0.06em]"
               repeat
               repeatDelay={1.1}
               fixedWidth

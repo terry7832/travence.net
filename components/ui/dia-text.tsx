@@ -10,7 +10,6 @@ import {
 } from "motion/react";
 import {
   type ComponentPropsWithoutRef,
-  type CSSProperties,
   forwardRef,
   useCallback,
   useEffect,
@@ -156,7 +155,7 @@ const DiaTextReveal = forwardRef<HTMLSpanElement, DiaTextRevealProps>(
     );
     const contentTransform = useTransform(
       textShift,
-      (shift) => `translateY(${(-2 + shift).toFixed(2)}px)`
+      (shift) => `translateY(${shift.toFixed(2)}px)`
     );
 
     const fixedW = useMemo(
@@ -182,7 +181,6 @@ const DiaTextReveal = forwardRef<HTMLSpanElement, DiaTextRevealProps>(
           overflowX: "clip",
           overflowY: "visible",
           whiteSpace: "nowrap",
-          verticalAlign: "text-center" as CSSProperties["verticalAlign"],
           ...(fixedW != null && { width: fixedW }),
         }),
       }),
@@ -347,7 +345,8 @@ const DiaTextReveal = forwardRef<HTMLSpanElement, DiaTextRevealProps>(
         animate={animatedW != null ? { width: animatedW } : undefined}
         className={cn(
           componentThemeClassName,
-          "align-bottom text-inherit leading-[100%]",
+          // 앞 단어("여행을 더")와 같은 기준선에 앉도록 baseline 정렬
+          "align-baseline text-inherit leading-[100%]",
           className
         )}
         ref={setRefs}
